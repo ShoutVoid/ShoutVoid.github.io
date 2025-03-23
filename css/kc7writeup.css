@@ -1,0 +1,99 @@
+/*.question-card {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem 0 2rem 0;
+    h4 {
+        width: var(--max-width-percent);
+    }
+}
+
+.kql-query,.answer-card,.comment-card {
+    align-self: stretch;
+    min-width: var(--max-width-percent);
+    padding: 1rem;
+    border-left: var(--decor-border-width) solid var(--accent-color);
+    border-radius: var(--decor-border-radius) 0 0 var(--decor-border-radius);
+    h5 {
+        margin: 0 0 1rem 0;
+    }
+    p, pre > code {
+        max-width: var(--max-width-percent);
+        display: inline-block;
+        max-height: 32rem; 600px assuming browser font set at 16
+        overflow: auto;
+    }
+    if the window is wide enough, make the cards resize themselves to fit the space
+    @media only screen and (min-width: 64rem) {
+        flex: 1 1 0;
+        width: 0;
+        min-width: 0;
+    }
+}
+
+.answer-card > p {
+    background-color: var(--codeblock-color);
+    border: 1px solid var(--codeblock-border-color);
+    padding: 16px;
+}
+
+make the codeblocks look a bit like a terminal
+.kql-query > pre {
+    background-color: var(--codeblock-color);
+    border: 1px solid var(--codeblock-border-color);
+}
+.kql-query > pre > code {
+    padding: 16px;
+    overflow: auto;
+    background-color: inherit;
+    color: var(--codeblock-text-color);
+}*/
+
+/* hide empty elements */
+.kql-query:has(code:empty),.answer-card:has(p:empty),.comment-card:has(p:empty) {
+    display: none;
+}
+
+.question-card {
+    display: inline-block;
+    width: 100%;
+    border-left: var(--decor-border-width-big) solid var(--accent-color);
+    border-radius: var(--decor-border-radius-big) 0 0 var(--decor-border-radius-big);
+    padding: 0 0 0 1rem;
+    margin: 1rem 0;
+    overflow: auto;
+}
+
+.kql-query,.answer-card,.comment-card {
+    padding: 1rem 0 0 0;
+    overflow: inherit;
+    overflow-wrap: break-word;
+}
+
+/*.kql-query > pre, .answer-card > pre, .comment-card > pre {
+    padding: 16px;
+    overflow: auto;
+    background-color: var(--codeblock-color);
+    border: 1px solid var(--codeblock-border-color);
+    color: var(--codeblock-text-color);
+}*/
+
+/*pre {
+    padding: 16px;
+    overflow: auto;
+    background-color: var(--codeblock-color);
+    border: 1px solid var(--codeblock-border-color);
+    color: var(--codeblock-text-color);
+}*/
+
+/*pre > code {
+    overflow: auto;
+    background-color: inherit;
+    color: inherit;
+    border: none !important;
+    padding: 0 !important;
+    line-height: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+}*/

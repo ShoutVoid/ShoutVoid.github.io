@@ -1,0 +1,199 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 1rem;
+}
+
+/* just in case: make sure the page's minimum width corresponds to the contents,
+ * that the maximum corresponds to the viewport width (i.e. window size); that the
+ * page's minimum height is the viewport height and the maximum is the content */
+html, body {
+    min-width: min-content;
+    max-width: var(--max-width-vw, var(--max-width-percent));
+    min-height: 100vh;
+    max-height: fit-content;
+    background-color: var(--main-color);
+}
+
+/* make sure all children of "body" (i.e. all elements in the page) have a maximum
+ * width corresponding to the viewport (i.e. window size). This avoids overflows */
+body * {
+    max-width: var(--max-width-vw, var(--max-width-percent));
+    max-height: min-content;
+    color: var(--text-color);
+    background-color: inherit;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    /* if the screen is equal or wider than 64rem (about 1024px, assuming font size 16)
+     *then make two columns: one for the sidebar and another for the content */
+    @media only screen and (min-width: 64rem) {
+        grid-template-columns: 1fr 3fr;
+    }
+}
+
+/*h1, h2, h3, h4, h5, h6 {
+    padding: 0 0 1rem 0;
+}*/
+
+a {
+    color: var(--link-color);
+    line-height: 1.5rem;
+}
+
+:focus {
+    outline: 2px solid var(--codeblock-border-color);
+    border-radius: var(--decor-border-radius-med);
+}
+
+#intro {
+    padding: 0 0 1rem 0;
+}
+
+header, .site-nav, footer, .skip {
+    grid-column: 1 / -1;
+    padding: 1rem;
+    border: 1px solid white;
+    p {
+        text-indent: 0 !important;
+    }
+}
+
+header {
+}
+
+.site-nav {
+    padding: 0.25rem 0.75rem;
+    a {
+        margin: 0 0.5rem 0 0;
+        color: var(--text-color);
+    }
+}
+
+.skip {
+    padding: 0.25rem 1rem;
+    @media only screen and (min-width: 64rem) {
+        display: none;
+    }
+}
+
+.page-nav {
+    grid-column: 1 / span 1;
+    border: 1px solid white;
+    width: 100%;
+    padding: 1rem 0.75rem;
+    align-self: start; /* this is necessary to allow the sticky position work */
+    max-height: 32rem;
+    overflow: auto;
+    a {
+        color: var(--text-color);
+    }
+    /* if the screen is equal or wider than 64rem (about 1024px, assuming font size 16)
+     then make the page navigation sidebar sticky (travel along with the scroll),
+     set the offset from the edge of the page to 0 and set its height to the viewport*/
+    @media only screen and (min-width: 64rem) {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        max-height: 100vh;
+    }
+}
+
+.page-nav .page-toc {
+    width: inherit;
+    max-height: max-content;
+}
+
+/* make sure the page navigation sidebar has some nice indenting */
+.page-nav li {
+    padding: 0 0 0 2px;
+}
+.page-nav ol, .page-nav ul {
+    list-style-position: inside;
+    ::marker {
+        content: none;
+    }
+}
+.page-nav .section-toc {
+    padding: 0 0 0 1rem;
+}
+
+.page-nav .section-toc .sub-toc {
+    padding: 0 0 0 1rem;
+}
+
+.page-nav .sub-toc li {
+    width: fit-content;
+    display: inline-block;
+    padding: 0 0.25rem;
+}
+
+main {
+    overflow: auto;
+    padding: 1rem 2rem 1rem 1rem;
+    border: 1px solid white;
+    @media only screen and (min-width: 64rem) {
+    }
+}
+
+p {
+    text-indent: 1rem;
+    line-height: 1.5rem;
+}
+
+quote {
+    font-family: serif;
+    font-style: italic;
+}
+
+ol, ul {
+    list-style-position: inside;
+}
+
+li::marker {
+    font-size: 1rem;
+    font-family: monospace;
+    content: "  ▪ ";
+}
+
+code {
+    padding: 0 0.25rem 0 0.25rem;
+    line-height: 1.75rem;
+    border: 1px solid var(--codeblock-border-color);
+    border-radius: var(--decor-border-radius-med);
+    font-family: monospace;
+    font-size: 0.9rem;
+    background-color: var(--codeblock-color);
+    color: var(--codeblock-text-color);
+}
+
+footer {
+
+}
+
+pre {
+    margin: 1rem 0 1rem 0;
+    padding: 16px;
+    overflow: auto;
+    background-color: var(--codeblock-color);
+    border: 1px solid var(--codeblock-border-color);
+    color: var(--codeblock-text-color);
+    max-width: 80ch;
+    border-radius: var(--decor-border-radius-big)
+}
+
+pre > code {
+    overflow: auto;
+    background-color: inherit;
+    color: inherit;
+    border: none !important;
+    padding: 0 !important;
+    line-height: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+}

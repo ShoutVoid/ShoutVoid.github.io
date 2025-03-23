@@ -1,0 +1,21 @@
+:root {
+    --main-color: #00000f;
+    --sidebar-color: #00000f;
+    --sitenav-color: #00000f;
+    --header-color: #00000f;
+    --footer-color: #00000f;
+    --accent-color: #e32636;
+    --text-color: #ffffff;
+    --link-color: #e32636;
+    --codeblock-color: #000029;
+    --codeblock-text-color: #ffffff;
+    --codeblock-border-color: #ffffff;
+    --decor-border-width-big: 8px;
+    --decor-border-radius-big: 8px;
+    --decor-border-width-med: 4px;
+    --decor-border-radius-med: 4px;
+    --decor-border-width-sml: 2px;
+    --decor-border-radius-sml: 2px;
+    --max-width-vw: 100vw;
+    --max-width-percent: 100%;
+}

@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shoutvoid - kc7cyber writeup - easy - jojo's hospital'</title>
+    <link rel = "stylesheet" href = "../../../css/variables.css">
+    <link rel = "stylesheet" href = "../../../css/style.css">
+    <link rel = "stylesheet" href = "../../../css/kc7writeup.css">
+  </head>
+  <body id="top">
+    <header><!--website header-->
+      <h1>shoutvoid</h1>
+      <p>Aspiring cybersecurity professional</p>
+    </header><!--website header-->
+    <nav class="site-nav"> <!--site-wide navigation-->
+      <a href="../../../index.html">About</a>
+      <a href="../../writeups.html">Writeups</a>
+    </nav> <!--site-wide navigation-->
+    <a class="skip" href="#page-main">Skip to main content</a>
+    <nav class="page-nav" id="page-navigation"> <!--page navigation sidebar-->
+      <h2>Page Navigation</h2>
+      <ol class="page-toc"><!--page toc-->
+        <li><a href="#intro">Introduction</a></li><!--link to intro-->
+        <li><a href=#sections>Sections</a><!--all sections-->
+          <ol class="section-toc"><!--section-toc-->
+            <li class="section1-toc"><!--individual section toc-->
+              <a href=#section1>Section 1 - Crypto - But the Bad Kind</a>
+              <ol class="sub-toc"><!--sub-toc-->
+                <li><a href=#question1>Q1</a></li>
+                <li><a href=#question2>Q2</a></li>
+                <li><a href=#question3>Q3</a></li>
+                <li><a href=#question4>Q4</a></li>
+                <li><a href=#question5>Q5</a></li>
+                <li><a href=#question6>Q6</a></li>
+                <li><a href=#question7>Q7</a></li>
+                <li><a href=#question8>Q8</a></li>
+                <li><a href=#question9>Q9</a></li>
+                <li><a href=#question10>Q10</a></li>
+                <li><a href=#question11>Q11</a></li>
+                <li><a href=#question12>Q12</a></li>
+                <li><a href=#question13>Q13</a></li>
+                <li><a href=#question14>Q14</a></li>
+                <li><a href=#question15>Q15</a></li>
+                <li><a href=#question16>Q16</a></li>
+                <li><a href=#question17>Q17</a></li>
+                <li><a href=#question18>Q18</a></li>
+                <li><a href=#question19>Q19</a></li>
+                <li><a href=#question20>Q20</a></li>
+                <li><a href=#question21>Q21</a></li>
+                <li><a href=#question22>Q22</a></li>
+                <li><a href=#question23>Q23</a></li>
+                <li><a href=#question24>Q24</a></li>
+                <li><a href=#question25>Q25</a></li>
+                <li><a href=#question26>Q26</a></li>
+                <li><a href=#question27>Q27</a></li>
+                <li><a href=#question28>Q28</a></li>
+                <li><a href=#question29>Q29</a></li>
+                <li><a href=#question30>Q30</a></li>
+                <li><a href=#question31>Q31</a></li>
+                <li><a href=#question32>Q32</a></li>
+                <li><a href=#question33>Q33</a></li>
+                <li><a href=#question34>Q34</a></li>
+              </ol><!--sub-toc-->
+            <li class="section2-toc"><!--individual section toc-->
+              <a href=#section2>Section 2 - Sharks in the Hospital Water</a>
+              <ol class="sub-toc"><!--sub-toc-->
+                <li><a href=#question35>Q1</a></li>
+                <li><a href=#question36>Q2</a></li>
+                <li><a href=#question37>Q3</a></li>
+                <li><a href=#question38>Q4</a></li>
+                <li><a href=#question39>Q5</a></li>
+                <li><a href=#question40>Q6</a></li>
+                <li><a href=#question41>Q7</a></li>
+                <li><a href=#question42>Q8</a></li>
+                <li><a href=#question43>Q9</a></li>
+                <li><a href=#question44>Q10</a></li>
+                <li><a href=#question45>Q11</a></li>
+                <li><a href=#question46>Q12</a></li>
+                <li><a href=#question47>Q13</a></li>
+                <li><a href=#question48>Q14</a></li>
+                <li><a href=#question49>Q15</a></li>
+                <li><a href=#question50>Q16</a></li>
+                <li><a href=#question51>Q17</a></li>
+                <li><a href=#question52>Q18</a></li>
+                <li><a href=#question53>Q19</a></li>
+                <li><a href=#question54>Q20</a></li>
+                <li><a href=#question55>Q21</a></li>
+                <li><a href=#question56>Q22</a></li>
+                <li><a href=#question57>Q23</a></li>
+                <li><a href=#question58>Q24</a></li>
+                <li><a href=#question59>Q25</a></li>
+                <li><a href=#question60>Q26</a></li>
+                <li><a href=#question61>Q27</a></li>
+              </ol><!--sub-toc-->
+            </li><!--individual section toc-->
+          </ol><!--section-toc-->
+        </li><!--all sections-->
+      </ol> <!--page-toc class-->
+    </nav> <!--page navigation sidebar-->
+    <main id="page-main"> <!--main page content-->
+      <article id="intro"> <!--introduction-->
+        <h1>Jojo's Hospital</h1>
+        <p>Lorem ipsum whatever something.</p>
+      </article> <!--introduction-->
+      <article id=sections><!--the game sections-->
+        <h2>Sections</h2>
+        <section id="section1"><!--section 1-->
+          <h3>Section 1 - Crypto - But the Bad Kind</h3>
+          <!--the card containing the answers, composed of three elements: the KQL query used, the answer as typed on KC7 Cyber, and a comment-->
+          <section class="question-card" id="question1"> <!--question 1-->
+            <h4>Q1 - How many hours did the hackers give the hospital to pay the ransom?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>72 hours</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The question gives a bit of background info on the situation and provides a video-ransom-note from a group calling itself "LockByte". This information is in the video-ransom-note, which is a YouTube embed provided by KC7 Cyber :-)</p>
+            </div>
+          </section> <!--question 1-->
+          <section class="question-card" id="question2"> <!--question 2-->
+            <h4>Q2 - What was the name of the ransomware group?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>LockByte</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The question provides a picture of the ransom note. It repeats some of the information we were given in the video.</p>
+            </div>
+          </section> <!--question 2-->
+          <section class="question-card" id="question3"> <!--question 3-->
+            <h4>Q3 - The slogan was: we spend your money, so ____</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>you don't have to</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Part of the ransom note, described by KC7 Cyber as "snarky and mean".</p>
+            </div>
+          </section> <!--question 3-->
+          <section class="question-card" id="question4"> <!--question 4-->
+            <h4>Q4 - How much did the hackers ask the patients to pay?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>10,000</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The hospital wasn't the only one hit with ransom notes; patients were contacted and informed that their sensitive personally identifiable information was in the hands of the threat actor(s) and would be leaked if the ransom wasn't paid in the specified timeframe.</p>
+            </div>
+          </section> <!--question 4-->
+          <section class="question-card" id="question5"> <!--question 5-->
+            <h4>Q5 - What very important unique identifier number did the ransomware operators threaten to release?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>social security number</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Part of the information relayed in the ransom note, along with patients' health histories and medical information.</p>
+            </div>
+          </section> <!--question 5-->
+          <section class="question-card" id="question6"> <!--question 6-->
+            <h4>Q6 - How many total files were encrypted at the hospital?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>FileCreationEvents
+| where filename endswith ".encrypted"
+| count</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>6420</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Our first KQL query in this case; the game tells us that the affected files had the extension ".encrypted".</p>
+            </div>
+          </section> <!--question 6-->
+          <section class="question-card" id="question7"> <!--question 7-->
+            <h4>Q7 - How many unique hostnames had files encrypted on them?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>FileCreationEvents
+| where filename endswith ".encrypted"
+| distinct hostname
+| count</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>321</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>This information is relevant for further investigation and understanding the scope of the problem.</p>
+            </div>
+          </section> <!--question 7-->
+          <section class="question-card" id="question8"> <!--question 8-->
+            <h4>Q8 - What was the Sha256 hash of this ransom file?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>FileCreationEvents
+| where filename == "We_Have_Your_Data_Pay_Up.txt"</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>97c348e95c8a8aeb8808f76434d73a92bbcb6b4586788365762b22624990b018</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The game provides the ransom note filename. If it didn't, we could've found out by taking the first encrypted file's timestamp and doing a search within that timeframe (~5 minutes before at earliest). Since it's in the threat actor's interest that the ransom note is found and read, its filename should be self-evident. An example query:</p>
+              <pre><code>FileCreationEvents
+| where filename !endswith ".encrypted" //make sure it's NOT an encrypted file
+| where timestamp >= datetime(2024-06-17T14:48:00Z)</code></pre>
+            </div>
+          </section> <!--question 8-->
+          <section class="question-card" id="question9"> <!--question 9-->
+            <h4>Q9 - What was the full path of this ransom file?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>C:\Users\andavis\Documents\We_Have_Your_Data_Pay_Up.txt</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 9-->
+          <section class="question-card" id="question10"> <!--question 10-->
+            <h4>Q10 - On how many hosts (machines) was this ransom file seen?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>1</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The game recommends appending <code>count</code> to the previous query, but it's unecessary. Do take note of the single hostname it's found in.</p>
+            </div>
+          </section> <!--question 10-->
+          <section class="question-card" id="question11"> <!--question 11-->
+            <h4>Q11 - What hostname was the ransom note seen on?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>AMFB-MACHINE</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 11-->
+          <section class="question-card" id="question12"> <!--question 12-->
+            <h4>Q12 - What is the name of the employee whose host has the ransom note?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>FileCreationEvents
+| where filename == "We_Have_Your_Data_Pay_Up.txt"
+| distinct hostname
+| lookup Employees on $left.hostname == $right.hostname</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>Anthony Davis</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p><code>lookup</code> my beloved. Note anything important about Anthony Davis, such as their email address, IP address, username, and <strong>very importantly</strong> their role.</p>
+            </div>
+          </section> <!--question 12-->
+          <section class="question-card" id="question13"> <!--question 13-->
+            <h4>Q13 - Run the query above. How many process events were executed on Anthony's machine during this time period?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>FileCreationEvents
+| where filename == "We_Have_Your_Data_Pay_Up.txt"
+| distinct hostname
+| lookup ProcessEvents on $left.hostname == $right.hostname
+| where timestamp between (datetime(2024-06-17) .. datetime(2024-06-18))</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>14</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p><code>lookup</code> my beloved. The game provided a query ("the query above"), but I'd rather use mine.</p>
+            </div>
+          </section> <!--question 13-->
+          <section class="question-card" id="question14"> <!--question 14-->
+            <h4>Q14 - What was the name of the ransomer file mentioned?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>lockbyte_ransomer.exe</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Examine the previous query's results and you'll very quickly stumble upon a sequence of troubling commands, starting with a "lockbyte_ransomer.exe" being copied to the JoJo's Hospital shared folder under the name <code>spread_ransomware.exe</code></p>
+              <p>I suppose we should be thankful for how deeply unsubtle these people are...?</p>
+            </div>
+          </section> <!--question 14-->
+          <section class="question-card" id="question15"> <!--question 15-->
+            <h4>Q15 - When the attackers copied the ransomer file to the network share, what new name did they give it?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>spread_ransomware.exe</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 15-->
+          <section class="question-card" id="question16"> <!--question 16-->
+            <h4>Q16 - What tool did the attackers use to steal the data? This will be a .exe file</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>patient_data_exporter.exe</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The software exfiltrated current, achieved and old patient records from the Hospital's shared folder and compressed them into .zip files.</p>
+            </div>
+          </section> <!--question 16-->
+          <section class="question-card" id="question17"> <!--question 17-->
+            <h4>Q17 - What information did the attackers put into patient_data_1.zip? Provide the full path of the network share \\something\like\this</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>\\jojos-hospital-server\important_data\patient_records</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 17-->
+          <section class="question-card" id="question18"> <!--question 18-->
+            <h4>Q18 - What information did the attackers put into patient_data_2.zip? Provide the full path of the network share \\something\like\this</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>\\jojos-hospital-server\important_data\archive\patient-records</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 18-->
+          <section class="question-card" id="question19"> <!--question 19-->
+            <h4>Q19 - What information did the attackers put into patient_data_3.zip? Provide the full path of the network share \\something\like\this</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>\\jojos-hospital-server\important_data\old-patient-data</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 19-->
+          <section class="question-card" id="question20"> <!--question 20-->
+            <h4>Q20 - What domain (e.g. abcd.com) did the attackers send the stolen data to?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>secure-health-access[.]com</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 20-->
+          <section class="question-card" id="question21"> <!--question 21-->
+            <h4>Q21 - What command did they use to clear their tracks? Copy and paste the full command.</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>cmd.exe /c del C:\Users\andavis\Documents\patient_data_*.zip</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 21-->
+          <section class="question-card" id="question22"> <!--question 22-->
+            <h4>Q22 - What domain was the patient data exporter file downloaded from?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>OutboundNetworkEvents
+| where url has "patient_data_exporter.exe"</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>secure-health-access[.]com</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The game hints that a program called <code>patient_data_exporter.exe</code> definitely isn't the sort of thing that a hospital computer would have preinstalled; a player could likely figure it out by noticing the file is located and executed from the Downloads folder. Note that the source IP (i.e. who accessed this link) is Anthony Davis'.</p>
+            </div>
+          </section> <!--question 22-->
+          <section class="question-card" id="question23"> <!--question 23-->
+            <h4>Q23 - When was the patient data exporter file downloaded? (copy and paste the exact timestamp)</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>FileCreationEvents
+| where filename == "patient_data_exporter.exe"</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>2024-06-17T14:22:29Z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Keep in mind the difference between "when the file was downloaded [i.e. saved to disk]" and "when the download link was clicked".</p>
+            </div>
+          </section> <!--question 23-->
+          <section class="question-card" id="question24"> <!--question 24-->
+            <h4>Q24 - How many distinct IPs does the domain secure-health-access.com resolve to?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>PassiveDns
+| where domain == "secure-health-access[.]com"
+| distinct ip</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>2</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 24-->
+          <section class="question-card" id="question25"> <!--question 25-->
+            <h4>Q25 - Which one of these IPs ends with the digit 1?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>203[.]0[.]113[.]1</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>These kind of questions seem like a sort of "are you actually paying attention?" test.</p>
+            </div>
+          </section> <!--question 25-->
+          <section class="question-card" id="question26"> <!--question 26-->
+            <h4>Q26 - Which one of these IPs ends with the digit 2?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>203[.]0[.]113[.]2</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 26-->
+          <section class="question-card" id="question27"> <!--question 27-->
+            <h4>Q27 - What additional domain name is associated with these IP addresses?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>PassiveDns
+| where domain == "secure-health-access[.]com"
+| distinct ip
+| lookup PassiveDns on $left.ip == $right.ip
+| distinct domain</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>emr-help[.]net</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Nested <code>lookup</code>s, yeah.</p>
+            </div>
+          </section> <!--question 27-->
+          <section class="question-card" id="question28"> <!--question 28-->
+            <h4>Q28 - How many requests did the hackers make to our website from these IPs?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>PassiveDns
+| where domain == "secure-health-access[.]com"
+| distinct ip
+| lookup InboundNetworkEvents on $left.ip == $right.src_ip</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>37</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The question introduces the concept of <a href=https://attack.mitre.org/tactics/TA0043/>reconnaissance</a>. Note that the last 4 queries occur nearly a month later and correspond to the curl commands from question 16 to 20.</p>
+            </div>
+          </section> <!--question 28-->
+          <section class="question-card" id="question29"> <!--question 29-->
+            <h4>Q29 - The hackers were curious about how to bypass ___ at Jojo's hospital.</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>PassiveDns
+| where domain == "secure-health-access[.]com"
+| distinct ip
+| lookup InboundNetworkEvents on $left.ip == $right.src_ip
+| where url has "bypass"</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>security</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The game provided a query, as usual at this difficulty level; I modified mine to filter for search queries that have "bypass" in them.
+Threat actors in these cases tend to leave some very blatant search queries.</p>
+            </div>
+          </section> <!--question 29-->
+          <section class="question-card" id="question30"> <!--question 30-->
+            <h4>Q30 - What was the first web request the hackers made using the term patient? (hint: it was a search). Paste the full url.</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>https[:]//jojoshospital[.]org/search=JoJo%27s+Hospital+patient+records</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 30-->
+          <section class="question-card" id="question31"> <!--question 31-->
+            <h4>Q31 - When did this login occur?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>PassiveDns
+| where domain == "secure-health-access[.]com"
+| distinct ip
+| lookup AuthenticationEvents on $left.ip == $right.src_ip</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>2024-05-20T00:00:00Z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The game encourages the player to look at the AuthenticationEvents table, seeing as we now know the threat actors' IP addresses.</p>
+            </div>
+          </section> <!--question 31-->
+          <section class="question-card" id="question32"> <!--question 32-->
+            <h4>Q32 - Which IP address did the actors use for the login?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>203[.]0[.]113[.]1</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 32-->
+          <section class="question-card" id="question33"> <!--question 33-->
+            <h4>Q33 - Whose account did the hackers login to? (provide a first and last name)</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>Anthony Davis</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 33-->
+          <section class="question-card" id="question34"> <!--question 34-->
+            <h4>Q34 - Enter yikes to finish with this section</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>yikes</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The game gives an overview of all we've learned so far: that Anthony Davis' credentials were compromised and used by the threat actors to exfiltrate data and download and spread the ransomware throughout the hospital network. But how were they compromised? Hm...</p>
+            </div>
+          </section> <!--question 34-->
+        </section> <!--section 1-->
+        <section id="section2"><!--section 2-->
+          <h3>Section 2 - Sharks in the Hospital Water</h3>
+          <!--the card containing the answers, composed of three elements: the KQL query used, the answer as typed on KC7 Cyber, and a comment-->
+          <section class="question-card" id="question35"> <!--question 1-->
+            <h4>Q1 - Whose credentials did the hackers use to access the hospital's network? (Enter first and last name)</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>Anthony Davis</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The game informs us that the hackers broke into the system using stolen credentials, bought from another hacker in the dark web. Oh, Anthony...</p>
+            </div>
+          </section> <!--question 1-->
+          <section class="question-card" id="question36"> <!--question 2-->
+            <h4>Q2 - What was the domain name observed in the sponsored search result?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>raisinkanes[.]com</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The investigation pivots to figuring out how this second hacker group obtained Anthony Davis' credentials in the first place. The game also gives us some interesting information: a few weeks back a hospital worker reported seeing an sponsored search result for a popular chicken restaurant chain, one that has a location across the street from JoJo's Hospital. It goes without saying this domain name isn't the original.</p>
+              <p>The game provides an screenshot of the search results.</p>
+            </div>
+          </section> <!--question 2-->
+          <section class="question-card" id="question37"> <!--question 3-->
+            <h4>Q3 - What is the legitimate domain for Raising Cane's?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>raisingcanes[.]com</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Ironically, the real webpage lacks a favicon, but the fake does have one -- thus looking a bit more professional.</p>
+            </div>
+          </section> <!--question 3-->
+          <section class="question-card" id="question38"> <!--question 4-->
+            <h4>Q4 - How many web requests do we see going to the fake raisinkanes domain?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>OutboundNetworkEvents
+| where url has "raisinkanes.com"
+| lookup Employees on $left.src_ip == $right.ip_addr</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>26</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Jumping ahead a bit; by joining the OutboundNetworkEvents and Employees tables we can have a good view of who was affected.</p>
+              <p>Unsurprisingly, this includes Senior IT Administrator Anthony Davis.</p>
+            </div>
+          </section> <!--question 4-->
+          <section class="question-card" id="question39"> <!--question 5-->
+            <h4>Q5 - How many unique employees were seen browsing to the fake raisinkanes domains? (hint distinct the src_ip)</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>OutboundNetworkEvents
+| where url has "raisinkanes.com"
+| distinct src_ip
+| lookup Employees on $left.src_ip == $right.ip_addr</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>24</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The game encourages us to get rid of duplicates. Use distinct ip_addr before the lookup to make sure we keep all columns from the Employees table.</p>
+            </div>
+          </section> <!--question 5-->
+          <section class="question-card" id="question40"> <!--question 6-->
+            <h4>Q6 - Which of the malicious domains used for redirection starts with the word "nothing"?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>OutboundNetworkEvents
+| where url has "raisinkanes.com"
+| lookup Employees on $left.src_ip == $right.ip_addr
+| distinct url</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>nothing-to-see-here[.]net</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>If we keep distinct src_ip, then the url column (and all the others) are removed from the results. Use distinct url to filter out all the duplicates.</p>
+              <p>Speaking of the results, there are two domains: <code>nothing-to-see-here.net</code> and <code>totally-legit-domain.com</code></p>
+            </div>
+          </section> <!--question 6-->
+          <section class="question-card" id="question41"> <!--question 7-->
+            <h4>Q7 - Which of the malicious domains used for redirection starts with the word "totally"?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>totally-legit-domain[.]com</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 7-->
+          <section class="question-card" id="question42"> <!--question 8-->
+            <h4>Q8 - What is the name of the docx file they are redirected to?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>let redirects =
+OutboundNetworkEvents
+| where url has "raisinkanes.com"
+| extend redirectDomain = tostring(parse_url(url).['Query Parameters']['redirect'])
+// the previous will add a column named redirectDomain and will populate it with the
+// redirect query parameter, which are the domains found in Q6 and Q7
+| distinct redirectDomain;
+OutboundNetworkEvents
+| where url has_any (redirects) and url !has "raisinkanes.com"
+| distinct url</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>Raisin_Kane_Promo_Offer.docx</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Take note of all these odd files. Also take note that there was another domain involved in this campaign (freerainsingkanes.net) ... and that they later download an executable named "advanced_ip_scanner".</p>
+              <p>We don't use lookup (my beloved) because it only accepts == (equality), which doesn't play nice with comparing full urls with solely the domains (we cannot use has_any etc.)</p>
+            </div>
+          </section> <!--question 8-->
+          <section class="question-card" id="question43"> <!--question 9-->
+            <h4>Q9 - What is the name of the pdf file they are redirected to?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>Raisin_Kane_Free_Meal_Voucher.pdf</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 9-->
+          <section class="question-card" id="question44"> <!--question 10-->
+            <h4>Q10 - What is the hostname of the first person to download the suspicious docx file?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>
+let redirects =
+OutboundNetworkEvents
+| where url has "raisinkanes.com"
+| extend redirectDomain = tostring(parse_url(url).['Query Parameters']['redirect'])
+// the previous will add a column named redirectDomain and will populate it with the
+// redirect query parameter, which are the domains found in Q6 and Q7
+| distinct redirectDomain;
+OutboundNetworkEvents
+| where url has_any (redirects) and url !has "raisinkanes.com" and url !has "freerainsingkanes.net"
+| distinct url
+| extend filepath = tostring(parse_url(url).Path)
+| extend filename = tostring(parse_path(filepath).Filename)
+| distinct filename
+| lookup FileCreationEvents on $left.filename == $right.filename</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>RQJQ-MACHINE</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>We can use lookup here, though :-)</p>
+            </div>
+          </section> <!--question 10-->
+          <section class="question-card" id="question45"> <!--question 11-->
+            <h4>Q11 - When did this download occur? (copy and paste the timestamp)</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>2024-05-01T09:56:50Z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 11-->
+          <section class="question-card" id="question46"> <!--question 12-->
+            <h4>Q12 - What was the Sha256 hash of the file?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>bd886046266b909a8ca5f19f16e5606baf73194a70632c81fdc44ef39ba29712</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 12-->
+          <section class="question-card" id="question47"> <!--question 13-->
+            <h4>Q13 - Which browser was used to download this file? (look at the process_name)</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>chrome.exe</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 13-->
+          <section class="question-card" id="question48"> <!--question 14-->
+            <h4>Q14 - What was the name of the malicious file dropped by the attackers?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>FileCreationEvents
+| where hostname == "RQJQ-MACHINE"
+| where timestamp >= datetime(2024-05-01T09:56:50Z)</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>cobaltstrike.exe</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Ruh-roh!</p>
+              <p><a href=https://www.cobaltstrike.com/>CobaltStrike</a> is a tool with legitimate uses for red team operations (in a very simplified manner: good guys hacking their own companies to find vulnerabilities before the bad guys do.)</p>
+              <p>Since this is a paid tool, most uses by adversaries are cracked copies. There exists an open source alternative called <a href=https://bishopfox.com/tools/sliver>Sliver</a>, which will likely become more popular as it becomes more refined over time.</p>
+              <p>Another CobaltStrike alternative that has grown in popularity is <a href=https://bruteratel.com/>Brute Ratel</a>, which is also paid proprietary software.</p>
+            </div>
+          </section> <!--question 14-->
+          <section class="question-card" id="question49"> <!--question 15-->
+            <h4>Q15 - Which command (process_commandline) shows the execution of the Raisin_Kane_Promo_Offer.docx file? (copy and paste the whole command)</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>ProcessEvents
+| where hostname == "RQJQ-MACHINE"
+| where timestamp >= datetime(2024-05-01T09:56:50Z)</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>"C:\Program Files\Microsoft Office\Office16\WINWORD.EXE" "C:\Users\evbrowne\Downloads\Raisin_Kane_Promo_Offer.docx"</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 15-->
+          <section class="question-card" id="question50"> <!--question 16-->
+            <h4>Q16 - What IP address do the hackers connect to using cobalt strike?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>93[.]238[.]22[.]122</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 16-->
+          <section class="question-card" id="question51"> <!--question 17-->
+            <h4>Q17 - Over what port do the hackers connect to that IP address?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>50050</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 17-->
+          <section class="question-card" id="question52"> <!--question 18-->
+            <h4>Q18 - What was the first discovery command issued by the hackers? (hint: it has to do with a system)</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>ProcessEvents
+| where hostname == "RQJQ-MACHINE"
+| where timestamp > datetime(2024-05-02)</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>systeminfo</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The game hints that the discovery commands are executed the day after. Without the hint, it would be a matter of checking the logs for anything suspicious.</p>
+              <ul><li><code>systeminfo</code>: <quote>Displays detailed configuration information about a computer and its operating system, including operating system configuration, security information, product ID, and hardware properties (such as RAM, disk space, and network cards).</quote> Excerpt from <a href=https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/systeminfo>Microsoft Learn</a>.</li></ul>
+            </div>
+          </section> <!--question 18-->
+          <section class="question-card" id="question53"> <!--question 19-->
+            <h4>Q19 - How many of these short discovery commands did the attackers run?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>6</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Besides systeminfo...</p>
+              <ul>
+                <li><code>ipconfig /all</code>: <quote>Displays the full TCP/IP configuration for all adapters. Adapters can represent physical interfaces, such as installed network adapters, or logical interfaces, such as dial-up connections.</quote> Excerpt from <a href=https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/ipconfig>Microsoft Learn</a>.</li>
+                <li><code>netstat -an</code>: <quote>[The <code>-a</code> flag] Displays all active TCP connections and the TCP and UDP ports on which the computer is listening. [The <code>-n</code> flag] [d]isplays active TCP connections, however, addresses and port numbers are expressed numerically and no attempt is made to determine names.</quote> Excerpt from <a href=https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netstat>Microsoft Learn</a>.
+                <li><code>net user</code>: <quote>[...] displays a list of all user accounts for the local computer.</quote> Excerpt from <a href=https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc771865(v=ws.11)>Microsoft Learn</a></li>
+                <li><code>net localgroup administrators</code>: <quote>Used without additional parameters, **net localgroup <**GroupName> displays a list of users or global groups in a local group.</quote> Excerpt from <a href=https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc725622(v=ws.11)>Microsoft Learn</a>. In this case, it shows all administrator accounts in this device.</li>
+                <li><code>net view</code>: <quote>Used without parameters, net view displays a list of computers in your current domain.</quote> Excerpt from <a href=https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/hh875576(v=ws.11)>Microsoft Learn</a> In the hospital's case, this likely means all computers on the network.</li>
+            </div>
+          </section> <!--question 19-->
+          <section class="question-card" id="question54"> <!--question 20-->
+            <h4>Q20 - What is Anthony Davis' hostname?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>Employees
+| where name == "Anthony Davis"</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>AMFB-MACHINE</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>Further investigation on that hostname hits a dead end; knowing that Anthony Davis was the person whose credentials were pilfered, we must investigate their computer.</p>
+              <p>This query is not necessary if you noted their hostname from previous queries, such as back in <a href=#question10>Q10</a> (Anthony Davis was the last person who downloaded a malicious file).</p>
+            </div>
+          </section> <!--question 20-->
+          <section class="question-card" id="question55"> <!--question 21-->
+            <h4>Q21 - When did the attackers connect to their IP address using cobalt strike on Anthony Davis' machine?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code>ProcessEvents
+| where hostname == "AMFB-MACHINE"
+| where timestamp >= datetime(2024-05-14T12:05:20Z)
+// this date corresponds to when Anthony Davis downloaded
+//"Raisin_Kane_Promo_Offer.docx". I copied it from my
+//Q10 query.</code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>2024-05-14T12:24:45Z</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>While we could've filtered with <code>where filename == "cobaltstrike.exe"</code>, we would miss many other commands executed afterwards.</p>
+            </div>
+          </section> <!--question 21-->
+          <section class="question-card" id="question56"> <!--question 22-->
+            <h4>Q22 - What was the name of this scanning tool?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>advanced-ip-scanner.exe</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The game clues the player on the next steps. But we did notice this back in <a href=#question10>Q10</a>, or at least I did ;-)</p>
+              <p>In any case, the executable appears in our previous query too, after the discovery commands.</p>
+            </div>
+          </section> <!--question 22-->
+          <section class="question-card" id="question57"> <!--question 23-->
+            <h4>Q23 - What was the name of the file the attackers exfiltrated to learn about the network? (hint: ___.pdf)</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>network_diagrams.pdf</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The threat actors download the file from the hospital shared folder.</p>
+            </div>
+          </section> <!--question 23-->
+          <section class="question-card" id="question58"> <!--question 24-->
+            <h4>Q24 - What was the name of the file the attackers took that would have contained usernames and passwords?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>credentials.txt</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>It goes well without saying that having credentials uploaded to a server as a plaintext file is a very, very, <strong>very</strong> bad idea.</p>
+            </div>
+          </section> <!--question 24-->
+          <section class="question-card" id="question59"> <!--question 25-->
+            <h4>Q25 - What was the name of this zip file?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>important_network_info.zip</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>The file is uploaded to an attacker-controlled server via curl, but the actual compression occurs in a crudely obfuscated command.</p>
+              <p><code>( 'piz.ofni_krowten_tnatropmi\potkseD\sivadna\sresU\:C piz.ofni_krowten_tnatropmi\derahs\tnemtrapedti\gro.latipsohsojoj\\ ypoc c/ exe.dmc' -split '' | %{$_[0]}) -join ''</code>
+              <p>Reverse the string in single quotes and it becomes:</p>
+              <p><code>'cmd.exe /c copy \\jojoshospital.org\itdepartment\shared\important_network_info.zip C:\Users\andavis\Desktop\important_network_info.zip'</code></p>
+            </div>
+          </section> <!--question 25-->
+          <section class="question-card" id="question60"> <!--question 26-->
+            <h4>Q26 - Which domain did the attackers send the zip to?</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>nothing-to-see-here[.]net</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p></p>
+            </div>
+          </section> <!--question 26-->
+          <section class="question-card" id="question61"> <!--question 27-->
+            <h4>Q27 - You did an amazing job! Enter <code>yay</code> to finish</h4>
+            <div class="kql-query">
+              <h5>Query</h5>
+              <pre><code></code></pre>
+            </div>
+            <div class="answer-card">
+              <h5>Answer</h5>
+              <p>yay</p>
+            </div>
+            <div class="comment-card">
+              <h5>Comments</h5>
+              <p>And it's done! This final question recaps the incident, and notably identifies the hackers who first got access and later sold the hospital's network infrastructure information and credentials to LockByte as SharkFin7.</p>
+              <p>It also recaps the things learned on this case, such as methods of intrusion, what threat actors do within a network, how different threat actors work together, what a ransomware attack is like and the basics of investigation.</p>
+              <p>Hopefully you've learned something from this writeup too ;-)</p>
+            </div>
+          </section> <!--question 27-->
+        </section> <!--section 2-->
+      </article> <!--game sections-->
+    </main><!--main page content-->
+    <a class="skip" href="#page-navigation">Return to page navigation</a>
+    <footer><!--website footer-->
+      <p>Made with vanilla HTML + CSS by shoutvoid</p>
+      <address>
+        <a href="mailto:shoutvoid@proton.me">shoutvoid@proton.me</a>
+        <a href="https://github.com/ShoutVoid">GitHub</a>
+        <a href="https://play.picoctf.org/users/shoutvoid">picoCTF</a>
+        <a href="https://kc7cyber.com/profile/shoutvoid">KC7Cyber</a>
+      </address>
+    </footer><!--website footer-->
+  </body>
+</html>
