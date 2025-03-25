@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>shoutvoid - kc7cyber writeup - easy - jojo's hospital'</title>
+    <title>shoutvoid - kc7cyber writeup - easy - jojo's hospital</title>
     <link rel = "stylesheet" href = "../../../css/variables.css">
     <link rel = "stylesheet" href = "../../../css/style.css">
     <link rel = "stylesheet" href = "../../../css/kc7writeup.css">
@@ -18,10 +18,9 @@
       <a href="../../../index.html">About</a>
       <a href="../../writeups.html">Writeups</a>
     </nav> <!--site-wide navigation-->
-    <a class="skip" href="#page-main">Skip to main content</a>
     <nav class="page-nav" id="page-navigation"> <!--page navigation sidebar-->
-      <h2>Page Navigation</h2>
       <ol class="page-toc"><!--page toc-->
+        <a class="skip" href="#page-main">Skip to main content</a>
         <li><a href="#intro">Introduction</a></li><!--link to intro-->
         <li><a href=#sections>Sections</a><!--all sections-->
           <ol class="section-toc"><!--section-toc-->
@@ -102,7 +101,12 @@
     <main id="page-main"> <!--main page content-->
       <article id="intro"> <!--introduction-->
         <h1>Jojo's Hospital</h1>
-        <p>Lorem ipsum whatever something.</p>
+        <p>The third of KC7 Cyber's easiest cases, where we take on the role of a security analyst at a large hospital that becomes a victim of a data breach and ransomware attack; further into the investigation, we learn that the employee credentials used for the initial attack had been stolen and sold in the dark web some time before.</p>
+        <p><strong>⚠️ The remainder of this introduction contains spoilers on the case. You may skip this section with the navigation. ⚠️</strong></p>
+        <p>I personally did not find it as fun and engaging as <i>A Scandal in Valdoria</i>, but it's still great. The example of how the Senior IT Administrator (along with a few others) got his credentials originally compromised -- to be later sold to LockByte -- was really interesting and showed the sort of in-depth research threat actors can do. If you ask me, I'd never have thought of impersonating the popular restaurant chain across the street in order to entice people from my target organization into downloading malicious files (maybe I'm just not cut out to be a criminal).</p>
+        <p>As is frequently the case, there were no proper mechanisms in place (or weren't enforced) in order to avoid easy access to the hospital's network with just stolen usernames and passwords. For example, other cases have a row in the <code>Employees</code> table that states whether or not multi-factor authentication is enabled on an employee's account; it isn't the case here, and there are absolutely no mentions of it even being an option to begin with.</p>
+        <p>From the looks of it, the Senior IT Administrator logging in from a previously-never-used IP (and one that might be in a completely different location) didn't even raise a minimal alarm anywhere.</p>
+        <p>It's unfortunate that the bare minimum security measures are frequently unenforced, if not outright missing, even in critical industries such as healthcare. It goes without saying that cyber attacks on healthcare institutions are particularly devastating, as they are treasure troves of highly sensitive personal data of thousands of people -- not to mention that they frequently offer life-saving care that may be disrupted in the event of severe attacks like these.</p>
       </article> <!--introduction-->
       <article id=sections><!--the game sections-->
         <h2>Sections</h2>
@@ -298,7 +302,7 @@
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
-              <p><code>lookup</code> my beloved. Note anything important about Anthony Davis, such as their email address, IP address, username, and <strong>very importantly</strong> their role.</p>
+              <p><code>lookup</code> my beloved. Note anything important about Anthony Davis, such as their email address, IP address, username, and <em>very importantly</em> their role.</p>
             </div>
           </section> <!--question 12-->
           <section class="question-card" id="question13"> <!--question 13-->
@@ -474,7 +478,7 @@
             </div>
           </section> <!--question 23-->
           <section class="question-card" id="question24"> <!--question 24-->
-            <h4>Q24 - How many distinct IPs does the domain secure-health-access.com resolve to?</h4>
+            <h4>Q24 - How many distinct IPs does the domain secure-health-access[.]com resolve to?</h4>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>PassiveDns
@@ -585,7 +589,7 @@ Threat actors in these cases tend to leave some very blatant search queries.</p>
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>https[:]//jojoshospital[.]org/search=JoJo%27s+Hospital+patient+records</p>
+              <p>hxxps[://]jojoshospital[.]org/search=JoJo%27s+Hospital+patient+records</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
@@ -641,7 +645,7 @@ Threat actors in these cases tend to leave some very blatant search queries.</p>
             </div>
           </section> <!--question 33-->
           <section class="question-card" id="question34"> <!--question 34-->
-            <h4>Q34 - Enter yikes to finish with this section</h4>
+            <h4>Q34 - Enter <i>yikes</i> to finish with this section</h4>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code></code></pre>
@@ -710,7 +714,7 @@ Threat actors in these cases tend to leave some very blatant search queries.</p>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>OutboundNetworkEvents
-| where url has "raisinkanes.com"
+| where url has "raisinkanes[.]com"
 | lookup Employees on $left.src_ip == $right.ip_addr</code></pre>
             </div>
             <div class="answer-card">
@@ -728,7 +732,7 @@ Threat actors in these cases tend to leave some very blatant search queries.</p>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>OutboundNetworkEvents
-| where url has "raisinkanes.com"
+| where url has "raisinkanes[.]com"
 | distinct src_ip
 | lookup Employees on $left.src_ip == $right.ip_addr</code></pre>
             </div>
@@ -746,7 +750,7 @@ Threat actors in these cases tend to leave some very blatant search queries.</p>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>OutboundNetworkEvents
-| where url has "raisinkanes.com"
+| where url has "raisinkanes[.]com"
 | lookup Employees on $left.src_ip == $right.ip_addr
 | distinct url</code></pre>
             </div>
@@ -757,7 +761,7 @@ Threat actors in these cases tend to leave some very blatant search queries.</p>
             <div class="comment-card">
               <h5>Comments</h5>
               <p>If we keep distinct src_ip, then the url column (and all the others) are removed from the results. Use distinct url to filter out all the duplicates.</p>
-              <p>Speaking of the results, there are two domains: <code>nothing-to-see-here.net</code> and <code>totally-legit-domain.com</code></p>
+              <p>Speaking of the results, there are two domains: <code>nothing-to-see-here[.]net</code> and <code>totally-legit-domain[.]com</code></p>
             </div>
           </section> <!--question 6-->
           <section class="question-card" id="question41"> <!--question 7-->
@@ -781,13 +785,13 @@ Threat actors in these cases tend to leave some very blatant search queries.</p>
               <h5>Query</h5>
               <pre><code>let redirects =
 OutboundNetworkEvents
-| where url has "raisinkanes.com"
+| where url has "raisinkanes[.]com"
 | extend redirectDomain = tostring(parse_url(url).['Query Parameters']['redirect'])
 // the previous will add a column named redirectDomain and will populate it with the
 // redirect query parameter, which are the domains found in Q6 and Q7
 | distinct redirectDomain;
 OutboundNetworkEvents
-| where url has_any (redirects) and url !has "raisinkanes.com"
+| where url has_any (redirects) and url !has "raisinkanes[.]com"
 | distinct url</code></pre>
             </div>
             <div class="answer-card">
@@ -796,7 +800,7 @@ OutboundNetworkEvents
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
-              <p>Take note of all these odd files. Also take note that there was another domain involved in this campaign (freerainsingkanes.net) ... and that they later download an executable named "advanced_ip_scanner".</p>
+              <p>Take note of all these odd files. Also take note that there was another domain involved in this campaign (<code>freerainsingkanes[.]net</code>) ... and that they later download an executable named "advanced_ip_scanner".</p>
               <p>We don't use lookup (my beloved) because it only accepts == (equality), which doesn't play nice with comparing full urls with solely the domains (we cannot use has_any etc.)</p>
             </div>
           </section> <!--question 8-->
@@ -819,16 +823,15 @@ OutboundNetworkEvents
             <h4>Q10 - What is the hostname of the first person to download the suspicious docx file?</h4>
             <div class="kql-query">
               <h5>Query</h5>
-              <pre><code>
-let redirects =
+              <pre><code>let redirects =
 OutboundNetworkEvents
-| where url has "raisinkanes.com"
+| where url has "raisinkanes[.]com"
 | extend redirectDomain = tostring(parse_url(url).['Query Parameters']['redirect'])
 // the previous will add a column named redirectDomain and will populate it with the
 // redirect query parameter, which are the domains found in Q6 and Q7
 | distinct redirectDomain;
 OutboundNetworkEvents
-| where url has_any (redirects) and url !has "raisinkanes.com" and url !has "freerainsingkanes.net"
+| where url has_any (redirects) and url !has "raisinkanes[.]com" and url !has "freerainsingkanes[.]net"
 | distinct url
 | extend filepath = tostring(parse_url(url).Path)
 | extend filename = tostring(parse_path(filepath).Filename)
@@ -971,7 +974,7 @@ OutboundNetworkEvents
             <div class="comment-card">
               <h5>Comments</h5>
               <p>The game hints that the discovery commands are executed the day after. Without the hint, it would be a matter of checking the logs for anything suspicious.</p>
-              <ul><li><code>systeminfo</code>: <quote>Displays detailed configuration information about a computer and its operating system, including operating system configuration, security information, product ID, and hardware properties (such as RAM, disk space, and network cards).</quote> Excerpt from <a href=https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/systeminfo>Microsoft Learn</a>.</li></ul>
+              <ul><li><code>systeminfo</code>: <quote>Displays detailed configuration information about a computer and its operating system, including operating system configuration, security information, product ID, and hardware properties (such as RAM, disk space, and network cards).</quote> [<a href=https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/systeminfo>Microsoft Learn</a>]</li></ul>
             </div>
           </section> <!--question 18-->
           <section class="question-card" id="question53"> <!--question 19-->
@@ -988,11 +991,11 @@ OutboundNetworkEvents
               <h5>Comments</h5>
               <p>Besides systeminfo...</p>
               <ul>
-                <li><code>ipconfig /all</code>: <quote>Displays the full TCP/IP configuration for all adapters. Adapters can represent physical interfaces, such as installed network adapters, or logical interfaces, such as dial-up connections.</quote> Excerpt from <a href=https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/ipconfig>Microsoft Learn</a>.</li>
-                <li><code>netstat -an</code>: <quote>[The <code>-a</code> flag] Displays all active TCP connections and the TCP and UDP ports on which the computer is listening. [The <code>-n</code> flag] [d]isplays active TCP connections, however, addresses and port numbers are expressed numerically and no attempt is made to determine names.</quote> Excerpt from <a href=https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netstat>Microsoft Learn</a>.
-                <li><code>net user</code>: <quote>[...] displays a list of all user accounts for the local computer.</quote> Excerpt from <a href=https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc771865(v=ws.11)>Microsoft Learn</a></li>
-                <li><code>net localgroup administrators</code>: <quote>Used without additional parameters, **net localgroup <**GroupName> displays a list of users or global groups in a local group.</quote> Excerpt from <a href=https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc725622(v=ws.11)>Microsoft Learn</a>. In this case, it shows all administrator accounts in this device.</li>
-                <li><code>net view</code>: <quote>Used without parameters, net view displays a list of computers in your current domain.</quote> Excerpt from <a href=https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/hh875576(v=ws.11)>Microsoft Learn</a> In the hospital's case, this likely means all computers on the network.</li>
+                <li><code>ipconfig /all</code>: <quote>Displays the full TCP/IP configuration for all adapters. Adapters can represent physical interfaces, such as installed network adapters, or logical interfaces, such as dial-up connections.</quote> [<a href=https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/ipconfig>Microsoft Learn</a>]</li>
+                <li><code>netstat -an</code>: <quote>[The <code>-a</code> flag] Displays all active TCP connections and the TCP and UDP ports on which the computer is listening. [The <code>-n</code> flag] [d]isplays active TCP connections, however, addresses and port numbers are expressed numerically and no attempt is made to determine names.</quote> [<a href=https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netstat>Microsoft Learn</a>]
+                <li><code>net user</code>: <quote>[...] displays a list of all user accounts for the local computer.</quote> [<a href=https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc771865(v=ws.11)>Microsoft Learn</a>]</li>
+                <li><code>net localgroup administrators</code>: <quote>Used without additional parameters, <code>**net localgroup <**GroupName></code> displays a list of users or global groups in a local group.</quote> [<a href=https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc725622(v=ws.11)>Microsoft Learn</a>] In this case, it shows all administrator accounts in this device.</li>
+                <li><code>net view</code>: <quote>Used without parameters, net view displays a list of computers in your current domain.</quote> [<a href=https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/hh875576(v=ws.11)>Microsoft Learn</a>] In the hospital's case, this likely means all computers on the network.</li>
             </div>
           </section> <!--question 19-->
           <section class="question-card" id="question54"> <!--question 20-->
@@ -1075,7 +1078,7 @@ OutboundNetworkEvents
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
-              <p>It goes well without saying that having credentials uploaded to a server as a plaintext file is a very, very, <strong>very</strong> bad idea.</p>
+              <p>It goes well without saying that having credentials uploaded to a server as a plaintext file is a very, very, <em>very</em> bad idea.</p>
             </div>
           </section> <!--question 24-->
           <section class="question-card" id="question59"> <!--question 25-->
@@ -1112,7 +1115,7 @@ OutboundNetworkEvents
             </div>
           </section> <!--question 26-->
           <section class="question-card" id="question61"> <!--question 27-->
-            <h4>Q27 - You did an amazing job! Enter <code>yay</code> to finish</h4>
+            <h4>Q27 - You did an amazing job! Enter <i>yay</i> to finish</h4>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code></code></pre>
@@ -1131,8 +1134,8 @@ OutboundNetworkEvents
         </section> <!--section 2-->
       </article> <!--game sections-->
     </main><!--main page content-->
-    <a class="skip" href="#page-navigation">Return to page navigation</a>
     <footer><!--website footer-->
+      <a class="skip" href="#page-navigation">Return to page navigation</a>
       <p>Made with vanilla HTML + CSS by shoutvoid</p>
       <address>
         <a href="mailto:shoutvoid@proton.me">shoutvoid@proton.me</a>

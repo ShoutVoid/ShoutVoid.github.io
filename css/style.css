@@ -7,39 +7,35 @@
 }
 
 /* just in case: make sure the page's minimum width corresponds to the contents,
- * that the maximum corresponds to the viewport width (i.e. window size); that the
- * page's minimum height is the viewport height and the maximum is the content */
+ that the maximum corresponds to the viewport width (i.e. window size); that the
+ page's minimum height is the viewport height and the maximum is the content */
+
 html, body {
-    min-width: min-content;
     max-width: var(--max-width-vw, var(--max-width-percent));
     min-height: 100vh;
-    max-height: fit-content;
-    background-color: var(--main-color);
 }
 
 /* make sure all children of "body" (i.e. all elements in the page) have a maximum
- * width corresponding to the viewport (i.e. window size). This avoids overflows */
+ width corresponding to the viewport (i.e. window size). This avoids overflows */
 body * {
     max-width: var(--max-width-vw, var(--max-width-percent));
-    max-height: min-content;
     color: var(--text-color);
-    background-color: inherit;
 }
 
 body {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /*defaults to mobile-friendly layout: everything stacked*/
+    grid-template-rows: auto auto auto 1fr auto; /*rows for the header, site nav, sidebar, main content and footer, respectively. Necessary to avoid ugly layout breakage if the user resizes their viewport*/
     gap: 1px;
+    background-color: var(--main-color);
     /* if the screen is equal or wider than 64rem (about 1024px, assuming font size 16)
-     *then make two columns: one for the sidebar and another for the content */
+    then make two columns: one for the sidebar and another for the content */
     @media only screen and (min-width: 64rem) {
-        grid-template-columns: 1fr 3fr;
+        grid-template-columns: 1fr 4fr; /*two columns: sidebar, main*/
+        grid-template-rows: auto auto 1fr auto; /*rows for the header, site nav, sidebar+main content and footer, respectively. Necessary to avoid ugly layout breakage if the user resizes their viewport*/
     }
 }
 
-/*h1, h2, h3, h4, h5, h6 {
-    padding: 0 0 1rem 0;
-}*/
 
 a {
     color: var(--link-color);
@@ -47,18 +43,51 @@ a {
 }
 
 :focus {
-    outline: 2px solid var(--codeblock-border-color);
-    border-radius: var(--decor-border-radius-med);
+    border: 2px solid var(--border-color) !important;
+    border-radius: var(--decor-border-radius-sml) !important;
+    color: var(--text-color) !important;
+    background-color: var(--accent-color) !important;
+}
+
+h1 {
+    font-size: 1.75rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+h3 {
+    font-size: 1.375rem;
+}
+
+h4 {
+    font-size: 1.25rem;
+}
+
+h5 {
+    font-size: 1.125rem;
+}
+
+h6 {
+    font-size: 1rem;
+}
+
+li {
+    line-height: 1.5rem;
+    + li {
+        margin: 0.25rem 0 0 0;
+    }
 }
 
 #intro {
     padding: 0 0 1rem 0;
 }
 
-header, .site-nav, footer, .skip {
+header, .site-nav, footer {
     grid-column: 1 / -1;
     padding: 1rem;
-    border: 1px solid white;
+    border: 1px solid var(--border-color);
     p {
         text-indent: 0 !important;
     }
@@ -67,67 +96,57 @@ header, .site-nav, footer, .skip {
 header {
 }
 
+nav a {
+    color: var(--text-color);
+}
+
 .site-nav {
     padding: 0.25rem 0.75rem;
     a {
         margin: 0 0.5rem 0 0;
-        color: var(--text-color);
     }
 }
 
 .skip {
-    padding: 0.25rem 1rem;
+    color: var(--text-color);
     @media only screen and (min-width: 64rem) {
         display: none;
     }
 }
 
 .page-nav {
-    grid-column: 1 / span 1;
-    border: 1px solid white;
-    width: 100%;
-    padding: 1rem 0.75rem;
-    align-self: start; /* this is necessary to allow the sticky position work */
-    max-height: 32rem;
-    overflow: auto;
-    a {
-        color: var(--text-color);
-    }
+    border: 1px solid var(--border-color);
+}
+
+.page-toc {
+    padding: 1rem;
     /* if the screen is equal or wider than 64rem (about 1024px, assuming font size 16)
      then make the page navigation sidebar sticky (travel along with the scroll),
-     set the offset from the edge of the page to 0 and set its height to the viewport*/
+     set the offset from the edge of the page to 0 and set its height to the viewport */
     @media only screen and (min-width: 64rem) {
         position: sticky;
         top: 0;
-        height: 100vh;
         max-height: 100vh;
+        overflow-y: auto; /* sort of a very ugly workaround if the navigation links ever grow too numerous*/
     }
-}
-
-.page-nav .page-toc {
-    width: inherit;
-    max-height: max-content;
 }
 
 /* make sure the page navigation sidebar has some nice indenting */
-.page-nav li {
-    padding: 0 0 0 2px;
-}
 .page-nav ol, .page-nav ul {
-    list-style-position: inside;
-    ::marker {
-        content: none;
+    list-style: none;
+    & ol, & ul {
+        padding: 0 0 0 1rem;
     }
 }
-.page-nav .section-toc {
+/*.section-toc {
     padding: 0 0 0 1rem;
 }
 
-.page-nav .section-toc .sub-toc {
+.sub-toc {
     padding: 0 0 0 1rem;
-}
+}*/
 
-.page-nav .sub-toc li {
+.sub-toc li {
     width: fit-content;
     display: inline-block;
     padding: 0 0.25rem;
@@ -135,15 +154,16 @@ header {
 
 main {
     overflow: auto;
-    padding: 1rem 2rem 1rem 1rem;
-    border: 1px solid white;
-    @media only screen and (min-width: 64rem) {
-    }
+    padding: 1rem;
+    border: 1px solid var(--border-color);
 }
 
 p {
     text-indent: 1rem;
-    line-height: 1.5rem;
+    line-height: 1.75rem;
+    + p {
+        margin: 0.5rem 0 0 0;
+    }
 }
 
 quote {
@@ -155,45 +175,56 @@ ol, ul {
     list-style-position: inside;
 }
 
-li::marker {
+ul li::marker {
     font-size: 1rem;
     font-family: monospace;
     content: "  ▪ ";
 }
 
-code {
-    padding: 0 0.25rem 0 0.25rem;
-    line-height: 1.75rem;
-    border: 1px solid var(--codeblock-border-color);
-    border-radius: var(--decor-border-radius-med);
+ol li::marker {
+    font-size: 1rem;
     font-family: monospace;
-    font-size: 0.9rem;
-    background-color: var(--codeblock-color);
-    color: var(--codeblock-text-color);
+    font-style: italic;
 }
 
-footer {
-
+code, kbd, samp {
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: var(--codeblock-text-color);
+    padding: 0.1rem 0.25rem;
+    border: 1px solid var(--codeblock-border-color);
+    border-radius: var(--decor-border-radius-med);
+    background-color: var(--codeblock-color);
 }
 
 pre {
     margin: 1rem 0 1rem 0;
-    padding: 16px;
+    padding: 0.75rem;
     overflow: auto;
     background-color: var(--codeblock-color);
     border: 1px solid var(--codeblock-border-color);
     color: var(--codeblock-text-color);
     max-width: 80ch;
-    border-radius: var(--decor-border-radius-big)
+    border-radius: var(--decor-border-radius-big);
+    code, kbd, samp {
+        overflow: auto;
+        background-color: inherit;
+        color: inherit;
+        border: none;
+        padding: 0;
+        line-height: 0;
+        border: 0;
+        border-radius: 0;
+    }
 }
 
-pre > code {
+/*pre > code {
     overflow: auto;
     background-color: inherit;
     color: inherit;
-    border: none !important;
-    padding: 0 !important;
-    line-height: 0 !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-}
+    border: none;
+    padding: 0;
+    line-height: 0;
+    border: 0;
+    border-radius: 0;
+}*/

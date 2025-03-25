@@ -61,14 +61,24 @@ make the codeblocks look a bit like a terminal
     border-left: var(--decor-border-width-big) solid var(--accent-color);
     border-radius: var(--decor-border-radius-big) 0 0 var(--decor-border-radius-big);
     padding: 0 0 0 1rem;
-    margin: 1rem 0;
     overflow: auto;
+    margin: 1rem 0 0 0;
+    + .question-card {
+        margin: 3rem 0 0 0;
+    }
 }
 
 .kql-query,.answer-card,.comment-card {
     padding: 1rem 0 0 0;
     overflow: inherit;
     overflow-wrap: break-word;
+    p {
+        margin: 0;
+    }
+}
+
+.answer-card p {
+    font-family: monospace;
 }
 
 /*.kql-query > pre, .answer-card > pre, .comment-card > pre {
