@@ -20,7 +20,6 @@
     </nav> <!--site-wide navigation-->
     <a class="skip" href="#page-main">Skip to main content</a>
     <nav class="page-nav" id="page-navigation"> <!--page navigation sidebar-->
-      <h2>Page Navigation</h2>
       <ol class="page-toc"><!--page toc-->
         <li><a href="#intro">Introduction</a></li><!--link to intro-->
         <li><a href=#sections>Sections</a><!--all sections-->
@@ -474,7 +473,7 @@
             </div>
           </section> <!--question 23-->
           <section class="question-card" id="question24"> <!--question 24-->
-            <h4>Q24 - How many distinct IPs does the domain secure-health-access.com resolve to?</h4>
+            <h4>Q24 - How many distinct IPs does the domain secure-health-access[.]com resolve to?</h4>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>PassiveDns
@@ -585,7 +584,7 @@ Threat actors in these cases tend to leave some very blatant search queries.</p>
             </div>
             <div class="answer-card">
               <h5>Answer</h5>
-              <p>https[:]//jojoshospital[.]org/search=JoJo%27s+Hospital+patient+records</p>
+              <p>hxxps[://]jojoshospital[.]org/search=JoJo%27s+Hospital+patient+records</p>
             </div>
             <div class="comment-card">
               <h5>Comments</h5>
@@ -710,7 +709,7 @@ Threat actors in these cases tend to leave some very blatant search queries.</p>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>OutboundNetworkEvents
-| where url has "raisinkanes.com"
+| where url has "raisinkanes[.]com"
 | lookup Employees on $left.src_ip == $right.ip_addr</code></pre>
             </div>
             <div class="answer-card">
@@ -728,7 +727,7 @@ Threat actors in these cases tend to leave some very blatant search queries.</p>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>OutboundNetworkEvents
-| where url has "raisinkanes.com"
+| where url has "raisinkanes[.]com"
 | distinct src_ip
 | lookup Employees on $left.src_ip == $right.ip_addr</code></pre>
             </div>
@@ -746,7 +745,7 @@ Threat actors in these cases tend to leave some very blatant search queries.</p>
             <div class="kql-query">
               <h5>Query</h5>
               <pre><code>OutboundNetworkEvents
-| where url has "raisinkanes.com"
+| where url has "raisinkanes[.]com"
 | lookup Employees on $left.src_ip == $right.ip_addr
 | distinct url</code></pre>
             </div>
@@ -822,13 +821,13 @@ OutboundNetworkEvents
               <pre><code>
 let redirects =
 OutboundNetworkEvents
-| where url has "raisinkanes.com"
+| where url has "raisinkanes[.]com"
 | extend redirectDomain = tostring(parse_url(url).['Query Parameters']['redirect'])
 // the previous will add a column named redirectDomain and will populate it with the
 // redirect query parameter, which are the domains found in Q6 and Q7
 | distinct redirectDomain;
 OutboundNetworkEvents
-| where url has_any (redirects) and url !has "raisinkanes.com" and url !has "freerainsingkanes.net"
+| where url has_any (redirects) and url !has "raisinkanes[.]com" and url !has "freerainsingkanes[.]net"
 | distinct url
 | extend filepath = tostring(parse_url(url).Path)
 | extend filename = tostring(parse_path(filepath).Filename)
@@ -971,7 +970,7 @@ OutboundNetworkEvents
             <div class="comment-card">
               <h5>Comments</h5>
               <p>The game hints that the discovery commands are executed the day after. Without the hint, it would be a matter of checking the logs for anything suspicious.</p>
-              <ul><li><code>systeminfo</code>: <quote>Displays detailed configuration information about a computer and its operating system, including operating system configuration, security information, product ID, and hardware properties (such as RAM, disk space, and network cards).</quote> Excerpt from <a href=https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/systeminfo>Microsoft Learn</a>.</li></ul>
+              <ul><li><code>systeminfo</code>: <quote>Displays detailed configuration information about a computer and its operating system, including operating system configuration, security information, product ID, and hardware properties (such as RAM, disk space, and network cards).</quote> [<a href=https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/systeminfo>Microsoft Learn</a>]</li></ul>
             </div>
           </section> <!--question 18-->
           <section class="question-card" id="question53"> <!--question 19-->
@@ -988,11 +987,11 @@ OutboundNetworkEvents
               <h5>Comments</h5>
               <p>Besides systeminfo...</p>
               <ul>
-                <li><code>ipconfig /all</code>: <quote>Displays the full TCP/IP configuration for all adapters. Adapters can represent physical interfaces, such as installed network adapters, or logical interfaces, such as dial-up connections.</quote> Excerpt from <a href=https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/ipconfig>Microsoft Learn</a>.</li>
-                <li><code>netstat -an</code>: <quote>[The <code>-a</code> flag] Displays all active TCP connections and the TCP and UDP ports on which the computer is listening. [The <code>-n</code> flag] [d]isplays active TCP connections, however, addresses and port numbers are expressed numerically and no attempt is made to determine names.</quote> Excerpt from <a href=https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netstat>Microsoft Learn</a>.
-                <li><code>net user</code>: <quote>[...] displays a list of all user accounts for the local computer.</quote> Excerpt from <a href=https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc771865(v=ws.11)>Microsoft Learn</a></li>
-                <li><code>net localgroup administrators</code>: <quote>Used without additional parameters, **net localgroup <**GroupName> displays a list of users or global groups in a local group.</quote> Excerpt from <a href=https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc725622(v=ws.11)>Microsoft Learn</a>. In this case, it shows all administrator accounts in this device.</li>
-                <li><code>net view</code>: <quote>Used without parameters, net view displays a list of computers in your current domain.</quote> Excerpt from <a href=https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/hh875576(v=ws.11)>Microsoft Learn</a> In the hospital's case, this likely means all computers on the network.</li>
+                <li><code>ipconfig /all</code>: <quote>Displays the full TCP/IP configuration for all adapters. Adapters can represent physical interfaces, such as installed network adapters, or logical interfaces, such as dial-up connections.</quote> [<a href=https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/ipconfig>Microsoft Learn</a>]</li>
+                <li><code>netstat -an</code>: <quote>[The <code>-a</code> flag] Displays all active TCP connections and the TCP and UDP ports on which the computer is listening. [The <code>-n</code> flag] [d]isplays active TCP connections, however, addresses and port numbers are expressed numerically and no attempt is made to determine names.</quote> [<a href=https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netstat>Microsoft Learn</a>]
+                <li><code>net user</code>: <quote>[...] displays a list of all user accounts for the local computer.</quote> [<a href=https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc771865(v=ws.11)>Microsoft Learn</a>]</li>
+                <li><code>net localgroup administrators</code>: <quote>Used without additional parameters, <code>**net localgroup <**GroupName></code> displays a list of users or global groups in a local group.</quote> [<a href=https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc725622(v=ws.11)>Microsoft Learn</a>] In this case, it shows all administrator accounts in this device.</li>
+                <li><code>net view</code>: <quote>Used without parameters, net view displays a list of computers in your current domain.</quote> [<a href=https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/hh875576(v=ws.11)>Microsoft Learn</a>] In the hospital's case, this likely means all computers on the network.</li>
             </div>
           </section> <!--question 19-->
           <section class="question-card" id="question54"> <!--question 20-->

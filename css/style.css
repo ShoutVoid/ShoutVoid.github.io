@@ -7,8 +7,8 @@
 }
 
 /* just in case: make sure the page's minimum width corresponds to the contents,
- * that the maximum corresponds to the viewport width (i.e. window size); that the
- * page's minimum height is the viewport height and the maximum is the content */
+ that the maximum corresponds to the viewport width (i.e. window size); that the
+ page's minimum height is the viewport height and the maximum is the content */
 html, body {
     min-width: min-content;
     max-width: var(--max-width-vw, var(--max-width-percent));
@@ -18,7 +18,7 @@ html, body {
 }
 
 /* make sure all children of "body" (i.e. all elements in the page) have a maximum
- * width corresponding to the viewport (i.e. window size). This avoids overflows */
+ width corresponding to the viewport (i.e. window size). This avoids overflows */
 body * {
     max-width: var(--max-width-vw, var(--max-width-percent));
     max-height: min-content;
@@ -31,15 +31,35 @@ body {
     grid-template-columns: 1fr;
     gap: 1px;
     /* if the screen is equal or wider than 64rem (about 1024px, assuming font size 16)
-     *then make two columns: one for the sidebar and another for the content */
+    then make two columns: one for the sidebar and another for the content */
     @media only screen and (min-width: 64rem) {
-        grid-template-columns: 1fr 3fr;
+        grid-template-columns: 1fr 4fr;
     }
 }
 
-/*h1, h2, h3, h4, h5, h6 {
-    padding: 0 0 1rem 0;
-}*/
+h1 {
+    font-size: 2rem;
+}
+
+h2 {
+    font-size: 1.75rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+h4 {
+    font-size: 1.25rem;
+}
+
+h5 {
+    font-size: 1.125rem;
+}
+
+h6 {
+    font-size: 1rem;
+}
 
 a {
     color: var(--link-color);
@@ -47,8 +67,10 @@ a {
 }
 
 :focus {
-    outline: 2px solid var(--codeblock-border-color);
-    border-radius: var(--decor-border-radius-med);
+    outline: 2px solid var(--border-color) !important;
+    border-radius: var(--decor-border-radius-med) !important;
+    color: var(--text-color) !important;
+    background-color: var(--accent-color) !important;
 }
 
 #intro {
@@ -58,7 +80,7 @@ a {
 header, .site-nav, footer, .skip {
     grid-column: 1 / -1;
     padding: 1rem;
-    border: 1px solid white;
+    border: 1px solid var(--border-color);
     p {
         text-indent: 0 !important;
     }
@@ -83,51 +105,38 @@ header {
 }
 
 .page-nav {
-    grid-column: 1 / span 1;
-    border: 1px solid white;
-    width: 100%;
-    padding: 1rem 0.75rem;
-    align-self: start; /* this is necessary to allow the sticky position work */
-    max-height: 32rem;
-    overflow: auto;
+    border: 1px solid var(--border-color);
     a {
         color: var(--text-color);
     }
+}
+
+.page-toc {
+    padding: 1rem;
     /* if the screen is equal or wider than 64rem (about 1024px, assuming font size 16)
      then make the page navigation sidebar sticky (travel along with the scroll),
-     set the offset from the edge of the page to 0 and set its height to the viewport*/
+     set the offset from the edge of the page to 0 and set its height to the viewport */
     @media only screen and (min-width: 64rem) {
         position: sticky;
         top: 0;
-        height: 100vh;
         max-height: 100vh;
+        overflow-y: auto; /* sort of a very ugly workaround if the navigation links ever grow too numerous*/
     }
-}
-
-.page-nav .page-toc {
-    width: inherit;
-    max-height: max-content;
 }
 
 /* make sure the page navigation sidebar has some nice indenting */
-.page-nav li {
-    padding: 0 0 0 2px;
-}
 .page-nav ol, .page-nav ul {
-    list-style-position: inside;
-    ::marker {
-        content: none;
-    }
+    list-style: none;
 }
-.page-nav .section-toc {
+.section-toc {
     padding: 0 0 0 1rem;
 }
 
-.page-nav .section-toc .sub-toc {
+.sub-toc {
     padding: 0 0 0 1rem;
 }
 
-.page-nav .sub-toc li {
+.sub-toc li {
     width: fit-content;
     display: inline-block;
     padding: 0 0.25rem;
@@ -135,15 +144,14 @@ header {
 
 main {
     overflow: auto;
-    padding: 1rem 2rem 1rem 1rem;
-    border: 1px solid white;
-    @media only screen and (min-width: 64rem) {
-    }
+    padding: 1rem 2.5rem 1rem 1rem;
+    border: 1px solid var(--border-color);
 }
 
 p {
     text-indent: 1rem;
-    line-height: 1.5rem;
+    line-height: 1.75rem;
+    margin: 0.5rem 0 0.5rem 0;
 }
 
 quote {
@@ -163,7 +171,6 @@ li::marker {
 
 code {
     padding: 0 0.25rem 0 0.25rem;
-    line-height: 1.75rem;
     border: 1px solid var(--codeblock-border-color);
     border-radius: var(--decor-border-radius-med);
     font-family: monospace;
@@ -178,7 +185,7 @@ footer {
 
 pre {
     margin: 1rem 0 1rem 0;
-    padding: 16px;
+    padding: 0.75rem;
     overflow: auto;
     background-color: var(--codeblock-color);
     border: 1px solid var(--codeblock-border-color);

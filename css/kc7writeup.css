@@ -69,6 +69,13 @@ make the codeblocks look a bit like a terminal
     padding: 1rem 0 0 0;
     overflow: inherit;
     overflow-wrap: break-word;
+    p {
+        margin: 0;
+    }
+}
+
+.answer-card p {
+    font-family: monospace;
 }
 
 /*.kql-query > pre, .answer-card > pre, .comment-card > pre {
