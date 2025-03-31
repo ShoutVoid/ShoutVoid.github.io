@@ -1,12 +1,103 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title></title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shoutvoid - writeups</title>
+    <link rel = "stylesheet" href = "../css/variables.css">
+    <link rel = "stylesheet" href = "../css/style.css">
   </head>
-  <body>
-    <header></header>
-    <main></main>
-    <footer></footer>
+  <body id="top">
+    <header><!--website header-->
+      <h1>shoutvoid</h1>
+      <p>Aspiring cybersecurity professional</p>
+    </header><!--website header-->
+    <nav class="site-nav"><!--site-wide navigation-->
+      <a href="../index.html">About</a>
+      <a href="">Writeups</a>
+    </nav><!--site-wide navigation-->
+    <nav class="page-nav" id="page-navigation"><!--page navigation sidebar-->
+      <ol class="page-toc"><!--page toc-->
+        <a class="skip" href="#page-main">Skip to main content</a>
+        <li><a href="#kc7">KC7 Cyber</a><!--link to kc7 writeups-->
+          <ol>
+            <li><a href="#kc7easy">Easy</a></li>
+            <li><a href="#kc7modr">Moderate</a></li>
+            <li><a href="#kc7chal">Challenging</a></li>
+            <li><a href="#kc7hard">Hard</a></li>
+            <li><a href="#kc7dont">Don't Bother</a></li>
+          </ol>
+        </li>
+        <li><a href="#picoctf">picoCTF</a></li><!--link to about this website-->
+      </ol><!--page-toc class-->
+    </nav><!--page navigation sidebar-->
+    <main id="page-main"><!--main page content-->
+      <article id="kc7"><!--kc7cyber writeups-->
+        <h2>KC7 Cyber</h2>
+        <p>Writeups for KC7 Cyber, in the style of walkthroughs. Out of an overabundance of caution, all URLs, IP addresses and email addresses are defanged (so answers and queries cannot be used as-is). My goal is to someday make writeups for all the games in the platform (sans Daily7).</p>
+        <h3 id="kc7easy">Easy</h3>
+        <ol>
+          <li>A Rap Beef | <a href="kc7cyber/easy/rapbeef.html">Writeup</a> | <a href="https://kc7cyber.com/badges/earned/7567">Badge</a></li>
+          <li>A Scandal in Valdoria | <a href="kc7cyber/easy/valdytimes.html">Writeup</a> | <a href="https://kc7cyber.com/badges/earned/7606">Badge</a></li>
+          <li>Jojo's Hospital | <a href="kc7cyber/easy/jojoshospital.html">Writeup</a> | <a href="https://kc7cyber.com/badges/earned/8066">Badge</a></li>
+          <li>KQL 101 | <a href="">Writeup (TBA)</a> | Does not provide a badge; completed Mar. 2025</li>
+          <li>Solvi Systems | <a href="kc7cyber/easy/solvisystems.html">Writeup</a> | <a href="https://kc7cyber.com/badges/earned/7696">Badge</a></li>
+          <li>Titan Shield | <a href="">Writeup (TBA)</a> | <a href="https://kc7cyber.com/badges/earned/7577">Badge</a></li>
+          <li>Valdoria Votes | <a href="">Writeup (TBA)</a> | Does not provide a badge; completed c. Dec. 2024 - Jan. 2025</li>
+        </ol>
+        <h3 id="kc7modr">Moderate</h3>
+        <ol>
+          <li>Azure Crest (full version) | <a href="">Writeup (TBA)</a> | <a href="https://kc7cyber.com/badges/earned/8359">Badge</a></li>
+          <li>Castle & Sand | <a href="">Writeup (TBA)</a> | <a href="https://kc7cyber.com/badges/earned/8358">Badge</a></li>
+          <li>Critical Compromise in Chicago | <a href="">Writeup (TBA)</a> | <a href="https://kc7cyber.com/badges/earned/13945">Badge</a></li>
+          <li>Envolve Labs | <a href="">Writeup (TBA)</a> | <a href="https://kc7cyber.com/badges/earned/13964">Badge</a></li>
+          <li>French Socksess Story | <a href="">Writeup (TBA)</a> | Does not provide a badge; completed Mar. 2025</li>
+          <li>Frognado in Valdoria | <a href="">Writeup (TBA)</a> | <a href="https://kc7cyber.com/badges/earned/7671">Badge</a></li>
+          <!--<li>Hops'N'Stuff | <a href="">Writeup</a> | <a href="">Badge</a></li>
+          <li>Krusty Krab | <a href="">Writeup</a> | <a href="">Badge</a></li>
+          <li>Turkey Bowl | <a href="">Writeup</a> | <a href="">Badge</a></li>-->
+        </ol>
+        <h3 id="kc7chal">Challenging</h3>
+        <ol>
+          <!--<li>A Storm is Brewing in the Lab | <a href="">Writeup</a> | <a href="">Badge</a></li>
+          <li>Balloons Over Iowa | <a href="">Writeup</a> | <a href="">Badge</a></li>
+          <li>Dai Wok Foods | <a href="">Writeup</a> | <a href="">Badge</a></li>-->
+          <li>Galaxy Neura | <a href="">Writeup</a> | <a href="https://kc7cyber.com/badges/earned/13387">SANS New2Cyber 2025 Badge</a>; <a href="https://kc7cyber.com/badges/earned/13858">Core Module Badge</a></li>
+          <!--<li>Inside Encryptodera | <a href="">Writeup</a> | <a href="">Badge</a></li>
+          <li>Scholomance | <a href="">Writeup</a> | <a href="">Badge</a></li>
+          <li>System Shutdown at Azure Crest! (short version) | <a href="">Writeup</a> | <a href="">Badge</a></li>
+          <li>Virus Total FUndamentals | <a href="">Writeup</a> | <a href="">Badge</a></li>-->
+        </ol>
+        <!--<h3 id="kc7hard">Hard</h3>
+        <ol>
+          <li>Spooky Sweets | <a href="">Writeup</a> | <a href="">Badge</a></li>
+          <li>Sunlands | <a href="">Writeup</a> | <a href="">Badge</a></li>
+          <li>World Domination Nation | <a href="">Writeup</a> | <a href="">Badge</a></li>
+        </ol>
+        <h3 id="kc7dont">Don't bother</h3>
+        <ol>
+          <li>A Rap Steak | <a href="">Writeup</a> | <a href="">Badge</a></li>
+          <li>MCJ Walker | <a href="">Writeup</a> | <a href="">Badge</a></li>
+        </ol>-->
+      </article><!--kc7 writeups-->
+      <article id="picoctf"><!--picoctf writeups-->
+        <h2>picoCTF</h2>
+        <p>So far, I've participated in the 2025 edition. I'm also considering making and publishing picoGym writeups, but we'll see.</p>
+        <ol>
+          <li>picoCTF 2025 | <a href="picoctf/picoctf2025.html">Writeup</a> | <a href="https://play.picoctf.org/participants/85897">My Stats</a></li>
+        </ol>
+      </article> <!--picoctf writeups-->
+    </main><!--main page content-->
+    <footer><!--website footer-->
+      <a class="skip" href="#page-navigation">Return to page navigation</a>
+      <p>Made with vanilla HTML + CSS by shoutvoid</p>
+      <address>
+        <a href="mailto:shoutvoid@proton.me">shoutvoid@proton.me</a>
+        <a href="https://github.com/ShoutVoid">GitHub</a>
+        <a href="https://play.picoctf.org/users/shoutvoid">picoCTF</a>
+        <a href="https://kc7cyber.com/profile/shoutvoid">KC7Cyber</a>
+      </address>
+    </footer><!--website footer-->
   </body>
 </html>
