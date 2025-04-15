@@ -99,11 +99,11 @@
           <h3>Section 1 - Enough Beef for a Burger</h3>
           <p>Following the escalating rap feud between our lead rapper Dwake and Dollar Currency Records' (DCR) Present, a trusted cybersecurity contact alerted me that we should expect a cyberattack by threat actors related to this feud, and that they heard a rumor of IP address 18.66.52.227 being used for reconnaisance.</p>
           <p>Using this information, I looked up any queries made against our website.</p>
-          <pre><code>InboundNetworkEvents
+          <pre><kbd>InboundNetworkEvents
 | where src_ip == "18.66.52.227"
 | where timestamp &lt;= datetime(2024-04-11)
 //simply because the game's case develops in roughly "real time";
-//i.e. at this point of the story we should only see the things from April 10th</code></pre>
+//i.e. at this point of the story we should only see the things from April 10th</kbd></pre>
           <details open id="results1">
             <summary>Query results</summary>
             <div class="table-container">
@@ -277,7 +277,7 @@
           <p>Indeed, said IP address accessed our network on April 10th in order to execute reconnaisance search queries looking for information on artists' contact info, company press releases, concerts, and specifically info on how to book or contact Dwake.</p>
           <p>Since Lead Rapper Dwake is evidently the focus of the threat actors' attention, I'll priorize examining him. This attack seems to be simply compromised credentials, rather than devices (e.g. installation of malware).</p>
           <p>OWL Records' password reset process requires an email and solving previously-established static security questions. The attackers, masquerading as Dwake, requested a password reset and succesfully entered his security questions.</p>
-          <pre><code>https://owl-records.com/account/security-questions?question_1=mother's+maiden+name&amp;answer_1=Washington&amp;question_2=first+pet's+name&amp;answer_2=Fluffy</code></pre>
+          <pre><samp>https://owl-records.com/account/security-questions?question_1=mother's+maiden+name&amp;answer_1=Washington&amp;question_2=first+pet's+name&amp;answer_2=Fluffy</samp></pre>
           <p>Dwake inadvertely leaked the answers in a verse dissing Present that went viral recently.</p>
           <pre><quote>Yo, Present, you don't know where I'm from,
 <i>Got the Washington name from my mom's side</i>, son.
@@ -293,9 +293,9 @@ with those weak beats you won't last.</quote></pre>
         <section id="section2"><!--begin second section-->
           <h3>Section 2 - Less Beef, More Phish</h3>
           <p>Between Present's information being made available on BreachForums if he did not retire in 30 days and/or paid up 10M USD (reports conflict) and a tip from the same trusted contact, I decided to focus on possible phishing attempts against OWL Records employees from the same threat actor, which is suspected to be related to Dollar Currency Records in some way. For this portion of the investigation, I've decided to start by looking at any new inbound network events since the first signs of reconnaisance in early April.</p>
-          <pre><code>InboundNetworkEvents
+          <pre><kbd>InboundNetworkEvents
 | where src_ip == "18.66.52.227"
-| where timestamp >= datetime(2024-04-11)</code></pre>
+| where timestamp >= datetime(2024-04-11)</kbd></pre>
           <details open id="results2">
             <summary>Query results</summary>
             <div class="table-container">
@@ -1044,7 +1044,7 @@ with those weak beats you won't last.</quote></pre>
             </div>
           </details>
           <p>There's some deeply troubling activity; it seems the threat actor managed to compromise multiple employee accounts, including Dwake's. Most troubling is a sign of data exfiltration from Dwake's account on April 30th. In order to confirm who was affected, I ran this query:</p>
-          <pre><code>InboundNetworkEvents
+          <pre><kbd>InboundNetworkEvents
 | where src_ip == "18.66.52.227"
 | where parse_url(url).['Query Parameters'] has "user"
 | project user = extract( //see https://learn.microsoft.com/en-us/kusto/query/extract-function
@@ -1058,7 +1058,7 @@ with those weak beats you won't last.</quote></pre>
 //becomes "lowhite[...]" via parse_url
 //which becomes just "lowhite" via extract()
 | distinct user
-| lookup Employees on $left.user == $right.username</code></pre>
+| lookup Employees on $left.user == $right.username</kbd></pre>
           <details open id="results3">
             <summary>Query results:</summary>
             <div class="table-container">
@@ -1192,16 +1192,16 @@ with those weak beats you won't last.</quote></pre>
             </div>
           </details>
           <p>In order to retrace the threat actors' steps, I've decided to examine the known threat actor IP:</p>
-          <pre><code>PassiveDns
+          <pre><kbd>PassiveDns
 | where ip == "18.66.52.227"
-| distinct domain</code></pre>
+| distinct domain</kbd></pre>
           <details open id="results4">
             <summary>Query results</summary>
             betterlyrics4u.com
           </details>
           <p>This domain could be used for malicious purposes, such as stealing credentials or delivering malware via phishing emails. Looking up IP addresses associated with this domain reveals that the threat actors only made use of a single domain and a single IP addresses for this operation.</p>
-          <pre><code>Email
-| where * has "betterlyrics4u.com"</code></pre>
+          <pre><kbd>Email
+| where * has "betterlyrics4u.com"</kbd></pre>
           <details open id="results5">
             <summary>Query results</summary>
             <div class="table-container">
@@ -1357,7 +1357,7 @@ with those weak beats you won't last.</quote></pre>
           </ul>
           <li><i>Recipients</i>: See <a href="#results3">[3]</a></li>
           <p>Since all recipients had their accounts compromised, we can surmise that they clicked the malicious links and input their credentials. We can confirm dates and times with:</p>
-          <pre><code>InboundNetworkEvents
+          <pre><kbd>InboundNetworkEvents
 | where src_ip == "18.66.52.227"
 | where parse_url(url).['Query Parameters'] has "user"
 | project user = extract( //see https://learn.microsoft.com/en-us/kusto/query/extract-function
@@ -1370,7 +1370,7 @@ with those weak beats you won't last.</quote></pre>
 | lookup Employees on $left.user == $right.username
 | distinct name, ip_addr
 | lookup OutboundNetworkEvents on $left.ip_addr == $right.src_ip
-| where url has "betterlyrics4u.com"</code></pre>
+| where url has "betterlyrics4u.com"</kbd></pre>
           <details open id="results6">
             <summary>Query results</summary>
             <div class="table-container">
@@ -1482,9 +1482,9 @@ with those weak beats you won't last.</quote></pre>
           <p>Lead Rapper Dwake Audrey clicked on the malicious link on 2024-04-15.</p>
           <p>The phishing page requested OWL Records credentials to "Login to speak with GHOST WRITER". There is also, rather mysteriously, a "forgot password" button, and a SSO button if one is "already upgraded".</p>
           <p>To see when the threat actors sucessfully logged in to the employee accounts, I used:</p>
-          <pre><code>AuthenticationEvents
+          <pre><kbd>AuthenticationEvents
 | where src_ip == "18.66.52.227"
-| where result =~ "successful login"</code></pre>
+| where result =~ "successful login"</kbd></pre>
           <details open id="results7">
             <summary>Query results</summary>
             <div class="table-container">
