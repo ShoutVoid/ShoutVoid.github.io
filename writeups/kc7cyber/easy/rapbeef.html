@@ -25,51 +25,51 @@
         <a class="skip" href="#page-main">Skip to main content</a>
         <li><a href="#intro">Introduction</a>
         <li>
-          <a href=#sections>Sections</a>
+          <a href="#sections">Sections</a>
           <ol class="section-toc">
             <li class="section1-toc">
-              <a href=#section1>Section 1 - Enough Beef for a Burger</a>
+              <a href="#section1">Section 1 - Enough Beef for a Burger</a>
               <ol class="sub-toc">
-                <li><a href=#question1>Q1</a></li>
-                <li><a href=#question2>Q2</a></li>
-                <li><a href=#question3>Q3</a></li>
-                <li><a href=#question4>Q4</a></li>
-                <li><a href=#question5>Q5</a></li>
-                <li><a href=#question6>Q6</a></li>
-                <li><a href=#question7>Q7</a></li>
-                <li><a href=#question8>Q8</a></li>
-                <li><a href=#question9>Q9</a></li>
-                <li><a href=#question10>Q10</a></li>
-                <li><a href=#question11>Q11</a></li>
-                <li><a href=#question12>Q12</a></li>
-                <li><a href=#question13>Q13</a></li>
+                <li><a href="#results1">Q1</a></li>
+                <li><a href="#question2">Q2</a></li>
+                <li><a href="#question3">Q3</a></li>
+                <li><a href="#question4">Q4</a></li>
+                <li><a href="#question5">Q5</a></li>
+                <li><a href="#question6">Q6</a></li>
+                <li><a href="#question7">Q7</a></li>
+                <li><a href="#question8">Q8</a></li>
+                <li><a href="#question9">Q9</a></li>
+                <li><a href="#question10">Q10</a></li>
+                <li><a href="#question11">Q11</a></li>
+                <li><a href="#question12">Q12</a></li>
+                <li><a href="#question13">Q13</a></li>
               </ol>
             </li>
             <li class="section2-toc">
-              <a href=#section2>Section 2 - Less Beef, More Phish</a>
+              <a href="#section2">Section 2 - Less Beef, More Phish</a>
               <ol class="sub-toc">
-                <li><a href=#question14>Q1</a></li>
-                <li><a href=#question15>Q2</a></li>
-                <li><a href=#question16>Q3</a></li>
-                <li><a href=#question17>Q4</a></li>
-                <li><a href=#question18>Q5</a></li>
-                <li><a href=#question19>Q6</a></li>
-                <li><a href=#question20>Q7</a></li>
-                <li><a href=#question21>Q8</a></li>
-                <li><a href=#question22>Q9</a></li>
-                <li><a href=#question23>Q10</a></li>
-                <li><a href=#question24>Q11</a></li>
-                <li><a href=#question25>Q12</a></li>
-                <li><a href=#question26>Q13</a></li>
-                <li><a href=#question27>Q14</a></li>
-                <li><a href=#question28>Q15</a></li>
-                <li><a href=#question29>Q16</a></li>
-                <li><a href=#question30>Q17</a></li>
-                <li><a href=#question31>Q18</a></li>
-                <li><a href=#question32>Q19</a></li>
-                <li><a href=#question33>Q20</a></li>
-                <li><a href=#question34>Q21</a></li>
-                <li><a href=#question35>Q22</a></li>
+                <li><a href="#question14">Q1</a></li>
+                <li><a href="#question15">Q2</a></li>
+                <li><a href="#question16">Q3</a></li>
+                <li><a href="#question17">Q4</a></li>
+                <li><a href="#question18">Q5</a></li>
+                <li><a href="#question19">Q6</a></li>
+                <li><a href="#question20">Q7</a></li>
+                <li><a href="#question21">Q8</a></li>
+                <li><a href="#question22">Q9</a></li>
+                <li><a href="#question23">Q10</a></li>
+                <li><a href="#question24">Q11</a></li>
+                <li><a href="#question25">Q12</a></li>
+                <li><a href="#question26">Q13</a></li>
+                <li><a href="#question27">Q14</a></li>
+                <li><a href="#question28">Q15</a></li>
+                <li><a href="#question29">Q16</a></li>
+                <li><a href="#question30">Q17</a></li>
+                <li><a href="#question31">Q18</a></li>
+                <li><a href="#question32">Q19</a></li>
+                <li><a href="#question33">Q20</a></li>
+                <li><a href="#question34">Q21</a></li>
+                <li><a href="#question35">Q22</a></li>
               </ol>
             </li>
           </ol>
@@ -90,601 +90,1536 @@
         <p>Better than KBA/KBV would be if requesting a password reset required a MFA token, such as TOTP, PINs, or URL tokens sent through additional communication channels, such as their personal email account.</p>
         <p>Further, OWASP's <a href="https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html#security-questions">Forgot Password Cheat Sheet</a> recommends only using security questions as an extra layer complementing more robust verification methods, if at all.</p>
         <p>OWASP also has a <em>legacy</em> <a href="https://cheatsheetseries.owasp.org/cheatsheets/Choosing_and_Using_Security_Questions_Cheat_Sheet.html">Security Questions Cheat Sheet</a> that starts with a giant warning about how security questions are, frankly, a terrible idea. <quote>[...] there are no acceptable uses of security questions in secure software [...]</quote></p>
+        <p>In the case of Dwake's phish in section 2, there does not seem to be any form of MFA; much like the first time Dwake got compromised, the threat actor only needed access to basic details of his account in order to gain access. If there had been another factor to authenticate and if such a measure were enforced across all accounts, then the threat actor would've been stopped in their tracks, unable to compromise Dwake's (and other artists') accounts for espionage and data exfiltration.</p>
       </article>
       <!--the game sections-->
-      <article id=sections>
+      <article id="sections">
         <h2>Sections</h2>
-        <!--first section-->
-        <section id="section1">
+        <section id="section1"><!--begin first section-->
           <h3>Section 1 - Enough Beef for a Burger</h3>
-          <!--the card containing the answers, composed of three elements: the KQL query used, the answer as typed on KC7 Cyber, and a comment-->
-          <section class="question-card" id="question1">
-            <h4>Q1 - Type "ready" to get started</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
+          <p>Following the escalating rap feud between our lead rapper Dwake and Dollar Currency Records' (DCR) Present, a trusted cybersecurity contact alerted me that we should expect a cyberattack by threat actors related to this feud, and that they heard a rumor of IP address 18.66.52.227 being used for reconnaisance.</p>
+          <p>Using this information, I looked up any queries made against our website.</p>
+          <pre><code>InboundNetworkEvents
+| where src_ip == "18.66.52.227"
+| where timestamp &lt;= datetime(2024-04-11)
+//simply because the game's case develops in roughly "real time";
+//i.e. at this point of the story we should only see the things from April 10th</code></pre>
+          <details open id="results1">
+            <summary>Query results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">timestamp</th>
+                    <th scope="col">method</th>
+                    <th scope="col">src_ip</th>
+                    <th scope="col">user_agent</th>
+                    <th scope="col">url</th>
+                    <th scope="col">status_code</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-04-10 00:00:00.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/search=whats+Dwake%27s+email+address%3F</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 10:50:35.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/search=OWL+Records+rapper+contact+info</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 10:51:10.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/search=OWL+Records+artists+contact+details</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 10:51:34.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/search=how+do+i+email+Dwake%3F%3F</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 10:51:55.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/search=Dwake+booking+info+pls</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 10:52:00.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/search=OWL+Records+artist+email+directory</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 10:52:02.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/search=can+i+book+Dwake+for+a+party%3F</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 10:52:38.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/search=why+is+Dwake+music+much+soo+trasshhhh</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 10:53:07.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/artists/Dwake/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 10:53:42.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/artists/email_contacts/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 10:54:15.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/artists/booking_info/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 10:55:08.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/events/OWLRecords_concerts_2024/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 10:55:56.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/marketing/artist_profiles/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 10:56:30.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/marketing/press_releases/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 10:57:03.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/legal/contact_us/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 10:57:47.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/account/reset-password?username=dwaubrey&email=dwake_audrey@owl-records.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 11:56:47.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/support/request-password-reset?username=dwaubrey&reason=Forgot+my+password</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 12:53:47.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/account/security-questions?username=dwaubrey</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 13:02:47.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/account/security-questions?question_1=mother's+maiden+name&answer_1=Washington&question_2=first+pet's+name&answer_2=Fluffy</td>
+                    <td>200</td>
+                </tbody>
+              </table>
             </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>ready</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p>We're given some background information to set up the game.</p>
-            </div>
-          </section>
+          </details>
+          <p>Indeed, said IP address accessed our network on April 10th in order to execute reconnaisance search queries looking for information on artists' contact info, company press releases, concerts, and specifically info on how to book or contact Dwake.</p>
+          <p>Since Lead Rapper Dwake is evidently the focus of the threat actors' attention, I'll priorize examining him. This attack seems to be simply compromised credentials, rather than devices (e.g. installation of malware).</p>
+          <p>OWL Records' password reset process requires an email and solving previously-established static security questions. The attackers, masquerading as Dwake, requested a password reset and succesfully entered his security questions.</p>
+          <pre><code>https://owl-records.com/account/security-questions?question_1=mother's+maiden+name&amp;answer_1=Washington&amp;question_2=first+pet's+name&amp;answer_2=Fluffy</code></pre>
+          <p>Dwake inadvertely leaked the answers in a verse dissing Present that went viral recently.</p>
+          <pre><quote>Yo, Present, you don't know where I'm from,
+<i>Got the Washington name from my mom's side</i>, son.
+It makes sense why they call you present
+Cause you're so easy to beat, its pretty much a gift
 
-          <section class="question-card" id="question2">
-            <h4>Q2 - Type "barz" to continue</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>barz</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p>We're given a rap verse by the artist Dwake, dissing his rival Present. Notably, it inadvertedly contains some of Dwake's personal information, the sort frequently used for "security" questions (such as "your mother's maiden name", etc.)</p>
-              <p>The verse mocking Present quickly becomes viral.</p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question3">
-            <h4>Q3 - Type "thanks dawg" to continue</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>thanks dawg</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p>A contact of yours tips you off that Present and his label, Dollar Currency Records (DCR), paid a hacker that used IP address <code>18[.]66[.]52[.]227</code> to peek at your company's website to dig up dirt to use against Dwake.</p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question4">
-            <h4>Q4 - What is the name of OWL Records' CEO?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code>Employees
-| where role == "CEO"</code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>Sean Crater</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p>After three questions on backstory, we're finally doing KQL queries.</p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question5">
-            <h4>Q5 - How many results (rows) did you get back?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code>InboundNetworkEvents
-| where timestamp between (datetime("2024-04-10") .. datetime("2024-04-11"))
-| where src_ip has "18[.]66[.]52[.]227"</code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>19</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p>We're prompted to look for threat actor activity; we know their IP.</p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question6">
-            <h4>Q6 - What piece of information were they looking to get for Dwake? (two words - might be used for communication)</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>email address</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p></p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question7">
-            <h4>Q7 - The operator is wondering why Dwake's music is so _</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>trash</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p>Indeed, among the search queries for Dwake's contact information is a query wondering why his music is "much so trash".</p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question8">
-            <h4>Q8 - What is Dwake's email address?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>dwake_audreyATowl-records[.]com</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p></p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question9">
-            <h4>Q9 - Which of the following did Dwake disclose in his verse? (pick one)</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>1 and 3</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p>The context given is that the questions offered to OWL Records employees are: your mother's maiden name, the street you grew up as a child, childhood pet's name, and the color of your first car. Dwake's verse gave out his mother's maiden name and the name of his childhood pet.</p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question10">
-            <h4>Q10 - What is Dwake's mother's maiden name?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>Washington</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p></p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question11">
-            <h4>Q11 - What is the name of Dwake's childhood pet?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>Fluffy</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p></p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question12">
-            <h4>Q12 - Copy and paste the full URL that shows the operator resetting the password to Dwake’s account.</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>hxxps[://]owl-records[.]com/account/security-questions?question_1=mother's+maiden+name&answer_1=Washington&question_2=first+pet's+name&answer_2=Fluffy</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p></p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question13">
-            <h4>Q13 - Type <i>oh lawd</i> to take credit</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>oh lawd</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p>The context is that, after compromising Dwake's email account, the threat actor took over his Instagram account. Much public embarrassment ensues.</p>
-            </div>
-          </section>
-        </section>
-        <!--second section-->
-        <section id="section2">
+<i>Used to play with little Fluffy</i>, now I'm runnin' with the wolves,
+You say you're on top, but I'm breakin' all the rules.
+I'm on that next level, you're stuck in the past,
+with those weak beats you won't last.</quote></pre>
+          <p>After succesfully resetting Dwake's corporate email password, the threat actors then resetted his Instagram password, taking it over and defacing his profile with embarrassing images and statements the following day (April 11th).</p>
+        </section><!--end first section-->
+        <section id="section2"><!--begin second section-->
           <h3>Section 2 - Less Beef, More Phish</h3>
-          <section class="question-card" id="question14">
-            <h4>Q1 - Enter <i>darkweb</i> to continue</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>darkweb</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p>The context given is that a hacker in a dark web forum threatens to release damaging information on Present. This happens the day after Dwake's Instragram account compromise and his public embarrassment by the threat actor.</p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question15">
-            <h4>Q2 - Type <i>lesdoit</i> to continue</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>letsdoit</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p>Your homie from Q3 (vaguely) tips you off that any retailation will be via phishing.</p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question16">
-            <h4>Q3 - What domain did IP 18[.]66[.]52[.]227 resolve to?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code>PassiveDns
-| where ip == "18[.]66[.]52[.]227"</code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>betterlyrics4u.com</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p></p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question17">
-            <h4>Q4 - Which column in the email table is most likely to contain our domain?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code>Email
-| take 10</code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>link</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p>An introduction to the <code>take</code> query, which is useful to see what information (columns, etc.) is in a table.</p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question18">
-            <h4>Q5 - How many results did we get from this query?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code>Email
-| where link has "betterlyrics4u[.]com"</code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>13</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p></p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question19">
-            <h4>Q6 - Which email address was used to send most of these emails?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>ghostwritersanonymousATprotonmail[.]com</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p></p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question20">
-            <h4>Q7 - What was the other email address used to send these phishing emails?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>wemakebeatzATgmail[.]com</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p></p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question21">
-            <h4>Q8 - Which role was targeted the most of all?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code>let _targets = Email
-| where link has "betterlyrics4u[.]com"
-| distinct recipient;
-Employees
-| where email_addr in (_targets)
-//not originally provided by KC7Cyber
-| summarize count() by role</code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>rapper</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p>We could've also used <code>summarize</code> in the previous questions (Q6 and Q7).</p>
-              <p>Like this: <code>summarize count() by sender</code></p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question22">
-            <h4>Q9 - Which role (other than Rapper) was targeted by this phishing campaign?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>lead rapper</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p></p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question23">
-            <h4>Q10 - And what is the name of the Lead Rapper?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code>Employees
-| where role == "Lead Rapper"
-//not provided by KC7 Cyber</code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>Dwake Audrey</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p>Without summarize in Q8, we would get a list of all affected employees, including their names. As mentioned, in this introductory tutorial case it's easy to visually parse which role was the most affected (only two roles, 9 rappers and a single lead rapper). Future cases won't be so simple! "Just take a glance at the results" doesn't work when you're dealing with, say, hundreds of emails to dozens of roles with single-digits-to-hundreds of affected employees each...</p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question24">
-            <h4>Q11 - What is Dwake's IP address?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>10[.]10[.]0[.]5</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p></p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question25">
-            <h4>Q12 - What was the subject of the email sent to Dwake?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code>Email
-| where link has "betterlyrics4u[.]com"</code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>[EXTERNAL] RE: Need a ghostwriter for your next hit?</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p>If you take good notes, you don't need to repeat queries. You can also re-run queries by placing the caret on them, assuming you've left them on the ADX input field and separate each query with a blank line.</p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question26">
-            <h4>Q13 - What link did the adversaries include in their phishing email targeting Dwake?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>hxxp[://]betterlyrics4u[.]com/share/online/published/enter</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p></p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question27">
-            <h4>Q14 - What was the verdict of the email sent to Dwake?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>CLEAN</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p></p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question28">
-            <h4>Q15 - What name (or nickname) did the aversaries sign the email with?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>ghostwriter</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p>This question contains a screenshot of the phishing email sent to Dwake (information such as the body of the emails is not available in the logs directly). This screenshot shows the recipient's name as Ghost Writer (signed GhostWriter)</p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question29">
-            <h4>Q16 - When did Dwake click on the link in email? (copy and paste the time exactly)</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code>OutboundNetworkEvents
-| where url == "hxxp[://]betterlyrics4u[.]com/share/online/published/enter"
-| where src_ip == "10[.]10[.]0[.]5"</code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>2024-04-15T12:03:12Z</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p>This returns a single row showing that Dwake clicked the malicious link.</p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question30">
-            <h4>Q17 - What is written in the submit button for this login portal?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>login to speak with ghost writer</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p>The question contains a screenshot of the false authentication page. It requests OWL Records credentials to "Login to speak with GHOST WRITER". There is also, rather mysteriously, a "forgot password" button, and a SSO button if one is "already upgraded".</p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question31">
-            <h4>Q18 - When did the adversaries attempt to login to Dwake's account?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code>AuthenticationEvents
-| where username == "dwaudrey"
-| where src_ip == "18[.]66[.]52[.]227"</code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>hxxp[://]betterlyrics4u[.]com/share/online/published/enter</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p></p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question32">
-            <h4>Q19 - What was the result of this authentication attempt?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>successful login</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p></p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question33">
-            <h4>Q20 - How many results do we get?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code>InboundNetworkEvents
-| where timestamp between (datetime("2024-04-12") .. datetime("2024-05-01"))
-| where url has "dwaudrey"
-| where src_ip has "18[.]66[.]52[.]227"</code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>10</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p></p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question34">
-            <h4>Q21 - What was the name of the zip file they used to steal information from Dwake's account?</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>DwakesDirtySecrets.zip</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p><code>InboundNetworkEvents</code> shows the threat actor downloading Dwake's data off his email account.</p>
-            </div>
-          </section>
-
-          <section class="question-card" id="question35">
-            <h4>Q22 - Enter "less hack more love" to finish</h4>
-            <div class="kql-query">
-              <h5>Query</h5>
-              <pre><code></code></pre>
-            </div>
-            <div class="answer-card">
-              <h5>Answer</h5>
-              <p>less hack more love</p>
-            </div>
-            <div class="comment-card">
-              <h5>Comments</h5>
-              <p>The exfiltration is the final event; both parties (Dwake and Present) have compromising information on eachother and eventually agree to a truce.</p>
-            </div>
-          </section>
-        </section>
+          <p>Between Present's information being made available on BreachForums if he did not retire in 30 days and/or paid up 10M USD (reports conflict) and a tip from the same trusted contact, I decided to focus on possible phishing attempts against OWL Records employees from the same threat actor, which is suspected to be related to Dollar Currency Records in some way. For this portion of the investigation, I've decided to start by looking at any new inbound network events since the first signs of reconnaisance in early April.</p>
+          <pre><code>InboundNetworkEvents
+| where src_ip == "18.66.52.227"
+| where timestamp >= datetime(2024-04-11)</code></pre>
+          <details open id="results2">
+            <summary>Query results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>method</th>
+                    <th>src_ip</th>
+                    <th>user_agent</th>
+                    <th>url</th>
+                    <th>status_code</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-04-11 10:25:28.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=nilane/search?query=scandal</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 10:25:38.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=nilane/search?query=confidential</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 10:25:50.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=icblake/search?query=scandal</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 10:25:57.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=icblake/search?query=confidential</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 10:26:17.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=nilane/search?query=leak</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 10:26:18.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=icblake/search?query=leak</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 10:26:37.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=nilane/search?query=secret</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 10:26:56.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=icblake/search?query=secret</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 10:27:18.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=nilane/search?query=sensitive</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 10:27:20.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=icblake/search?query=sensitive</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 10:28:10.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=icblake/drafts/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 10:28:13.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=nilane/drafts/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 10:28:32.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=nilane/internal_communications/meeting_notes/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 10:28:41.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=icblake/internal_communications/meeting_notes/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 10:29:20.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=nilane/internal_communications/private_emails/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 10:29:24.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=icblake/internal_communications/private_emails/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 10:29:57.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=nilane/internal_communications/employee_complaints/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 10:30:14.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=icblake/internal_communications/employee_complaints/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 14:44:25.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=jaknight/search?query=scandal</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 14:44:45.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=jaknight/search?query=confidential</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 14:44:49.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=jaknight/search?query=leak</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 14:45:34.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=lizee/search?query=scandal</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 14:45:38.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=jaknight/search?query=secret</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 14:45:39.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=jaknight/search?query=sensitive</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 14:45:45.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=jaknight/drafts/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 14:46:17.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=jaknight/internal_communications/meeting_notes/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 14:46:31.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=lizee/search?query=confidential</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 14:46:46.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=jaknight/internal_communications/private_emails/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 14:47:09.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=lizee/search?query=leak</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 14:47:11.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=jaknight/internal_communications/employee_complaints/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 14:47:26.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=lizee/search?query=secret</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 14:48:08.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=lizee/search?query=sensitive</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 14:48:21.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=lizee/drafts/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 14:49:20.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=lizee/internal_communications/meeting_notes/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 14:50:11.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=lizee/internal_communications/private_emails/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 14:51:06.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=lizee/internal_communications/employee_complaints/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-16 09:49:19.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=snthompson/search?query=scandal</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-16 09:49:30.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=snthompson/search?query=confidential</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-16 09:49:32.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=dwaudrey/search?query=scandal</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-16 09:49:33.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=snthompson/search?query=leak</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-16 09:50:04.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=dwaudrey/search?query=confidential</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-16 09:50:13.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=dwaudrey/search?query=leak</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-16 09:50:23.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=dwaudrey/search?query=secret</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-16 09:50:27.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=dwaudrey/search?query=sensitive</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-16 09:50:29.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=snthompson/search?query=secret</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-16 09:50:34.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=snthompson/search?query=sensitive</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-16 09:51:12.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=dwaudrey/drafts/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-16 09:51:26.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=snthompson/drafts/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-16 09:51:55.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=snthompson/internal_communications/meeting_notes/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-16 09:51:59.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=dwaudrey/internal_communications/meeting_notes/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-16 09:52:03.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=snthompson/internal_communications/private_emails/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-16 09:52:09.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=dwaudrey/internal_communications/private_emails/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-16 09:52:41.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=dwaudrey/internal_communications/employee_complaints/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-16 09:52:56.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=snthompson/internal_communications/employee_complaints/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-18 10:47:44.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=jucole/search?query=scandal</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-18 10:47:44.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=chwest/search?query=scandal</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-18 10:48:07.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=chwest/search?query=confidential</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-18 10:48:41.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=jucole/search?query=confidential</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-18 10:49:01.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=chwest/search?query=leak</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-18 10:49:07.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=chwest/search?query=secret</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-18 10:49:14.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=jucole/search?query=leak</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-18 10:49:27.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=jucole/search?query=secret</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-18 10:49:27.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=chwest/search?query=sensitive</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-18 10:49:55.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=chwest/drafts/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-18 10:50:15.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=jucole/search?query=sensitive</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-18 10:50:26.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=chwest/internal_communications/meeting_notes/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-18 10:51:01.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=jucole/drafts/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-18 10:51:10.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=chwest/internal_communications/private_emails/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-18 10:51:19.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=jucole/internal_communications/meeting_notes/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-18 10:51:21.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=jucole/internal_communications/private_emails/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-18 10:51:33.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=chwest/internal_communications/employee_complaints/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-18 10:51:51.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=jucole/internal_communications/employee_complaints/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-22 14:33:29.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=drhill/search?query=scandal</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-22 14:34:28.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=drhill/search?query=confidential</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-22 14:34:46.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=drhill/search?query=leak</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-22 14:35:13.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=drhill/search?query=secret</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-22 14:35:56.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=drhill/search?query=sensitive</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-22 14:36:53.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=drhill/drafts/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-22 14:37:39.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=drhill/internal_communications/meeting_notes/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-22 14:38:16.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=drhill/internal_communications/private_emails/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-22 14:38:25.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=drhill/internal_communications/employee_complaints/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-26 13:16:49.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=lowhite/search?query=scandal</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-26 13:17:15.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=lowhite/search?query=confidential</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-26 13:18:06.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=lowhite/search?query=leak</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-26 13:18:39.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=lowhite/search?query=secret</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-26 13:19:10.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=lowhite/search?query=sensitive</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-26 13:19:29.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=lowhite/drafts/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-26 13:19:48.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=lowhite/internal_communications/meeting_notes/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-26 13:20:21.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=lowhite/internal_communications/private_emails/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-26 13:21:00.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail?user=lowhite/internal_communications/employee_complaints/</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-30 14:23:02.0000</td>
+                    <td>GET</td>
+                    <td>18.66.52.227</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                    <td>https://owl-records.com/mail/readmail?user=dwaudrey%40owl-records.com&mailbox_folder=Drafts&download=true&output=DwakesDirtySecrets.zip</td>
+                    <td>200</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>There's some deeply troubling activity; it seems the threat actor managed to compromise multiple employee accounts, including Dwake's. Most troubling is a sign of data exfiltration from Dwake's account on April 30th. In order to confirm who was affected, I ran this query:</p>
+          <pre><code>InboundNetworkEvents
+| where src_ip == "18.66.52.227"
+| where parse_url(url).['Query Parameters'] has "user"
+| project user = extract( //see https://learn.microsoft.com/en-us/kusto/query/extract-function
+    "^([a-zA-Z]+)", //regex pattern
+    0, //capture group to extract
+    tostring(parse_url(url).['Query Parameters'].["user"]), //source string
+    typeof(string) //convert the extracted element to a string
+)
+//this extracts the username from the query parameters
+//"https://owl-records.com/mail?user=lowhite[...]"
+//becomes "lowhite[...]" via parse_url
+//which becomes just "lowhite" via extract()
+| distinct user
+| lookup Employees on $left.user == $right.username</code></pre>
+          <details open id="results3">
+            <summary>Query results:</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>user</th>
+                    <th>hire_date</th>
+                    <th>name</th>
+                    <th>user_agent</th>
+                    <th>ip_addr</th>
+                    <th>email_addr</th>
+                    <th>company_domain</th>
+                    <th>role</th>
+                    <th>hostname</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>chwest</td>
+                    <td>2021-07-24 00:00:00.0000</td>
+                    <td>Chance West</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.110 Safari/537.36</td>
+                    <td>10.10.0.18</td>
+                    <td>chance_west@owl-records.com</td>
+                    <td>owl-records.com</td>
+                    <td>Rapper</td>
+                    <td>GJDR-DESKTOP</td>
+                  </tr>
+                  <tr>
+                    <td>drhill</td>
+                    <td>2021-05-31 00:00:00.0000</td>
+                    <td>Drake Hill</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.101 Safari/537.36</td>
+                    <td>10.10.0.14</td>
+                    <td>drake_hill@owl-records.com</td>
+                    <td>owl-records.com</td>
+                    <td>Rapper</td>
+                    <td>XWR2-LAPTOP</td>
+                  </tr>
+                  <tr>
+                    <td>dwaudrey</td>
+                    <td>2022-06-22 00:00:00.0000</td>
+                    <td>Dwake Audrey</td>
+                    <td>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36</td>
+                    <td>10.10.0.5</td>
+                    <td>dwake_audrey@owl-records.com</td>
+                    <td>owl-records.com</td>
+                    <td>Lead Rapper</td>
+                    <td>8GZI-DESKTOP</td>
+                  </tr>
+                  <tr>
+                    <td>icblake</td>
+                    <td>2023-09-25 00:00:00.0000</td>
+                    <td>Ice Blake</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 5.1; Win64; x64; Trident/4.0)</td>
+                    <td>10.10.0.24</td>
+                    <td>ice_blake@owl-records.com</td>
+                    <td>owl-records.com</td>
+                    <td>Rapper</td>
+                    <td>IH9V-LAPTOP</td>
+                  </tr>
+                  <tr>
+                    <td>jaknight</td>
+                    <td>2022-05-29 00:00:00.0000</td>
+                    <td>Jay Knight</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)</td>
+                    <td>10.10.0.8</td>
+                    <td>jay_knight@owl-records.com</td>
+                    <td>owl-records.com</td>
+                    <td>Rapper</td>
+                    <td>HUVN-DESKTOP</td>
+                  </tr>
+                  <tr>
+                    <td>jucole</td>
+                    <td>2023-07-23 00:00:00.0000</td>
+                    <td>Justin Cole</td>
+                    <td>Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36</td>
+                    <td>10.10.0.29</td>
+                    <td>justin_cole@owl-records.com</td>
+                    <td>owl-records.com</td>
+                    <td>Rapper</td>
+                    <td>5HUM-MACHINE</td>
+                  </tr>
+                  <tr>
+                    <td>lizee</td>
+                    <td>2022-01-03 00:00:00.0000</td>
+                    <td>Lil Zee</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.3; Trident/4.0)</td>
+                    <td>10.10.0.16</td>
+                    <td>lil_zee@owl-records.com</td>
+                    <td>owl-records.com</td>
+                    <td>Rapper</td>
+                    <td>OIHK-LAPTOP</td>
+                  </tr>
+                  <tr>
+                    <td>lowhite</td>
+                    <td>2023-01-24 00:00:00.0000</td>
+                    <td>Logic White</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 5.1; Win64; x64; Trident/4.0)</td>
+                    <td>10.10.0.20</td>
+                    <td>logic_white@owl-records.com</td>
+                    <td>owl-records.com</td>
+                    <td>Rapper</td>
+                    <td>CUWN-MACHINE</td>
+                  </tr>
+                  <tr>
+                    <td>nilane</td>
+                    <td>2021-10-16 00:00:00.0000</td>
+                    <td>Nikki Lane</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36</td>
+                    <td>10.10.0.26</td>
+                    <td>nikki_lane@owl-records.com</td>
+                    <td>owl-records.com</td>
+                    <td>Rapper</td>
+                    <td>UCVH-MACHINE</td>
+                  </tr>
+                  <tr>
+                    <td>snthompson</td>
+                    <td>2022-02-16 00:00:00.0000</td>
+                    <td>Snoop Thompson</td>
+                    <td>Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0</td>
+                    <td>10.10.0.21</td>
+                    <td>snoop_thompson@owl-records.com</td>
+                    <td>owl-records.com</td>
+                    <td>Rapper</td>
+                    <td>QGAC-LAPTOP</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>In order to retrace the threat actors' steps, I've decided to examine the known threat actor IP:</p>
+          <pre><code>PassiveDns
+| where ip == "18.66.52.227"
+| distinct domain</code></pre>
+          <details open id="results4">
+            <summary>Query results</summary>
+            betterlyrics4u.com
+          </details>
+          <p>This domain could be used for malicious purposes, such as stealing credentials or delivering malware via phishing emails. Looking up IP addresses associated with this domain reveals that the threat actors only made use of a single domain and a single IP addresses for this operation.</p>
+          <pre><code>Email
+| where * has "betterlyrics4u.com"</code></pre>
+          <details open id="results5">
+            <summary>Query results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>sender</th>
+                    <th>reply_to</th>
+                    <th>recipient</th>
+                    <th>subject</th>
+                    <th>verdict</th>
+                    <th>link</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-04-10 14:45:28.0000</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>ice_blake@owl-records.com</td>
+                    <td>[EXTERNAL] Get FREE beats from the best hip hop writers in the game!!!!</td>
+                    <td>CLEAN</td>
+                    <td>https://betterlyrics4u.com/search/published/public/signin</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-10 14:45:28.0000</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>nikki_lane@owl-records.com</td>
+                    <td>[EXTERNAL] Get FREE beats from the best hip hop writers in the game!!!!</td>
+                    <td>CLEAN</td>
+                    <td>https://betterlyrics4u.com/search/published/public/signin</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 08:50:10.0000</td>
+                    <td>wemakebeatz@gmail.com</td>
+                    <td>wemakebeatz@gmail.com</td>
+                    <td>jay_knight@owl-records.com</td>
+                    <td>[EXTERNAL] FW: Get FREE beats from the best hip hop writers in the game!!!!</td>
+                    <td>BLOCKED</td>
+                    <td>https://betterlyrics4u.com/modules/files/login.html</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-11 08:50:10.0000</td>
+                    <td>wemakebeatz@gmail.com</td>
+                    <td>wemakebeatz@gmail.com</td>
+                    <td>jay_knight@owl-records.com</td>
+                    <td>[EXTERNAL] FW: Get FREE beats from the best hip hop writers in the game!!!!</td>
+                    <td>BLOCKED</td>
+                    <td>https://betterlyrics4u.com/modules/files/login.html</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-12 13:37:39.0000</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>lil_zee@owl-records.com</td>
+                    <td>[EXTERNAL] Need a ghostwriter for your next hit?</td>
+                    <td>CLEAN</td>
+                    <td>https://betterlyrics4u.com/share/files/auth</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-12 13:37:39.0000</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>jay_knight@owl-records.com</td>
+                    <td>[EXTERNAL] Need a ghostwriter for your next hit?</td>
+                    <td>CLEAN</td>
+                    <td>https://betterlyrics4u.com/share/files/auth</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 11:07:12.0000</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>dwake_audrey@owl-records.com</td>
+                    <td>[EXTERNAL] RE: Need a ghostwriter for your next hit?</td>
+                    <td>CLEAN</td>
+                    <td>http://betterlyrics4u.com/share/online/published/enter</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-15 11:07:12.0000</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>snoop_thompson@owl-records.com</td>
+                    <td>[EXTERNAL] RE: Need a ghostwriter for your next hit?</td>
+                    <td>CLEAN</td>
+                    <td>http://betterlyrics4u.com/share/online/published/enter</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-17 09:46:37.0000</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>justin_cole@owl-records.com</td>
+                    <td>[EXTERNAL] RE:RE: Need a ghostwriter for your next hit?</td>
+                    <td>CLEAN</td>
+                    <td>https://betterlyrics4u.com/online/modules/share/auth</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-17 09:46:37.0000</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>chance_west@owl-records.com</td>
+                    <td>[EXTERNAL] RE:RE: Need a ghostwriter for your next hit?</td>
+                    <td>CLEAN</td>
+                    <td>https://betterlyrics4u.com/online/modules/share/auth</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-19 13:45:27.0000</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>drake_hill@owl-records.com</td>
+                    <td>[EXTERNAL] Need a ghostwriter for your next hit?</td>
+                    <td>CLEAN</td>
+                    <td>http://betterlyrics4u.com/published/search/login</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-19 13:45:27.0000</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>drake_hill@owl-records.com</td>
+                    <td>[EXTERNAL] Need a ghostwriter for your next hit?</td>
+                    <td>CLEAN</td>
+                    <td>http://betterlyrics4u.com/published/search/login</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-25 14:36:33.0000</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>ghostwritersanonymous@protonmail.com</td>
+                    <td>logic_white@owl-records.com</td>
+                    <td>[EXTERNAL] Get FREE beats from the best hip hop writers in the game!!!!</td>
+                    <td>CLEAN</td>
+                    <td>https://betterlyrics4u.com/files/modules/online/online/enter</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Of 13 emails, only 2 intended for rapper Jay Knight, sent April 11th, were blocked. Jay Knight was eventually compromised by a third email sent April 12th.</p>
+          <ul><i>Email addresses</i>:
+            <li>ghostwritersanonymous@protonmail.com</li>
+            <li>wemakebeatz@gmail.com</li>
+          </ul>
+          <ul><i>Sender</i>:
+            <li>Ghost Writer (sender name)</li>
+            <li>GhostWriter (signature)</li>
+          </ul>
+          <ul><i>Subjects</i>:
+            <li>Need a ghostwriter for your next hit?</li>
+            <li>Get FREE beats from the best hip hop writers in the game!!!!</li>
+          </ul>
+          <ul><i>Dates</i>: 2024-04-10 to 2024-04-25
+            <li>Dwake received the emails on 2024-04-19</li>
+          </ul>
+          <li><i>Recipients</i>: See <a href="#results3">[3]</a></li>
+          <p>Since all recipients had their accounts compromised, we can surmise that they clicked the malicious links and input their credentials. We can confirm dates and times with:</p>
+          <pre><code>InboundNetworkEvents
+| where src_ip == "18.66.52.227"
+| where parse_url(url).['Query Parameters'] has "user"
+| project user = extract( //see https://learn.microsoft.com/en-us/kusto/query/extract-function
+    "^([a-zA-Z]+)", //regex pattern
+    0, //capture group to extract
+    tostring(parse_url(url).['Query Parameters'].["user"]), //source string
+    typeof(string) //convert the extracted element to a string
+)
+| distinct user
+| lookup Employees on $left.user == $right.username
+| distinct name, ip_addr
+| lookup OutboundNetworkEvents on $left.ip_addr == $right.src_ip
+| where url has "betterlyrics4u.com"</code></pre>
+          <details open id="results6">
+            <summary>Query results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>ip_addr</th>
+                    <th>timestamp</th>
+                    <th>method</th>
+                    <th>user_agent</th>
+                    <th>url</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Ice Blake</td>
+                    <td>10.10.0.24</td>
+                    <td>2024-04-10 15:00:28.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 5.1; Win64; x64; Trident/4.0)</td>
+                    <td>https://betterlyrics4u.com/search/published/public/signin</td>
+                  </tr>
+                  <tr>
+                    <td>Nikki Lane</td>
+                    <td>10.10.0.26</td>
+                    <td>2024-04-10 15:07:28.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36</td>
+                    <td>https://betterlyrics4u.com/search/published/public/signin</td>
+                  </tr>
+                  <tr>
+                    <td>Lil Zee</td>
+                    <td>10.10.0.16</td>
+                    <td>2024-04-12 13:43:39.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.3; Trident/4.0)</td>
+                    <td>https://betterlyrics4u.com/share/files/auth</td>
+                  </tr>
+                  <tr>
+                    <td>Jay Knight</td>
+                    <td>10.10.0.8</td>
+                    <td>2024-04-12 13:46:39.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)</td>
+                    <td>https://betterlyrics4u.com/share/files/auth</td>
+                  </tr>
+                  <tr>
+                    <td>Snoop Thompson</td>
+                    <td>10.10.0.21</td>
+                    <td>2024-04-15 11:53:12.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0</td>
+                    <td>http://betterlyrics4u.com/share/online/published/enter</td>
+                  </tr>
+                  <tr>
+                    <td>Dwake Audrey</td>
+                    <td>10.10.0.5</td>
+                    <td>2024-04-15 12:03:12.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36</td>
+                    <td>http://betterlyrics4u.com/share/online/published/enter</td>
+                  </tr>
+                  <tr>
+                    <td>Justin Cole</td>
+                    <td>10.10.0.29</td>
+                    <td>2024-04-17 12:28:11.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36</td>
+                    <td>https://betterlyrics4u.com/online/modules/share/auth</td>
+                  </tr>
+                  <tr>
+                    <td>Chance West</td>
+                    <td>10.10.0.18</td>
+                    <td>2024-04-17 12:38:39.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.110 Safari/537.36</td>
+                    <td>https://betterlyrics4u.com/online/modules/share/auth</td>
+                  </tr>
+                  <tr>
+                    <td>Drake Hill</td>
+                    <td>10.10.0.14</td>
+                    <td>2024-04-19 14:20:27.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.101 Safari/537.36</td>
+                    <td>http://betterlyrics4u.com/published/search/login</td>
+                  </tr>
+                  <tr>
+                    <td>Drake Hill</td>
+                    <td>10.10.0.14</td>
+                    <td>2024-04-19 14:26:27.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.101 Safari/537.36</td>
+                    <td>http://betterlyrics4u.com/published/search/login</td>
+                  </tr>
+                  <tr>
+                    <td>Logic White</td>
+                    <td>10.10.0.20</td>
+                    <td>2024-04-25 15:26:33.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 5.1; Win64; x64; Trident/4.0)</td>
+                    <td>https://betterlyrics4u.com/files/modules/online/online/enter</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Since Dwake has been the focus of the feud with DCR's Present and is the sole lead rapper among the affected, I've decided to focus on his account. As previously noted, the sole sign of data exfiltration is from his account.</p>
+          <p>Lead Rapper Dwake Audrey clicked on the malicious link on 2024-04-15.</p>
+          <p>The phishing page requested OWL Records credentials to "Login to speak with GHOST WRITER". There is also, rather mysteriously, a "forgot password" button, and a SSO button if one is "already upgraded".</p>
+          <p>To see when the threat actors sucessfully logged in to the employee accounts, I used:</p>
+          <pre><code>AuthenticationEvents
+| where src_ip == "18.66.52.227"
+| where result =~ "successful login"</code></pre>
+          <details open id="results7">
+            <summary>Query results</summary>
+            <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>timestamp</th>
+                  <th>hostname</th>
+                  <th>src_ip</th>
+                  <th>user_agent</th>
+                  <th>username</th>
+                  <th>result</th>
+                  <th>password_hash</th>
+                  <th>description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2024-04-11 08:19:45.0000</td>
+                  <td>MAIL-SERVER01</td>
+                  <td>18.66.52.227</td>
+                  <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                  <td>icblake</td>
+                  <td>Successful Login</td>
+                  <td>890b6247b239c508db7d37b55cde5100</td>
+                  <td>A user attempted to log in to their email</td>
+                </tr>
+                <tr>
+                  <td>2024-04-11 09:20:10.0000</td>
+                  <td>MAIL-SERVER01</td>
+                  <td>18.66.52.227</td>
+                  <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                  <td>nilane</td>
+                  <td>Successful Login</td>
+                  <td>db06b7b9f5225709985fc2eb5383c19e</td>
+                  <td>A user attempted to log in to their email</td>
+                </tr>
+                <tr>
+                  <td>2024-04-15 08:35:12.0000</td>
+                  <td>MAIL-SERVER01</td>
+                  <td>18.66.52.227</td>
+                  <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                  <td>lizee</td>
+                  <td>Successful Login</td>
+                  <td>57ea3b202c25b045793c2abd4c76c772</td>
+                  <td>A user attempted to log in to their email</td>
+                </tr>
+                <tr>
+                  <td>2024-04-15 09:48:20.0000</td>
+                  <td>MAIL-SERVER01</td>
+                  <td>18.66.52.227</td>
+                  <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                  <td>jaknight</td>
+                  <td>Successful Login</td>
+                  <td>527f871eafecb8b1284c75efc8635afb</td>
+                  <td>A user attempted to log in to their email</td>
+                </tr>
+                <tr>
+                  <td>2024-04-15 13:03:12.0000</td>
+                  <td>MAIL-SERVER01</td>
+                  <td>18.66.52.227</td>
+                  <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                  <td>dwaudrey</td>
+                  <td>Successful Login</td>
+                  <td>8f8d7baf48abc18667315891d4c6a507</td>
+                  <td>A user attempted to log in to their email</td>
+                </tr>
+                <tr>
+                  <td>2024-04-15 13:53:12.0000</td>
+                  <td>MAIL-SERVER01</td>
+                  <td>18.66.52.227</td>
+                  <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                  <td>snthompson</td>
+                  <td>Successful Login</td>
+                  <td>11893432808689e6c50bb263a484c422</td>
+                  <td>A user attempted to log in to their email</td>
+                </tr>
+                <tr>
+                  <td>2024-04-18 08:23:02.0000</td>
+                  <td>MAIL-SERVER01</td>
+                  <td>18.66.52.227</td>
+                  <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                  <td>chwest</td>
+                  <td>Successful Login</td>
+                  <td>5a6658825951a45e4e088fef51b32748</td>
+                  <td>A user attempted to log in to their email</td>
+                </tr>
+                <tr>
+                  <td>2024-04-18 09:21:45.0000</td>
+                  <td>MAIL-SERVER01</td>
+                  <td>18.66.52.227</td>
+                  <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                  <td>jucole</td>
+                  <td>Successful Login</td>
+                  <td>4fdeed23399f09b969114110d4cd2fd8</td>
+                  <td>A user attempted to log in to their email</td>
+                </tr>
+                <tr>
+                  <td>2024-04-22 09:47:47.0000</td>
+                  <td>MAIL-SERVER01</td>
+                  <td>18.66.52.227</td>
+                  <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                  <td>drhill</td>
+                  <td>Successful Login</td>
+                  <td>b20ae54302e41dc9269996cfbf38b4e9</td>
+                  <td>A user attempted to log in to their email</td>
+                </tr>
+                <tr>
+                  <td>2024-04-22 10:51:54.0000</td>
+                  <td>MAIL-SERVER01</td>
+                  <td>18.66.52.227</td>
+                  <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                  <td>drhill</td>
+                  <td>Successful Login</td>
+                  <td>b20ae54302e41dc9269996cfbf38b4e9</td>
+                  <td>A user attempted to log in to their email</td>
+                </tr>
+                <tr>
+                  <td>2024-04-26 08:54:38.0000</td>
+                  <td>MAIL-SERVER01</td>
+                  <td>18.66.52.227</td>
+                  <td>Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 6.2; Trident/5.0)</td>
+                  <td>lowhite</td>
+                  <td>Successful Login</td>
+                  <td>d69e5e92f6b0acac7e6cba5e93d3e20d</td>
+                  <td>A user attempted to log in to their email</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+          </details>
+          <p>Lead Rapper Dwake Audrey's account specifically was accessed once, on 2024-04-15 at 13:53:12.</p>
+          <p>After compromising the artists, the threat actors searched for information stored in each compromised email account (see <a href="#results2">[2]</a>); they made search queries for "secret", "confidential", "scandal", "leak", and "sensitive", along with looking through each artists' email drafts, the internal communications email folder and its meeting notes, private emails and employee complaints subfolders.</p>
+          <p>In Dwake's case, they exfiltrated his private emails in a zip archive named "DwakesDirtySecrets.zip", downloaded directly to the attacker's device.</p>
+        </section><!--end second section-->
       </article>
     </main>
     <footer>

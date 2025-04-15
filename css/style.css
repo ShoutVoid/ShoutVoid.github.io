@@ -80,9 +80,19 @@ li {
     }
 }
 
-#intro {
-    padding: 0 0 1rem 0;
+section, article {
+    padding: 0;
+    + section {
+        padding: 1rem 0 0 0;
+    }
+    + article {
+        padding: 1rem 0 0 0;
+    }
 }
+
+/*#intro {
+    padding: 0 0 1rem 0;
+}*/
 
 header, .site-nav, footer {
     grid-column: 1 / -1;
@@ -158,6 +168,42 @@ main {
     border: 1px solid var(--border-color);
 }
 
+details {
+    margin: 1rem 0;
+    summary {
+        border: 2px solid transparent;
+    }
+}
+
+.table-container {
+    overflow: auto;
+    border: 1px solid var(--border-color);
+}
+
+table {
+    table-layout: fixed;
+    width: max-content;
+    font-size: 0.9rem;
+    background-color: var(--main-color);
+    text-overflow: none;
+    border-collapse: collapse;
+    * {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid var(--border-color);
+        white-space: nowrap;
+    }
+    th {
+        background-color: var(--accent-color);
+    }
+    tr:nth-child(odd) {
+        background-color: var(--main-color);
+    }
+    tr:nth-child(even) {
+        background-color: var(--codeblock-color);
+    }
+}
+
 p {
     text-indent: 1rem;
     line-height: 1.75rem;
@@ -169,6 +215,7 @@ p {
 quote {
     font-family: serif;
     font-style: italic;
+    font-weight: 300;
 }
 
 ol, ul {
@@ -185,6 +232,15 @@ ol li::marker {
     font-size: 1rem;
     font-family: monospace;
     font-style: italic;
+}
+
+em {
+    font-weight: bold;
+}
+
+i {
+    font-style: italic;
+    font-weight: normal;
 }
 
 code, kbd, samp {
