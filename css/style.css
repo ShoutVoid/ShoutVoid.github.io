@@ -182,16 +182,14 @@ details {
 
 table {
     table-layout: fixed;
-    width: max-content;
     font-size: 0.9rem;
     background-color: var(--main-color);
-    text-overflow: none;
     border-collapse: collapse;
+    white-space: nowrap;
+    border: 1px solid var(--border-color);
     * {
-        width: 100%;
-        padding: 0.5rem;
         border: 1px solid var(--border-color);
-        white-space: nowrap;
+        padding: 0.5rem;
     }
     th {
         background-color: var(--accent-color);
@@ -201,6 +199,10 @@ table {
     }
     tr:nth-child(even) {
         background-color: var(--codeblock-color);
+    }
+    td {
+        min-width: max-content;
+        max-width: 10000ch;
     }
 }
 
@@ -268,7 +270,7 @@ pre {
         color: inherit;
         border: none;
         padding: 0;
-        line-height: 0;
+        /*line-height: 0;*/
         border: 0;
         border-radius: 0;
     }
