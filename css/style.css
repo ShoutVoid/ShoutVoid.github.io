@@ -177,7 +177,6 @@ details {
 
 .table-container {
     overflow: auto;
-    border: 1px solid var(--border-color);
 }
 
 table {
@@ -187,7 +186,10 @@ table {
     border-collapse: collapse;
     white-space: nowrap;
     border: 1px solid var(--border-color);
-    * {
+    caption {
+        text-align: left;
+    }
+    th, tr, td {
         border: 1px solid var(--border-color);
         padding: 0.5rem;
     }
@@ -202,7 +204,7 @@ table {
     }
     td {
         min-width: max-content;
-        max-width: 10000ch;
+        max-width: 100000ch;
     }
 }
 
