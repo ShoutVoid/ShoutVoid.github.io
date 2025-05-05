@@ -177,6 +177,7 @@ details {
 
 .table-container {
     overflow: auto;
+    margin: 0 16px;
 }
 
 table {
@@ -220,6 +221,7 @@ quote {
     font-family: serif;
     font-style: italic;
     font-weight: 300;
+    font-variant: small-caps;
 }
 
 ol, ul {
@@ -251,7 +253,7 @@ code, kbd, samp {
     font-family: monospace;
     font-size: 0.9rem;
     color: var(--codeblock-text-color);
-    padding: 0.1rem 0.25rem;
+    padding: 0.1rem 4px;
     border: 1px solid var(--codeblock-border-color);
     border-radius: var(--decor-border-radius-med);
     background-color: var(--codeblock-color);
