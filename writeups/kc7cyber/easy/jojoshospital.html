@@ -10,29 +10,40 @@
     <link rel = "stylesheet" href = "../../../css/kc7writeup.css">
   </head>
   <body id="top">
-    <header><!--website header-->
-      <h1>shoutvoid</h1>
-      <p>Aspiring cybersecurity professional</p>
-    </header><!--website header-->
-    <nav class="site-nav"> <!--site-wide navigation-->
-      <a href="../../../index.html">About</a>
-      <a href="../../writeups.html">Writeups</a>
-    </nav> <!--site-wide navigation-->
-    <nav class="page-nav" id="page-navigation"> <!--page navigation sidebar-->
-      <ol class="page-toc"><!--page toc-->
-        <a class="skip" href="#page-main">Skip to main content</a>
-        <li><a href="#intro">Introduction</a></li><!--link to intro-->
-        <li><a href=#sections>Sections</a><!--all sections-->
-          <ol class="section-toc"><!--section-toc-->
-            <li class="section1-toc"><!--individual section toc-->
-              <a href=#section1>Section 1 - Crypto - But the Bad Kind</a>
-            <li class="section2-toc"><!--individual section toc-->
-              <a href=#section2>Section 2 - Sharks in the Hospital Water</a>
-            </li><!--individual section toc-->
-          </ol><!--section-toc-->
-        </li><!--all sections-->
-      </ol> <!--page-toc class-->
-    </nav> <!--page navigation sidebar-->
+    <div class="sidebar">
+      <header><!--website header-->
+        <h1>shoutvoid</h1>
+        <p>Aspiring cybersecurity professional</p>
+      </header><!--website header-->
+      <nav class="site-nav"> <!--site-wide navigation-->
+        <a href="../../../index.html">About</a>
+        <a href="../../writeups.html">Writeups</a>
+      </nav> <!--site-wide navigation-->
+      <nav class="page-nav" id="page-navigation"> <!--page navigation sidebar-->
+        <ol class="page-toc"><!--page toc-->
+          <a class="skip" href="#page-main">Skip to main content</a>
+          <li><a href="#intro">Introduction</a></li><!--link to intro-->
+          <li><a href=#sections>Sections</a><!--all sections-->
+            <ol class="section-toc"><!--section-toc-->
+              <li class="section1-toc"><!--individual section toc-->
+                <a href=#section1>Section 1 - Crypto - But the Bad Kind</a>
+              <li class="section2-toc"><!--individual section toc-->
+                <a href=#section2>Section 2 - Sharks in the Hospital Water</a>
+              </li><!--individual section toc-->
+            </ol><!--section-toc-->
+          </li><!--all sections-->
+        </ol> <!--page-toc class-->
+      </nav> <!--page navigation sidebar-->
+      <footer><!--website footer-->
+        <p>Made with vanilla HTML + CSS by shoutvoid</p>
+        <address>
+          <a href="mailto:shoutvoid@proton.me">shoutvoid@proton.me</a>
+          <a href="https://github.com/ShoutVoid">GitHub</a>
+          <a href="https://play.picoctf.org/users/shoutvoid">picoCTF</a>
+          <a href="https://kc7cyber.com/profile/shoutvoid">KC7Cyber</a>
+        </address>
+      </footer><!--website footer-->
+    </div>
     <main id="page-main"> <!--main page content-->
       <article id="intro"> <!--introduction-->
         <h1>Jojo's Hospital</h1>
@@ -6733,16 +6744,7 @@ and process_commandline !contains "SystemApps"</kbd></pre>
           <p>And with this, we come to a close: before the ransomware attack, a second threat group succesfully compromised Senior IT Administrator Anthony Davis' devices via a phishing campaign targeting JoJo's Hospital employees, impersonating a local business frequented by hospital employees. This group later sold the hospital's network information and credentials to LockByte, whom used this information to stage a ransomware attack; notably, a case of double-extortion: "pay so your information is decrypted AND the stolen data is not sold/leaked."</p>
         </section> <!--section 2-->
       </article> <!--game sections-->
-    </main><!--main page content-->
-    <footer><!--website footer-->
       <a class="skip" href="#page-navigation">Return to page navigation</a>
-      <p>Made with vanilla HTML + CSS by shoutvoid</p>
-      <address>
-        <a href="mailto:shoutvoid@proton.me">shoutvoid@proton.me</a>
-        <a href="https://github.com/ShoutVoid">GitHub</a>
-        <a href="https://play.picoctf.org/users/shoutvoid">picoCTF</a>
-        <a href="https://kc7cyber.com/profile/shoutvoid">KC7Cyber</a>
-      </address>
-    </footer><!--website footer-->
+    </main><!--main page content-->
   </body>
 </html>

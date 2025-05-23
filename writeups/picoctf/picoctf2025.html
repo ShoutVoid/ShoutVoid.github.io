@@ -10,55 +10,66 @@
     <link rel = "stylesheet" href = "../../css/picowriteup.css">
   </head>
   <body id="top">
-    <header><!--website header-->
-      <h1>shoutvoid</h1>
-      <p>Aspiring cybersecurity professional</p>
-    </header><!--website header-->
-    <nav class="site-nav"> <!--site-wide navigation-->
-      <a href="../../../index.html">About</a>
-      <a href="../writeups.html">Writeups</a>
-    </nav> <!--site-wide navigation-->
-    <nav class="page-nav" id="page-navigation">
-      <ol class="page-toc">
-        <a class="skip" href="#page-main">Skip to main content</a>
-        <li><a href="#intro">Introduction</a>
-        <li>Categories
-          <ol class="section-toc">
-            <li class="section1-toc">
-              <a href=#binaryex>Binary Exploitation</a>
-              <ol class="sub-toc">
-                <li><a href="#be-challenge1">Challenge 1</a></li>
-              </ol><!--sub-toc-->
-            </li><!--individual section toc-->
-            <li class="section2-toc">
-              <a href=#cryptography>Cryptography</a>
-              <ol class="sub-toc">
-                <li><a href="#cr-challenge1">Challenge 1</a></li>
-                <li><a href="#cr-challenge2">Challenge 2</a></li>
-              </ol><!--sub-toc-->
-            </li><!--individual section toc-->
-            <li class="section3-toc">
-              <a href=#forensics>Forensics</a>
-              <ol class="sub-toc">
-                <li><a href="#fo-challenge1">Challenge 1</a></li>
-                <li><a href="#fo-challenge2">Challenge 2</a></li>
-                <li><a href="#fo-challenge4">Challenge 4</a></li>
-                <li><a href="#fo-challenge5">Challenge 5</a></li>
-                <li><a href="#fo-challenge6">Challenge 6</a></li>
-              </ol><!--sub-toc-->
-            </li><!--individual section toc-->
-            <li class="section4-toc">
-              <a href=#webex>Web Exploitation</a>
-              <ol class="sub-toc">
-                <li><a href="#we-challenge1">Challenge 1</a></li>
-                <li><a href="#we-challenge2">Challenge 2</a></li>
-                <li><a href="#we-challenge3">Challenge 3</a></li>
-              </ol><!--sub-toc-->
-            </li><!--individual section toc-->
-          </ol><!--section-toc-->
-        </li><!--all sections-->
-      </ol> <!--page-toc class-->
-    </nav> <!--page navigation sidebar-->
+    <div class="sidebar">
+      <header><!--website header-->
+        <h1>shoutvoid</h1>
+        <p>Aspiring cybersecurity professional</p>
+      </header><!--website header-->
+      <nav class="site-nav"> <!--site-wide navigation-->
+        <a href="../../../index.html">About</a>
+        <a href="../writeups.html">Writeups</a>
+      </nav> <!--site-wide navigation-->
+      <nav class="page-nav" id="page-navigation">
+        <ol class="page-toc">
+          <a class="skip" href="#page-main">Skip to main content</a>
+          <li><a href="#intro">Introduction</a>
+          <li>Categories
+            <ol class="section-toc">
+              <li class="section1-toc">
+                <a href=#binaryex>Binary Exploitation</a>
+                <ol class="sub-toc">
+                  <li><a href="#be-challenge1">Challenge 1</a></li>
+                </ol><!--sub-toc-->
+              </li><!--individual section toc-->
+              <li class="section2-toc">
+                <a href=#cryptography>Cryptography</a>
+                <ol class="sub-toc">
+                  <li><a href="#cr-challenge1">Challenge 1</a></li>
+                  <li><a href="#cr-challenge2">Challenge 2</a></li>
+                </ol><!--sub-toc-->
+              </li><!--individual section toc-->
+              <li class="section3-toc">
+                <a href=#forensics>Forensics</a>
+                <ol class="sub-toc">
+                  <li><a href="#fo-challenge1">Challenge 1</a></li>
+                  <li><a href="#fo-challenge2">Challenge 2</a></li>
+                  <li><a href="#fo-challenge4">Challenge 4</a></li>
+                  <li><a href="#fo-challenge5">Challenge 5</a></li>
+                  <li><a href="#fo-challenge6">Challenge 6</a></li>
+                </ol><!--sub-toc-->
+              </li><!--individual section toc-->
+              <li class="section4-toc">
+                <a href=#webex>Web Exploitation</a>
+                <ol class="sub-toc">
+                  <li><a href="#we-challenge1">Challenge 1</a></li>
+                  <li><a href="#we-challenge2">Challenge 2</a></li>
+                  <li><a href="#we-challenge3">Challenge 3</a></li>
+                </ol><!--sub-toc-->
+              </li><!--individual section toc-->
+            </ol><!--section-toc-->
+          </li><!--all sections-->
+        </ol> <!--page-toc class-->
+      </nav> <!--page navigation sidebar-->
+      <footer><!--website footer-->
+        <p>Made with vanilla HTML + CSS by shoutvoid</p>
+        <address>
+          <a href="mailto:shoutvoid@proton.me">shoutvoid@proton.me</a>
+          <a href="https://github.com/ShoutVoid">GitHub</a>
+          <a href="https://play.picoctf.org/users/shoutvoid">picoCTF</a>
+          <a href="https://kc7cyber.com/profile/shoutvoid">KC7Cyber</a>
+        </address>
+      </footer><!--website footer-->
+    </div>
     <main id="page-main"> <!--main page content-->
       <article id="intro"> <!--introduction-->
         <h1>picoCTF 2025</h1>
@@ -722,17 +733,8 @@ flag.txt</samp></pre>
           </section>
         </article>
       </article>
-    </main><!--main page content-->
-    <footer><!--website footer-->
       <a class="skip" href="#page-navigation">Return to page navigation</a>
-      <p>Made with vanilla HTML + CSS by shoutvoid</p>
-      <address>
-        <a href="mailto:shoutvoid@proton.me">shoutvoid@proton.me</a>
-        <a href="https://github.com/ShoutVoid">GitHub</a>
-        <a href="https://play.picoctf.org/users/shoutvoid">picoCTF</a>
-        <a href="https://kc7cyber.com/profile/shoutvoid">KC7Cyber</a>
-      </address>
-    </footer><!--website footer-->
+    </main><!--main page content-->
   </body>
 </html>
 <!--

