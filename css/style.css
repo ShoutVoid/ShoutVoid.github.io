@@ -40,7 +40,7 @@ body {
 
 a {
     color: var(--link-color);
-    line-height: 1.5rem;
+    line-height: 1.75rem;
 }
 
 :focus {
@@ -74,11 +74,34 @@ h6 {
     font-size: 1rem;
 }
 
-li {
-    line-height: 1.5rem;
-    + li {
-        margin: 0.25rem 0 0 0;
+ol, ul {
+    list-style-position: inside;
+    + p {
+        margin-top: 0.25rem;
     }
+}
+
+ul {
+    list-style-type: "> ";
+}
+
+ol {
+    list-style-type: decimal-leading-zero;
+}
+
+ul li::marker {
+    font-size: 1rem;
+    font-family: monospace;
+}
+
+ol li::marker {
+    font-size: 1rem;
+    font-family: monospace;
+}
+
+li {
+    line-height: 1.75rem;
+    margin: 0 0 0 2rem;
 }
 
 section, article {
@@ -91,10 +114,6 @@ section, article {
     }
 }
 
-/*#intro {
-    padding: 0 0 1rem 0;
-}*/
-
 header, .site-nav {
     padding: 1rem;
     border: 1px solid var(--border-color);
@@ -105,10 +124,19 @@ header, .site-nav {
 
 footer {
     border: 1px solid var(--border-color);
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     padding: 0.5rem;
+    max-width: 100%;
     address {
-        padding: 0.5rem;
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+    }
+    p {
+        margin: 0;
+        padding: 0;
+        line-height: 1rem;
+        text-align: center;
     }
 }
 
@@ -149,31 +177,16 @@ nav a {
 
 .page-toc {
     padding: 1rem;
-    /* if the screen is equal or wider than 64rem (about 1024px, assuming font size 16)
-     then make the page navigation sidebar sticky (travel along with the scroll),
-     set the offset from the edge of the page to 0 and set its height to the viewport */
-    /*@media only screen and (min-width: 64rem) {
-        position: sticky;
-        top: 0;
-        max-height: 100vh;
-        overflow-y: auto; /* sort of a very ugly workaround if the navigation links ever grow too numerous*/
-    }*/
-}
-
-/* make sure the page navigation sidebar has some nice indenting */
-.page-nav ol, .page-nav ul {
     list-style: none;
     & ol, & ul {
         padding: 0 0 0 1rem;
     }
+    * {
+        list-style: inherit;
+        padding: 0;
+        margin: 0;
+    }
 }
-/*.section-toc {
-    padding: 0 0 0 1rem;
-}
-
-.sub-toc {
-    padding: 0 0 0 1rem;
-}*/
 
 .sub-toc li {
     width: fit-content;
@@ -183,7 +196,7 @@ nav a {
 
 main {
     overflow: auto;
-    padding: 1rem 32px;
+    padding: 2rem 64px;
     border: 1px solid var(--border-color);
 }
 
@@ -256,34 +269,6 @@ quote:after {
     font-family: serif;
     font-style: italic;
     font-variant: small-caps;
-}
-
-ol, ul {
-    list-style-position: inside;
-}
-
-ul {
-    list-style-type: "> ";
-}
-
-ol {
-    list-style-type: decimal-leading-zero;
-}
-
-li {
-    line-height: 1.75rem;
-}
-
-ul li::marker {
-    font-size: 1rem;
-    font-family: monospace;
-    font-style: normal !important;
-}
-
-ol li::marker {
-    font-size: 1rem;
-    font-family: monospace;
-    font-style: italic;
 }
 
 em {

