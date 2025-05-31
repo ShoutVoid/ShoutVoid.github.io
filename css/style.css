@@ -32,7 +32,7 @@ body {
     /* if the screen is equal or wider than 64rem (about 1024px, assuming font size 16)
     then make two columns: one for the sidebar and another for the content */
     @media only screen and (min-width: 64rem) {
-        grid-template-columns: 1fr 4fr; /*two columns: sidebar, main*/
+        grid-template-columns: 20% 1fr; /*two columns: sidebar, main*/
         grid-template-rows: auto; /*contains both columns*/
     }
 }
