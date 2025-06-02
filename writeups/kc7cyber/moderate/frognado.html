@@ -138,7 +138,7 @@
 | distinct hostname
 | lookup ProcessEvents on $left.hostname == $right.hostname
 | where process_commandline has "Shadow Truth"</kbd></pre>
-          <details open id="results1">
+          <details open id="results2">
             <summary>Query Results</summary>
             <div class="table-container">
               <table>
@@ -175,7 +175,7 @@
 | distinct hostname
 | lookup ProcessEvents on $left.hostname == $right.hostname
 | where process_commandline contains "frog_mall_meme"</kbd></pre>
-          <details open id="results1">
+          <details open id="results3">
             <summary>Query Results</summary>
             <div class="table-container">
               <table>
@@ -223,7 +223,7 @@
 | distinct ip_addr
 | lookup OutboundNetworkEvents on $left.ip_addr == $right.src_ip
 | where url contains "frog_mall_meme"</kbd></pre>
-          <details open id="results1">
+          <details open id="results4">
             <summary>Query Results</summary>
             <div class="table-container">
               <table>
@@ -263,7 +263,7 @@
 | distinct hostname
 | lookup ProcessEvents on $left.hostname == $right.hostname
 | where process_commandline contains "password"</kbd></pre>
-          <details open id="results1">
+          <details open id="results5">
             <summary>Query Results</summary>
             <div class="table-container">
               <table>
@@ -310,7 +310,7 @@
 | where domain == "newdevelopmentupdates.org"
 | distinct ip
 //2 ips</kbd></pre>
-          <details open id="results1">
+          <details open id="results6">
             <summary>Query Results</summary>
             <div class="table-container">
               <table>
@@ -337,7 +337,7 @@
 | lookup PassiveDns on $left.ip == $right.ip
 | distinct domain
 //2 domains</kbd></pre>
-          <details open id="results1">
+          <details open id="results7">
             <summary>Query Results</summary>
             <div class="table-container">
               <table>
@@ -366,7 +366,7 @@ PassiveDns
 | distinct domain; //2 domains
 Email
 | where tostring(parse_url(link).Host) in (bad_domains)</kbd></pre>
-          <details open id="results1">
+          <details open id="results8">
             <summary>Query Results</summary>
             <div class="table-container">
               <table>
@@ -465,7 +465,7 @@ T
 | union (T | project ["employee_list"] = recipient)
 | distinct employee_list
 | lookup Employees on $left.employee_list == $right.email_addr</kbd></pre>
-          <details open id="results1">
+          <details open id="results9">
             <summary>Query Results</summary>
             <div class="table-container">
               <table>
@@ -591,7 +591,7 @@ T
 | distinct role, name, ip_addr
 | lookup OutboundNetworkEvents on $left.ip_addr == $right.src_ip
 | where tostring(parse_url(url).Host) in (bad_domains)</kbd></pre>
-          <details open id="results1">
+          <details open id="results10">
             <summary>Query Results</summary>
             <div class="table-container">
               <table>
@@ -744,7 +744,7 @@ PassiveDns
 | distinct ip; //2 ips
 AuthenticationEvents
 | where src_ip in (bad_ips)</kbd></pre>
-          <details open id="results1">
+          <details open id="results11">
             <summary>Query Results</summary>
             <div class="table-container">
               <table>
@@ -853,14 +853,14 @@ AuthenticationEvents
         </section> <!--section 2-->
         <section id="section3"><!--section 3-->
           <h3>Section 3 - Alright it’s definitely an angry frog or two 🥵😨</h3>
-          <p>Erik Bjorn, the chief architect, informed me that the page to access internal plans was defaced and that he'll try to contact the other chief architect, Sofia Lindgren, who is currently on vacation--apparently, the architectural plans for FramtidX's latest project went missing. I must note that both Erik and Sofia had their accounts compromised by the threat actor (see <a href="">[X]</a> above). As I had previously uncovered (see <a href="">[X]</a>), the Chief Architects' received phishing emails informing of alleged "architecture plan changes". Much like Anita Bath's phishing email, the subject line was tailored to their particular role in the company (chief architects and web developer, respectively); clearly, they did their research before the attack. To search for any signs of recon on FramtidX's webpage, I use:</p>
+          <p>Erik Bjorn, the chief architect, informed me that the page to access internal plans was defaced and that he'll try to contact the other chief architect, Sofia Lindgren, who is currently on vacation--apparently, the architectural plans for FramtidX's latest project went missing. I must note that both Erik and Sofia had their accounts compromised by the threat actor (see <a href="#results9">[9]</a> above). As I had previously uncovered (see <a href="#results8">[8]</a>), the Chief Architects' received phishing emails informing of alleged "architecture plan changes". Much like Anita Bath's phishing email, the subject line was tailored to their particular role in the company (chief architects and web developer, respectively); clearly, they did their research before the attack. To search for any signs of recon on FramtidX's webpage, I use:</p>
           <pre><kbd>let bad_ips =
 PassiveDns
 | where domain == "newdevelopmentupdates.org"
 | distinct ip; //2 ips
 InboundNetworkEvents
 | where src_ip in (bad_ips)</kbd></pre>
-          <details open id="results1">
+          <details open id="results12">
             <summary>Query Results</summary>
             <div class="table-container">
               <table>
@@ -1808,7 +1808,7 @@ InboundNetworkEvents
 and process_commandline !contains ("WindowsApps")
 and process_commandline !contains ("SystemApps")
 | sort by hostname, timestamp asc </kbd></pre>
-          <details open id="results1">
+          <details open id="results13">
             <summary>Query Results</summary>
             <div class="table-container">
               <table>
@@ -1891,11 +1891,11 @@ and process_commandline !contains ("SystemApps")
             </div>
           </details>
           <p>On both their devices, the threat actors deleted the file <samp>SuperImportantMallProjectArchitecturalPlans.docx</samp> and replaced it with a dummy file originally named <samp>fake_plans.docx</samp>; they renamed it the same as the original file. If there were no backups in place, the file has been lost; this is an example of data manipulation [<a href="https://attack.mitre.org/techniques/T1565/">MITRE ATT&amp;CK</a>].</p>
-          <p>Last but not least, the CEO, Johanna Karlsson was also compromised--certainly a valuable target for Shadow Truth, whom specifically looked for information on her during their recon (see <a href="">[X]</a>)--I will take the time to explore what they could've done inside her mailbox and devices in the next section.</p>
+          <p>Last but not least, the CEO, Johanna Karlsson was also compromised--certainly a valuable target for Shadow Truth, whom specifically looked for information on her during their recon (see <a href="#results12">[12]</a>)--I will take the time to explore what they could've done inside her mailbox and devices in the next section.</p>
         </section> <!--section 3-->
         <section id="section4"><!--section 4-->
           <h3>Section 4 - Nope, it’s a full on frognado!!!! 🐸🌪️😱</h3>
-          <p>As seen in <a href="">[X]</a>, CEO Johanna Karlsson was among the FramtidX employees targeted by a spearphishing campaign that used Developer Alex Johnson's email account, thus bypassing any security measures meant to protect against suspicious external emails. Prompted with an allegedly urgent security update and given a link to a fake login page, Johanna Karlsson had her credentials compromised on 2024-06-26 at 14:34:22 in the afternoon; on 2024-06-27 at 12:40:59 in the afternoon, the threat actors--using IP address <samp>239.72.6.38</samp>--successfully logged into Johanna's computer. To check what they could've done on it, I use:</p>
+          <p>As seen in <a href="#results9">[9]</a>, CEO Johanna Karlsson was among the FramtidX employees targeted by a spearphishing campaign that used Developer Alex Johnson's email account, thus bypassing any security measures meant to protect against suspicious external emails. Prompted with an allegedly urgent security update and given a link to a fake login page, Johanna Karlsson had her credentials compromised on 2024-06-26 at 14:34:22 in the afternoon; on 2024-06-27 at 12:40:59 in the afternoon, the threat actors--using IP address <samp>239.72.6.38</samp>--successfully logged into Johanna's computer. To check what they could've done on it, I use:</p>
           <pre><kbd>Employees
 | where role =~ "ceo"
 | distinct hostname
@@ -1903,7 +1903,7 @@ and process_commandline !contains ("SystemApps")
 | where timestamp >= datetime(2024-06-27 12:40:59.0000) //when Johanna got compromised
 and process_commandline !contains ("WindowsApps")
 and process_commandline !contains ("SystemApps")</kbd></pre>
-          <details open id="results1">
+          <details open id="results14">
             <summary>Query Results</summary>
             <div class="table-container">
               <table>
@@ -1970,7 +1970,7 @@ foreach ($chunk in $chunks) {
 | where role =~ "ceo"
 | distinct email_addr
 | lookup Email on $left.email_addr == $right.sender</kbd></pre>
-          <details open id="results1">
+          <details open id="results15">
             <summary>Query Results</summary>
             <div class="table-container">
               <table>
@@ -2046,7 +2046,7 @@ foreach ($chunk in $chunks) {
             </div>
           </details>
           <p>Evidently, the threat actors found sensitive, controversial information regarding FramtidX's latest development project. Given their hacktivist nature and that they did not ask for a ransom (for example), it's possible these emails were leaked to an interested third party.</p>
-          <p>Searching for emails sent by Johanna Karlsson (<samp>johanna_karlsson@framtidxdevcorp.com</samp>) doesn't lead to any hints, and neither does checking the rest of the compromised employees (see <a href="">[X]</a>). Perhaps there is some sort of internal email address(es) not associated to FramtidX employees (i.e. not <samp>firstname_lastname@framtidxdevcorp.com</samp>) that the threat actors' could've also used <i>and</i> that shared credentials with one (or more) of the compromised employee credentials. To check for this, I use:</p>
+          <p>Searching for emails sent by Johanna Karlsson (<samp>johanna_karlsson@framtidxdevcorp.com</samp>) doesn't lead to any hints, and neither does checking the rest of the compromised employees (see <a href="#results9">[9]</a> for a list of said employees). Perhaps there is some sort of internal email address(es) not associated to FramtidX employees (i.e. not <samp>firstname_lastname@framtidxdevcorp.com</samp>) that the threat actors' could've also used <i>and</i> that shared credentials with one (or more) of the compromised employee credentials. To check for this, I use:</p>
           <pre><kbd>let employee_emails =
 Employees
 | distinct email_addr;
@@ -2056,7 +2056,7 @@ and timestamp >= datetime(2024-06-27 12:40:59.0000)
 and recipient !endswith "framtidxdevcorp.com"
 and sender !in (employee_emails)
 | distinct sender</kbd></pre>
-          <details open id="results1">
+          <details open id="results16">
             <summary>Query Results</summary>
             <div class="table-container">
               <table>
@@ -2089,7 +2089,7 @@ and sender !in (employee_emails)
 | lookup Email on $left.sender == $right.sender
 | where recipient !endswith "framtidxdevcorp.com"
 and timestamp >= datetime(2024-07-06 14:00:56.0000) //first command run on CEO's device</kbd></pre>
-          <details open id="results1">
+          <details open id="results17">
             <summary>Query Results</summary>
             <div class="table-container">
               <table>
@@ -2506,8 +2506,8 @@ and timestamp >= datetime(2024-07-06 14:00:56.0000) //first command run on CEO's
             </div>
           </details>
           <p>Omitted from the results above are emails sent by <samp>server_admin@framtidxdevcorp.com</samp>, which turned out to be irrelevant. However, the address <samp>ceo@framtidxdevcorp.com</samp>--which very likely shared credentials with Johanna Karlsson's regular account--was used to send (multiple times, in duplicate) the email chunks (likely to avoid detection and/or bypass email attachment size limits). The threat actors sent the email chunks to themselves (<samp>htuortwodahs@yopmail.com</samp>), but sent the singular <samp>StolenEmails.zip</samp> directly to the Valdorian Times' Editorial Director Nene Leaks (<samp>nene.leaks@valdoriantimes.com</samp>).</p>
-          <p>The final loose end is Developer Alex Johnson; there are no hints that he was compromised in some way--he did not get any phishing emails before "he" compromised "his" coworkers, there are no signs of malware or otherwise suspicious software on his computer, etc.--and he was the latest, newest hire in FramtidX Corp., starting employment on 2024-05-01--not even two months before this spate of spearphishing attacks. "His" account activity is also odd; the earliest log-in to his corporate account is on 2024-06-16 with IP address <samp>23.179.138.125</samp> (not found anywhere else in FramtidX's logs), the external IP addresses associated with the threat actor (see <a href="">[X]</a>), and various internal IP addresses that correspond to him (<samp>10.10.0.2</samp>) <i>and compromised FramtidX Corp. employees</i>, starting on 2024-06-20 (and preceding their respective compromises): Marie Doty (<samp>10.10.0.69</samp>); Sofia Lindgren (<samp>10.10.0.18</samp>); Anita Bath (<samp>10.10.0.8</samp>); Erik Bjorn (<samp>10.10.0.3</samp>); and Jennifer Owens (<samp>10.10.0.72</samp>). No other employee has this pattern, having a single internal IP address (<samp>10.10.X.X</samp>) and one or two external IP addresses at most.</p>
-          <p>This points to Alex Johnson being a sockpuppet or an internal threat, though it might be the former as the threat actor's recon included FramtidX's careers page and hiring process (see <a href="">[X]</a>).</p>
+          <p>The final loose end is Developer Alex Johnson; there are no hints that he was compromised in some way--he did not get any phishing emails before "he" compromised "his" coworkers, there are no signs of malware or otherwise suspicious software on his computer, etc.--and he was the latest, newest hire in FramtidX Corp., starting employment on 2024-05-01--not even two months before this spate of spearphishing attacks. "His" account activity is also odd; the earliest log-in to his corporate account is on 2024-06-16 with IP address <samp>23.179.138.125</samp> (not found anywhere else in FramtidX's logs), the external IP addresses associated with the threat actor (see <a href="#results6">[6]</a>), and various internal IP addresses that correspond to "him" (<samp>10.10.0.2</samp>) <i>and compromised FramtidX Corp. employees</i>, starting on 2024-06-20 (and preceding their respective compromises): Marie Doty (<samp>10.10.0.69</samp>); Sofia Lindgren (<samp>10.10.0.18</samp>); Anita Bath (<samp>10.10.0.8</samp>); Erik Bjorn (<samp>10.10.0.3</samp>); and Jennifer Owens (<samp>10.10.0.72</samp>). No other employee has this pattern, having a single internal IP address (<samp>10.10.X.X</samp>) and one or two external IP addresses at most.</p>
+          <p>This points to Alex Johnson being a sockpuppet or an internal threat, though it might be the former as the threat actor's recon included FramtidX's careers page and hiring process (see <a href="#results12">[12]</a>).</p>
           <p>The threat actors targeted the two chief architects, the CEO and the webmaster; in order to accomplish their goal of impeding the construction of the mall--as discussed with and blessed by Valdoria Mayor Erik Stevens--they defaced the website, destroyed the plans, accessed the CEO's mailbox and leaked sensitive emails to the press.</p>
         </section> <!--section 4-->
       </article> <!--game sections-->
