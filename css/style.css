@@ -208,6 +208,8 @@ details {
     overflow: auto;
     max-height: 80ch;
     margin: 1rem 32px 0 32px;
+    background-color: var(--codeblock-color);
+    border: 1px solid var(--codeblock-color);
 }
 
 table {

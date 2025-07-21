@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shoutvoid - kc7cyber writeup - moderate - hops'n'stuff</title>
+    <link rel = "stylesheet" href = "../../../css/variables.css">
+    <link rel = "stylesheet" href = "../../../css/style.css">
+    <link rel = "stylesheet" href = "../../../css/kc7writeup.css">
+  </head>
+  <body id="top">
+    <div class="sidebar">
+      <header><!--website header-->
+        <h1>shoutvoid</h1>
+        <p>Aspiring cybersecurity professional</p>
+      </header><!--website header-->
+      <nav class="site-nav"> <!--site-wide navigation-->
+        <a href="../../../index.html">About</a>
+        <a href="../../writeups.html">Writeups</a>
+      </nav> <!--site-wide navigation-->
+      <nav class="page-nav" id="page-navigation"> <!--page navigation sidebar-->
+        <ol class="page-toc"><!--page toc-->
+          <a class="skip" href="#page-main">Skip to main content</a>
+          <li><a href="#intro">Introduction</a></li><!--link to intro-->
+          <li><a href=#sections>Sections</a><!--all sections-->
+            <ol class="section-toc"><!--section-toc-->
+              <li class="section1-toc"><!--individual section toc-->
+                <a href=#section1>Section 1 - KQL 101 🐣</a>
+              </li><!--individual section toc-->
+              <li class="section1-toc"><!--individual section toc-->
+                <a href=#section1>Section 2 - 🥚Info💰</a>
+              </li><!--individual section toc-->
+              <li class="section1-toc"><!--individual section toc-->
+                <a href=#section1>Section 3 - 🍭 Sugar Rush</a>
+              </li><!--individual section toc-->
+              <li class="section1-toc"><!--individual section toc-->
+                <a href=#section1>Section 4 - Golden 🐇</a>
+              </li><!--individual section toc-->
+            </ol><!--section-toc-->
+          </li><!--all sections-->
+        </ol> <!--page-toc class-->
+      </nav> <!--page navigation sidebar-->
+      <footer><!--website footer-->
+        <p>Made with vanilla HTML + CSS by shoutvoid</p>
+        <address>
+          <a href="mailto:shoutvoid@proton.me">shoutvoid@proton.me</a>
+          <a href="https://github.com/ShoutVoid">GitHub</a>
+          <a href="https://play.picoctf.org/users/shoutvoid">picoCTF</a>
+          <a href="https://kc7cyber.com/profile/921615a6">KC7Cyber</a>
+        </address>
+      </footer><!--website footer-->
+    </div>
+    <main id="page-main"> <!--main page content-->
+      <article id="intro"> <!--introduction-->
+        <h1>Hops'N'Stuff</h1>
+        <p>Lorem ipsum dolor sit amet enim dolore anim magna aliquip, dolor exercitation adipisicing veniam duis mollit laborum non. Veniam ipsum ea incididunt commodo elit laborum consequat sit nisi reprehenderit, nisi nulla. Adipisicing, esse nisi eu labore pariatur veniam ex est voluptate fugiat reprehenderit commodo cillum non sint ad occaecat nisi qui nulla minim enim. Esse officia amet nulla aute mollit et eu nulla dolore Lorem consectetur Lorem qui Lorem occaecat. Voluptate incididunt deserunt pariatur labore non voluptate consectetur ex eu nulla velit pariatur et labore. Eiusmod sit adipisicing nostrud fugiat amet aliqua nostrud consequat cupidatat esse consectetur Lorem non eu.</p>
+      </article> <!--introduction-->
+      <article id=sections><!--the game sections-->
+        <h2>Sections</h2>
+        <section id="section1"><!--section 1-->
+          <h3>Section 1 - KQL 101 🐣</h3>
+          <p>I start by scoping out the organization's structure.</p>
+          <pre><kbd>Employees
+| count</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+                <thead>
+                  <tr>
+                    <th>Count</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>923</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <pre><kbd>Employees
+| summarize count() by role</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+                <thead>
+                  <tr>
+                    <th>role</th>
+                    <th>count_</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Packaging Technician</td>
+                    <td>126</td>
+                  </tr>
+                  <tr>
+                    <td>IT associate</td>
+                    <td>63</td>
+                  </tr>
+                  <tr>
+                    <td>Sales Representative</td>
+                    <td>62</td>
+                  </tr>
+                  <tr>
+                    <td>Logistics Coordinator</td>
+                    <td>59</td>
+                  </tr>
+                  <tr>
+                    <td>Human Resources associate</td>
+                    <td>59</td>
+                  </tr>
+                  <tr>
+                    <td>Stategy Consultant (GUEST)</td>
+                    <td>58</td>
+                  </tr>
+                  <tr>
+                    <td>Distribution Specialist</td>
+                    <td>58</td>
+                  </tr>
+                  <tr>
+                    <td>Operations Specialist</td>
+                    <td>56</td>
+                  </tr>
+                  <tr>
+                    <td>Ingredients Acquisitions Specialist</td>
+                    <td>56</td>
+                  </tr>
+                  <tr>
+                    <td>Vertical Integration Engineer</td>
+                    <td>56</td>
+                  </tr>
+                  <tr>
+                    <td>Finance associate</td>
+                    <td>55</td>
+                  </tr>
+                  <tr>
+                    <td>Quality Assurance Specialist</td>
+                    <td>54</td>
+                  </tr>
+                  <tr>
+                    <td>Taste Tester</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td>Marketing associate</td>
+                    <td>49</td>
+                  </tr>
+                  <tr>
+                    <td>Brewer</td>
+                    <td>46</td>
+                  </tr>
+                  <tr>
+                    <td>Secret Formular Guardian</td>
+                    <td>10</td>
+                  </tr>
+                  <tr>
+                    <td>Sales Director</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>Chief Executive Officer</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Chief Marketing Officer</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Chief Financial Officer</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Head Brewer</td>
+                    <td>1</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>There are 923 employees total, most being package technicians, followed by an even distribution between IT staff and various specialists related to logistics, product development, and human resources staff, followed by 10 Secret Formula Guardians and a CEO, a CMO, a CFO and a Head Brewer.</p>
+        </section> <!--section 1-->
+        <section id="section2"><!--section 2-->
+          <h3>Section 2 - 🥚Info💰</h3>
+          <p>There's a security alert, flagging a file as quarantined on March 31, 2023. I use this query to check for relevant information:</p>
+          <pre><kbd>SecurityAlerts
+| where timestamp between (datetime(3/31/2023) .. datetime(4/1/2023))</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>alert_type</th>
+                    <th>severity</th>
+                    <th>description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>3/31/2023, 10:14:08 AM</td>
+                    <td>HOST</td>
+                    <td>high</td>
+                    <td>A suspicious file was quarantined on host QBYQ-DESKTOP: Dev-Requirements.zip</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>The suspicious file is named <samp>Dev-Requirements.zip</samp> and was quarantined on host <samp>QBYQ-DESKTOP</samp>, belonging to Packaging Technician Barbara Rochford (IP address <samp>192.168.1.69</samp>, email address <samp>barbara_rochford@hopsnstuff.com</samp>). This might not be the only instance of this file on company devices. I check with:</p>
+          <pre><kbd>FileCreationEvents
+| where filename =~ "Dev-Requirements.zip"</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+                <thead>
+                  <tr>
+                    <th>timestamp</th>
+                    <th>hostname</th>
+                    <th>username</th>
+                    <th>sha256</th>
+                    <th>path</th>
+                    <th>filename</th>
+                    <th>process_name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>3/23/2023, 9:52:06 AM</td>
+                    <td>FTVO-LAPTOP</td>
+                    <td>megeisinsky</td>
+                    <td>6f73fc47b9a62e2f9d82b45ea033c6af1651c76e3e1071fef6b45de6e1e86556</td>
+                    <td>C:\Users\megeisinsky\Downloads\Dev-Requirements.zip</td>
+                    <td>Dev-Requirements.zip</td>
+                    <td>firefox.exe</td>
+                  </tr>
+                  <tr>
+                    <td>3/23/2023, 10:10:25 AM</td>
+                    <td>D8QS-MACHINE</td>
+                    <td>geowens</td>
+                    <td>cd3024c1debf6b4dc957701124f20a763f68bcd1c95a9696b4c35742213081ad</td>
+                    <td>C:\Users\geowens\Downloads\Dev-Requirements.zip</td>
+                    <td>Dev-Requirements.zip</td>
+                    <td>firefox.exe</td>
+                  </tr>
+                  <tr>
+                    <td>3/24/2023, 10:07:41 AM</td>
+                    <td>HVYC-DESKTOP</td>
+                    <td>joclark1</td>
+                    <td>a139396cb270390610f9109b0d0a1a300ae64092c95f43e8fd2adc66e6b25bdd</td>
+                    <td>C:\Users\joclark1\Downloads\Dev-Requirements.zip</td>
+                    <td>Dev-Requirements.zip</td>
+                    <td>firefox.exe</td>
+                  </tr>
+                  <tr>
+                    <td>3/28/2023, 9:14:48 AM</td>
+                    <td>DSKT-MACHINE</td>
+                    <td>mireynolds</td>
+                    <td>7f97cbc331f9bc85855c617bd5e5733af35fde4758593ffa8daf114821856de5</td>
+                    <td>C:\Users\mireynolds\Downloads\Dev-Requirements.zip</td>
+                    <td>Dev-Requirements.zip</td>
+                    <td>Edge.exe</td>
+                  </tr>
+                  <tr>
+                    <td>3/29/2023, 9:04:44 AM</td>
+                    <td>UZ2E-LAPTOP</td>
+                    <td>rostevens</td>
+                    <td>6811d9bde3d7ae7cf680ce424f28b845351d033e483a81206cc03a10f08411a5</td>
+                    <td>C:\Users\rostevens\Downloads\Dev-Requirements.zip</td>
+                    <td>Dev-Requirements.zip</td>
+                    <td>Edge.exe</td>
+                  </tr>
+                  <tr>
+                    <td>3/29/2023, 10:13:53 AM</td>
+                    <td>AAGB-LAPTOP</td>
+                    <td>gegonzalez</td>
+                    <td>73c54115c7fa35fe9abf358fcdf8be54c231c4e8b29648523525efcd516c476a</td>
+                    <td>C:\Users\gegonzalez\Downloads\Dev-Requirements.zip</td>
+                    <td>Dev-Requirements.zip</td>
+                    <td>Edge.exe</td>
+                  </tr>
+                  <tr>
+                    <td>3/29/2023, 11:00:54 AM</td>
+                    <td>TEY9-LAPTOP</td>
+                    <td>dibowlin</td>
+                    <td>cea015643cb6336faa4cf6b5fe64cca3876db4118ea07ef4b61b28d4587fca9</td>
+                    <td>C:\Users\dibowlin\Downloads\Dev-Requirements.zip</td>
+                    <td>Dev-Requirements.zip</td>
+                    <td>chrome.exe</td>
+                  </tr>
+                  <tr>
+                    <td>3/31/2023, 9:55:52 AM</td>
+                    <td>JCKA-LAPTOP</td>
+                    <td>mehoener</td>
+                    <td>dda6b76b5a3cc36358eae77760a1e3129df77107ad719e90b433e381f64d88a9</td>
+                    <td>C:\Users\mehoener\Downloads\Dev-Requirements.zip</td>
+                    <td>Dev-Requirements.zip</td>
+                    <td>Edge.exe</td>
+                  </tr>
+                  <tr>
+                    <td>3/31/2023, 10:14:01 AM</td>
+                    <td>QBYQ-DESKTOP</td>
+                    <td>barochford</td>
+                    <td>35962b062ec3d8e11c765d83260291c6de225adb4ae5607239352d5baef57b5e</td>
+                    <td>C:\Users\barochford\Downloads\Dev-Requirements.zip</td>
+                    <td>Dev-Requirements.zip</td>
+                    <td>edge.exe</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+          <p>The file is found in 9 devices total, all distinct. The affected employees are:</p>
+          <pre><kbd>FileCreationEvents
+| where filename =~ "Dev-Requirements.zip"
+| distinct hostname
+| lookup Employees on $left.hostname == $right.hostname
+| sort by role asc</kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+                <thead>
+                  <tr>
+                    <th>hostname</th>
+                    <th>timestamp</th>
+                    <th>name</th>
+                    <th>user_agent</th>
+                    <th>ip_addr</th>
+                    <th>email_addr</th>
+                    <th>company_domain</th>
+                    <th>username</th>
+                    <th>role</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>HVYC-DESKTOP</td>
+                    <td>11/11/2021, 8:46:09 PM</td>
+                    <td>John Clark</td>
+                    <td>Mozilla/5.0 (Windows NT 5.1; Trident/7.0; rv:11.0) like Gecko</td>
+                    <td>192.168.2.191</td>
+                    <td>john_clark@hopsnstuff.com</td>
+                    <td>hopsnstuff.com</td>
+                    <td>joclark1</td>
+                    <td>Brewer</td>
+                  </tr>
+                  <tr>
+                    <td>UZ2E-LAPTOP</td>
+                    <td>7/14/2018, 2:57:35 AM</td>
+                    <td>Rosita Stevens</td>
+                    <td>Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko</td>
+                    <td>192.168.1.99</td>
+                    <td>rosita_stevens@hopsnstuff.com</td>
+                    <td>hopsnstuff.com</td>
+                    <td>rostevens</td>
+                    <td>Distribution Specialist</td>
+                  </tr>
+                  <tr>
+                    <td>DSKT-MACHINE</td>
+                    <td>4/4/2018, 7:44:19 PM</td>
+                    <td>Michael Reynolds</td>
+                    <td>Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36</td>
+                    <td>192.168.1.143</td>
+                    <td>michael_reynolds@hopsnstuff.com</td>
+                    <td>hopsnstuff.com</td>
+                    <td>mireynolds</td>
+                    <td>Finance associate</td>
+                  </tr>
+                  <tr>
+                    <td>FTVO-LAPTOP</td>
+                    <td>7/28/2021, 9:46:05 AM</td>
+                    <td>Meghann Geisinsky</td>
+                    <td>Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko</td>
+                    <td>192.168.1.75</td>
+                    <td>meghann_geisinsky@hopsnstuff.com</td>
+                    <td>hopsnstuff.com</td>
+                    <td>megeisinsky</td>
+                    <td>Logistics Coordinator</td>
+                  </tr>
+                  <tr>
+                    <td>D8QS-MACHINE</td>
+                    <td>11/22/2021, 7:08:16 AM</td>
+                    <td>George Owens</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0</td>
+                    <td>192.168.2.226</td>
+                    <td>george_owens@hopsnstuff.com</td>
+                    <td>hopsnstuff.com</td>
+                    <td>geowens</td>
+                    <td>Marketing associate</td>
+                  </tr>
+                  <tr>
+                    <td>QBYQ-DESKTOP</td>
+                    <td>2/5/2018, 9:50:05 PM</td>
+                    <td>Barbara Rochford</td>
+                    <td>Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.3; WOW64; Trident/4.0)</td>
+                    <td>192.168.1.69</td>
+                    <td>barbara_rochford@hopsnstuff.com</td>
+                    <td>hopsnstuff.com</td>
+                    <td>barochford</td>
+                    <td>Packaging Technician</td>
+                  </tr>
+                  <tr>
+                    <td>TEY9-LAPTOP</td>
+                    <td>3/8/2013, 5:38:33 PM</td>
+                    <td>Diane Bowlin</td>
+                    <td>Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:45.0) Gecko/20100101 Firefox/45.0</td>
+                    <td>192.168.0.184</td>
+                    <td>diane_bowlin@hopsnstuff.com</td>
+                    <td>hopsnstuff.com</td>
+                    <td>dibowlin</td>
+                    <td>Packaging Technician</td>
+                  </tr>
+                  <tr>
+                    <td>AAGB-LAPTOP</td>
+                    <td>12/9/2020, 11:40:20 PM</td>
+                    <td>George Gonzalez</td>
+                    <td>Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.110 Safari/537.36</td>
+                    <td>192.168.3.20</td>
+                    <td>george_gonzalez@hopsnstuff.com</td>
+                    <td>hopsnstuff.com</td>
+                    <td>gegonzalez</td>
+                    <td>Stategy Consultant (GUEST)</td>
+                  </tr>
+                  <tr>
+                    <td>JCKA-LAPTOP</td>
+                    <td>5/16/2017, 9:23:18 PM</td>
+                    <td>Merle Hoener</td>
+                    <td>Mozilla/5.0 (Windows NT 6.3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.127 Safari/537.36</td>
+                    <td>192.168.1.166</td>
+                    <td>merle_hoener@hopsnstuff.com</td>
+                    <td>hopsnstuff.com</td>
+                    <td>mehoener</td>
+                    <td>Taste Tester</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </section> <!--section 2-->
+        <section id="section3"><!--section 3-->
+          <h3>Section 3 - Golden 🐇</h3>
+          <p>Qui non reprehenderit adipisicing officia occaecat proident ea nulla ex. Eiusmod laborum irure id aliquip duis elit. Sunt cillum dolore veniam aliquip pariatur in pariatur in incididunt, cupidatat deserunt aliquip qui aliqua. Exercitation cillum eiusmod duis mollit culpa eiusmod qui. Ullamco amet proident nostrud occaecat exercitation et magna aliqua do id qui sint mollit aliqua adipisicing nulla sit mollit qui. Et fugiat labore aute veniam adipisicing et ad in aliquip quis sunt consectetur deserunt nisi nulla aliquip amet pariatur adipisicing tempor. Anim Lorem commodo non cillum aliquip enim sit aliqua voluptate.</p>
+          <pre><kbd></kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+              </table>
+            </div>
+          </details>
+        </section> <!--section 3-->
+        <section id="section4"><!--section 4-->
+          <h3>Section 4 - 🍭 Sugar Rush</h3>
+          <p>Qui non reprehenderit adipisicing officia occaecat proident ea nulla ex. Eiusmod laborum irure id aliquip duis elit. Sunt cillum dolore veniam aliquip pariatur in pariatur in incididunt, cupidatat deserunt aliquip qui aliqua. Exercitation cillum eiusmod duis mollit culpa eiusmod qui. Ullamco amet proident nostrud occaecat exercitation et magna aliqua do id qui sint mollit aliqua adipisicing nulla sit mollit qui. Et fugiat labore aute veniam adipisicing et ad in aliquip quis sunt consectetur deserunt nisi nulla aliquip amet pariatur adipisicing tempor. Anim Lorem commodo non cillum aliquip enim sit aliqua voluptate.</p>
+          <pre><kbd></kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+              </table>
+            </div>
+          </details>
+        </section> <!--section 4-->
+      </article> <!--game sections-->
+      <a class="skip" href="#page-navigation">Return to page navigation</a>
+    </main><!--main page content-->
+  </body>
+</html>
+
+<!--
+          <pre><kbd></kbd></pre>
+          <details open id="results1">
+            <summary>Query Results</summary>
+            <div class="table-container">
+              <table>
+                <caption>This table has been redacted; it only shows the most relevant findings, rather than the entire output of the KQL query above.</caption>
+              </table>
+            </div>
+          </details>-->
